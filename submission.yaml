@@ -1,0 +1,43 @@
+team:
+  name: "Blue Vector"
+  track: "AI"
+  lead:
+    name: "Het Khatusuriya"
+    email: "Khatusuriyahet@gmail.com"
+  members:
+    - name: "Samarth Bhalala"
+      email: "samarthbhalala@gmail.com"
+    - name: "Manan Modi"
+      email: "22ce068@charusat.edu.in"
+    - name: "Mohammad Safik"
+      email: "25pgce026@charusat.edu.in"
+
+submission:
+  title: "AEGIS — Alert Enrichment, Grouping & Intelligence Scoring"
+  problem_statement: >
+    Defence security operations analysts receive thousands of alerts daily from SIEM
+    platforms, network sensors, geospatial feeds, and human-authored intelligence
+    reports, each in a different format with an incompatible severity convention. No
+    analyst can read them all, so triage defaults to vendor-assigned severity fields
+    computed without knowledge of the asset involved or of surrounding activity.
+    Genuine multi-stage intrusions appear as unremarkable individual alerts scattered
+    across separate consoles, while false positives consume roughly half of all
+    investigation time. Commanders need BLUF-format assessments in minutes, not log
+    dumps.
+  solution_summary: >
+    AEGIS normalises alerts from four heterogeneous sources into a single schema, maps
+    each to MITRE ATT&CK techniques using embedding-based matching against the official
+    STIX corpus, and correlates them into incidents by constructing a weighted alert
+    graph. Four independent signals contribute edge weight: rarity-weighted shared
+    indicators, temporal decay, asset adjacency, and kill-chain tactic progression.
+    Incidents are scored on correlation confidence, asset criticality, kill-chain depth,
+    and false-positive likelihood, then rendered as BLUF briefs. IBM Bob is the analyst's
+    primary interface, exposing the correlation evidence trail conversationally so every
+    ranking and grouping can be interrogated and explained.
+  key_features:
+    - "Four-format ingestion (SIEM JSON, syslog, geospatial CSV, free-text intel) into one canonical alert schema"
+    - "MITRE ATT&CK technique mapping via embedding similarity against the official Enterprise STIX 2.1 corpus"
+    - "Graph-based correlation using rarity-weighted indicators, temporal decay, asset adjacency, and directional kill-chain tactic progression"
+    - "Four-factor incident prioritisation with a visible score decomposition rather than an opaque number"
+    - "IBM Bob MCP integration exposing the full correlation evidence trail, including why a vendor-critical alert was deprioritised"
+    - "BLUF commander briefs with explicit intelligence gaps, with deterministic fallback when watsonx is unavailable"

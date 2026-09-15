@@ -1,0 +1,29 @@
+# --- Core contracts & API ---
+pydantic==2.9.2
+fastapi==0.115.0
+uvicorn[standard]==0.31.0
+python-dotenv==1.0.1
+
+# --- Persistence (SQLite via SQLAlchemy; no server required) ---
+SQLAlchemy==2.0.35
+
+# --- Enrichment: ATT&CK mapping ---
+# Pinned. The first run downloads ~90MB of model weights; do not fetch at demo time.
+sentence-transformers==3.1.1
+stix2==3.0.1
+
+# --- Correlation ---
+networkx==3.3
+numpy==1.26.4
+
+# --- BLUF generation (optional; template fallback used when absent) ---
+ibm-watsonx-ai==1.1.11
+
+# --- IBM Bob integration ---
+mcp==1.1.2
+
+# --- Ingest ---
+PyYAML==6.0.2
+
+# --- Dev / eval ---
+pytest==8.3.3

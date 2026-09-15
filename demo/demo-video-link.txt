@@ -1,0 +1,7 @@
+PENDING — to be recorded before the submission deadline.
+
+This file MUST be replaced with a real, publicly-viewable video URL before
+final submission. See docs/project-brief.md section 9 for the demo narrative.
+
+Accepted platforms: YouTube (unlisted), Loom, IBM Box, Google Drive
+  (set to "Anyone with the link can view")
