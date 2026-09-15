@@ -70,9 +70,11 @@ high-confidence incident on a print server. Sorting by confidence alone reproduc
 Connected components let incident count emerge from the evidence, and let unrelated alerts stay
 unrelated.
 
-*Embeddings blended with rules for ATT&CK mapping.* Pure semantic similarity on short alert strings is
-unreliable. Blending embedding scores with keyword and field-based signals produces better mappings, and
-we report measured accuracy rather than asserting it.
+*Semantic similarity blended with rules for ATT&CK mapping.* Pure similarity on short alert strings is
+unreliable. The default backend is a numpy TF-IDF index over the pinned ATT&CK v19.2 corpus (no model
+download; a sentence-transformers backend is a one-line switch). Keyword rules pin the telegraphic cases
+(`vssadmin delete shadows`), similarity lifts them, and similarity-only matches are capped and never chain
+in correlation. Measured accuracy is reported by the evaluation harness rather than asserted.
 
 *BLUF includes a gaps section.* An intelligence product that conceals its own uncertainty is actively
 harmful to a commander. The generator is required to state what is not known.
@@ -89,3 +91,15 @@ the ATT&CK kill-chain progression, and the BLUF.
 Alongside, IBM Bob provides the conversational surface. The analyst asks what to look at first, why two
 alerts were linked, for a brief on a given incident, or — most usefully — why something the SIEM marked
 critical was ranked low. Bob answers from the live correlation output, not from a summary of it.
+
+## What the evidence says
+
+`python -m src.eval.evaluate` scores the pipeline against the planted ground truth in the shipped corpus
+(521 alerts, 8 scenarios). At the shipped configuration every one of the six intrusions ranks in the top
+six of 456 incidents with alert-level purity 1.0; both look-alike benign scenarios (a change-window
+rollout that resembles persistence plus lateral movement, and an authorised scan the IDS marks
+CRITICAL) fall below every intrusion because a documented suppression rule fired; and no noise alert is
+pulled into a planted incident. Two planted alerts are missed in the SITE-ALPHA scenario - a HUMINT
+report with no technical indicator, and one geo track linked only by time and place - which is the
+deliberate cost of refusing to chain alerts on timing alone. Full table: `src/eval/results.json` and the
+README.

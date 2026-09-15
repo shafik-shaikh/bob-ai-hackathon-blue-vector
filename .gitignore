@@ -83,7 +83,7 @@ demo/*.avi
 demo/*.mkv
 
 # ── Docker volumes / local data ───────────────────────────────────────────────
-data/
+/data/
 logs/
 *.log
 
@@ -99,6 +99,8 @@ logs/
 .venv/
 aegis.db
 *.db-journal
-data/attack/*.json
 src/frontend/dist/
 .cache/
+
+aegis-test.db
+aegis-test.db-journal

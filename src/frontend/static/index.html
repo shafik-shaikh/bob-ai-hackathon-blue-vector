@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AEGIS — Analyst Console</title>
+  <!--
+    AEGIS analyst console. Plain HTML/CSS/JS, no build step, no external
+    resources — served by FastAPI at / and works offline. Open with ?mock=1 to
+    run against the fixtures in fixtures.js; the console also falls back to
+    mock mode on its own if the API is unreachable.
+    Views (hash routed): #/queue · #/incident/{id} · #/alerts · #/feeds · #/attack
+  -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1l6 3v4c0 3.5-2.5 6-6 7-3.5-1-6-3.5-6-7V4z' fill='%233ddbb8'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <a class="wordmark" href="#/queue">AEGIS</a>
+        <span class="subtitle">Alert Enrichment, Grouping &amp; Intelligence Scoring</span>
+        <span id="mock-badge" class="mock-badge" hidden title="The API is unreachable or ?mock=1 was given; data comes from fixtures.js">MOCK DATA</span>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="#/queue" data-route="queue">Triage queue</a>
+        <a href="#/alerts" data-route="alerts">Alerts</a>
+        <a href="#/feeds" data-route="feeds">Raw feeds</a>
+        <a href="#/attack" data-route="attack">ATT&amp;CK</a>
+      </nav>
+    </div>
+    <div class="stats-row" id="stats"><span class="stat loading">loading stats</span></div>
+  </header>
+
+  <main id="view" class="view"></main>
+
+  <aside id="drawer" class="drawer" hidden aria-label="Alert details"></aside>
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="fixtures.js"></script>
+  <script src="graph.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

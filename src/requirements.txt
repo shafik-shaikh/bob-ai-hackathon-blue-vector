@@ -4,26 +4,21 @@ fastapi==0.115.0
 uvicorn[standard]==0.31.0
 python-dotenv==1.0.1
 
-# --- Persistence (SQLite via SQLAlchemy; no server required) ---
-SQLAlchemy==2.0.35
-
-# --- Enrichment: ATT&CK mapping ---
-# Pinned. The first run downloads ~90MB of model weights; do not fetch at demo time.
-sentence-transformers==3.1.1
-stix2==3.0.1
-
-# --- Correlation ---
+# --- Correlation & enrichment ---
+# TF-IDF ATT&CK mapping runs on numpy alone; no model download required.
 networkx==3.3
 numpy==1.26.4
 
-# --- BLUF generation (optional; template fallback used when absent) ---
-ibm-watsonx-ai==1.1.11
-
-# --- IBM Bob integration ---
+# --- IBM Bob integration (MCP over stdio) ---
 mcp==1.1.2
-
-# --- Ingest ---
-PyYAML==6.0.2
 
 # --- Dev / eval ---
 pytest==8.3.3
+httpx==0.27.2
+
+# --- Optional extras (not required to run the demo) ---
+# Sentence-embedding backend for ATT&CK mapping (set EMBEDDING_BACKEND=sbert).
+# Pulls in torch; the first run downloads ~90 MB of weights.
+#   pip install sentence-transformers==3.1.1
+# watsonx.ai Granite refinement of BLUF briefs (set the WATSONX_* variables).
+#   pip install ibm-watsonx-ai==1.1.11

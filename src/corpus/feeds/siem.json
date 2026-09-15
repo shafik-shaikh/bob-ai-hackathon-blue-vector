@@ -1,0 +1,4677 @@
+[
+  {
+    "event_id": "SIEM-0001",
+    "@timestamp": "2026-09-13T00:00:46Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.140 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.140"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0002",
+    "@timestamp": "2026-09-13T00:04:42Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "OPS-WS-008",
+      "ip": "10.20.17.8"
+    },
+    "message": "EventID 4625: 4 failed logon attempt(s) for CORP\\s.ahmed on OPS-WS-008 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\s.ahmed"
+    },
+    "source": {
+      "ip": "10.20.17.8"
+    }
+  },
+  {
+    "event_id": "SIEM-0003",
+    "@timestamp": "2026-09-13T00:11:06Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "OPS-WS-008",
+      "ip": "10.20.17.8"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0004",
+    "@timestamp": "2026-09-13T00:11:35Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.23 → 203.0.113.10:5900 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.23"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 5900
+    }
+  },
+  {
+    "event_id": "SIEM-0005",
+    "@timestamp": "2026-09-13T00:37:36Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\j.okafor locked out after 5 bad passwords from FIN-WS-042. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "10.20.14.42"
+    }
+  },
+  {
+    "event_id": "SIEM-0006",
+    "@timestamp": "2026-09-13T00:41:15Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "medium",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "68 SSH connection attempts from 192.0.2.77 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "192.0.2.77"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0007",
+    "@timestamp": "2026-09-13T01:42:34Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.77 → 203.0.113.10:1433 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.77"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 1433
+    }
+  },
+  {
+    "event_id": "SIEM-0008",
+    "@timestamp": "2026-09-13T01:51:03Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0200",
+      "name": "Removable media connected"
+    },
+    "severity": "low",
+    "category": "endpoint",
+    "host": {
+      "name": "FIN-WS-042",
+      "ip": "10.20.14.42"
+    },
+    "message": "USB mass storage device (vendor Kingston) connected on FIN-WS-042; policy: read-only.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    }
+  },
+  {
+    "event_id": "SIEM-0009",
+    "@timestamp": "2026-09-13T02:04:07Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.8 → 203.0.113.10:23 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.8"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 23
+    }
+  },
+  {
+    "event_id": "SIEM-0010",
+    "@timestamp": "2026-09-13T02:14:43Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "ENG-WS-055 generated 85 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.15.55"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0011",
+    "@timestamp": "2026-09-13T02:20:17Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.199 → 203.0.113.10:23 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.199"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 23
+    }
+  },
+  {
+    "event_id": "SIEM-0012",
+    "@timestamp": "2026-09-13T02:26:05Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "MSI package Adobe Reader installed by SCCM on FIN-WS-043.",
+    "user": {
+      "name": "CORP\\svc_backup"
+    }
+  },
+  {
+    "event_id": "SIEM-0013",
+    "@timestamp": "2026-09-13T03:12:08Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-7781",
+      "name": "ET EXPLOIT Atlassian Confluence CVE-2023-22518 setup-restore attempt"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-01",
+      "ip": "172.16.5.10"
+    },
+    "message": "Signature match for CVE-2023-22518 in HTTP POST /json/setup-restore.action from 45.142.212.100 to 172.16.5.10:8090.",
+    "source": {
+      "ip": "45.142.212.100"
+    },
+    "destination": {
+      "ip": "172.16.5.10",
+      "port": 8090
+    }
+  },
+  {
+    "event_id": "SIEM-0014",
+    "@timestamp": "2026-09-13T03:22:34Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\p.singh on FIN-WS-043 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    }
+  },
+  {
+    "event_id": "SIEM-0015",
+    "@timestamp": "2026-09-13T03:25:15Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "RND-WS-117 generated 115 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.15.117"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0016",
+    "@timestamp": "2026-09-13T03:40:33Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "NET-2288",
+      "name": "Outbound connection from DMZ server to non-standard port"
+    },
+    "severity": "medium",
+    "category": "network",
+    "host": {
+      "name": "WEB-DMZ-01",
+      "ip": "172.16.5.10"
+    },
+    "message": "172.16.5.10 → 45.142.212.100:4444 TCP, long-lived session (38 min), 1.1 MB out / 14 KB in. DMZ egress policy permits 80/443 only; this used a stale rule.",
+    "source": {
+      "ip": "172.16.5.10"
+    },
+    "destination": {
+      "ip": "45.142.212.100",
+      "port": 4444
+    }
+  },
+  {
+    "event_id": "SIEM-0017",
+    "@timestamp": "2026-09-13T04:24:24Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://teams.microsoft.com/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0018",
+    "@timestamp": "2026-09-13T04:36:18Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\p.singh on FIN-WS-043 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    }
+  },
+  {
+    "event_id": "SIEM-0019",
+    "@timestamp": "2026-09-13T04:51:32Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.199 → 203.0.113.10:8080 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.199"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 8080
+    }
+  },
+  {
+    "event_id": "SIEM-0020",
+    "@timestamp": "2026-09-13T05:07:23Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "ENG-WS-055 generated 52 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.15.55"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0021",
+    "@timestamp": "2026-09-13T05:28:04Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\c.dubois (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\c.dubois"
+    },
+    "source": {
+      "ip": "192.0.2.77"
+    }
+  },
+  {
+    "event_id": "SIEM-0022",
+    "@timestamp": "2026-09-13T05:31:51Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.8 → 203.0.113.10:25 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.8"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 25
+    }
+  },
+  {
+    "event_id": "SIEM-0023",
+    "@timestamp": "2026-09-13T05:54:14Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.23 → 203.0.113.10:445 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.23"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 445
+    }
+  },
+  {
+    "event_id": "SIEM-0024",
+    "@timestamp": "2026-09-13T05:55:03Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "medium",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "63 SSH connection attempts from 192.0.2.15 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "192.0.2.15"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0025",
+    "@timestamp": "2026-09-13T06:28:10Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "LOG-WS-031",
+      "ip": "10.20.18.31"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\c.dubois on LOG-WS-031 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\c.dubois"
+    },
+    "source": {
+      "ip": "10.20.18.31"
+    }
+  },
+  {
+    "event_id": "SIEM-0026",
+    "@timestamp": "2026-09-13T07:44:26Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\m.novak on HR-WS-023 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "10.20.16.23"
+    }
+  },
+  {
+    "event_id": "SIEM-0027",
+    "@timestamp": "2026-09-13T07:57:10Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.140 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.140"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0028",
+    "@timestamp": "2026-09-13T08:06:02Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.201 → 203.0.113.10:23 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.201"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 23
+    }
+  },
+  {
+    "event_id": "SIEM-0029",
+    "@timestamp": "2026-09-13T08:16:56Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.23 → 203.0.113.10:445 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.23"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 445
+    }
+  },
+  {
+    "event_id": "SIEM-0030",
+    "@timestamp": "2026-09-13T08:23:48Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.8 → 203.0.113.10:3389 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.8"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 3389
+    }
+  },
+  {
+    "event_id": "SIEM-0031",
+    "@timestamp": "2026-09-13T08:32:06Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.201 → 203.0.113.10:5900 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.201"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 5900
+    }
+  },
+  {
+    "event_id": "SIEM-0032",
+    "@timestamp": "2026-09-13T08:45:27Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "medium",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "51 SSH connection attempts from 203.0.113.199 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "203.0.113.199"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0033",
+    "@timestamp": "2026-09-13T09:02:14Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "BACKUP-01",
+      "ip": "10.20.2.30"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0034",
+    "@timestamp": "2026-09-13T09:06:29Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0035",
+    "@timestamp": "2026-09-13T09:07:40Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\m.novak on HR-WS-023 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "10.20.16.23"
+    }
+  },
+  {
+    "event_id": "SIEM-0036",
+    "@timestamp": "2026-09-13T09:10:00Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "ADM-WS-002",
+      "ip": "10.20.10.2"
+    },
+    "message": "ADM-WS-002 generated 63 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.10.2"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0037",
+    "@timestamp": "2026-09-13T09:29:05Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\s.ahmed (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\s.ahmed"
+    },
+    "source": {
+      "ip": "203.0.113.120"
+    }
+  },
+  {
+    "event_id": "SIEM-0038",
+    "@timestamp": "2026-09-13T09:34:05Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\p.singh on FIN-WS-043 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    }
+  },
+  {
+    "event_id": "SIEM-0039",
+    "@timestamp": "2026-09-13T09:35:34Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://avupdates.vendor.example/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0040",
+    "@timestamp": "2026-09-13T10:05:23Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "EventID 4625: 2 failed logon attempt(s) for CORP\\m.novak on HR-WS-023 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "10.20.16.23"
+    }
+  },
+  {
+    "event_id": "SIEM-0041",
+    "@timestamp": "2026-09-13T10:26:31Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0100",
+      "name": "Access to cloud storage service"
+    },
+    "severity": "low",
+    "category": "proxy",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "CORP\\p.singh accessed dropbox.com; 9 MB transferred. Allowed by policy (personal use).",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    },
+    "url": {
+      "full": "https://www.dropbox.com/"
+    }
+  },
+  {
+    "event_id": "SIEM-0042",
+    "@timestamp": "2026-09-13T10:32:49Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "EventID 4625: 4 failed logon attempt(s) for CORP\\a.mehta on RND-WS-117 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    }
+  },
+  {
+    "event_id": "SIEM-0043",
+    "@timestamp": "2026-09-13T10:54:27Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.45 → 203.0.113.10:5900 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.45"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 5900
+    }
+  },
+  {
+    "event_id": "SIEM-0044",
+    "@timestamp": "2026-09-13T10:59:05Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PKI-0010",
+      "name": "TLS certificate expiring within 14 days"
+    },
+    "severity": "low",
+    "category": "config",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Certificate CN=vpn-gw-01.corp.example expires in 10 days."
+  },
+  {
+    "event_id": "SIEM-0045",
+    "@timestamp": "2026-09-13T11:00:40Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.15 → 203.0.113.10:1433 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.15"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 1433
+    }
+  },
+  {
+    "event_id": "SIEM-0046",
+    "@timestamp": "2026-09-13T11:09:21Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PKI-0010",
+      "name": "TLS certificate expiring within 14 days"
+    },
+    "severity": "low",
+    "category": "config",
+    "host": {
+      "name": "DC02",
+      "ip": "10.20.1.11"
+    },
+    "message": "Certificate CN=dc02.corp.example expires in 14 days."
+  },
+  {
+    "event_id": "SIEM-0047",
+    "@timestamp": "2026-09-13T11:45:03Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\r.tanaka locked out after 5 bad passwords from ADM-WS-002. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "10.20.10.2"
+    }
+  },
+  {
+    "event_id": "SIEM-0048",
+    "@timestamp": "2026-09-13T11:55:08Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0049",
+    "@timestamp": "2026-09-13T11:59:28Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\j.okafor (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "198.51.100.201"
+    }
+  },
+  {
+    "event_id": "SIEM-0050",
+    "@timestamp": "2026-09-13T12:03:07Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "EventID 4625: 4 failed logon attempt(s) for CORP\\a.mehta on RND-WS-117 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    }
+  },
+  {
+    "event_id": "SIEM-0051",
+    "@timestamp": "2026-09-13T12:22:43Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0052",
+    "@timestamp": "2026-09-13T12:37:32Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\r.tanaka (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "198.51.100.23"
+    }
+  },
+  {
+    "event_id": "SIEM-0053",
+    "@timestamp": "2026-09-13T12:51:52Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.230 → 203.0.113.10:23 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.230"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 23
+    }
+  },
+  {
+    "event_id": "SIEM-0054",
+    "@timestamp": "2026-09-13T13:03:58Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "MSI package Microsoft Teams installed by SCCM on RND-WS-118.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    }
+  },
+  {
+    "event_id": "SIEM-0055",
+    "@timestamp": "2026-09-13T13:06:22Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "EventID 4625: 4 failed logon attempt(s) for CORP\\p.singh on FIN-WS-043 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    }
+  },
+  {
+    "event_id": "SIEM-0056",
+    "@timestamp": "2026-09-13T13:14:46Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\l.fischer (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "203.0.113.45"
+    }
+  },
+  {
+    "event_id": "SIEM-0057",
+    "@timestamp": "2026-09-13T13:14:58Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.230 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.230"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0058",
+    "@timestamp": "2026-09-13T13:15:12Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\l.fischer on RND-WS-118 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "10.20.15.118"
+    }
+  },
+  {
+    "event_id": "SIEM-0059",
+    "@timestamp": "2026-09-13T13:31:21Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.45 → 203.0.113.10:3389 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.45"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 3389
+    }
+  },
+  {
+    "event_id": "SIEM-0060",
+    "@timestamp": "2026-09-13T13:38:49Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "medium",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "39 SSH connection attempts from 203.0.113.120 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "203.0.113.120"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0061",
+    "@timestamp": "2026-09-13T13:39:24Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "LOG-WS-031",
+      "ip": "10.20.18.31"
+    },
+    "message": "MSI package Notepad++ 8.7 installed by SCCM on LOG-WS-031.",
+    "user": {
+      "name": "CORP\\svc_backup"
+    }
+  },
+  {
+    "event_id": "SIEM-0062",
+    "@timestamp": "2026-09-13T13:46:46Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\t.berg on ENG-WS-055 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\t.berg"
+    },
+    "source": {
+      "ip": "10.20.15.55"
+    }
+  },
+  {
+    "event_id": "SIEM-0063",
+    "@timestamp": "2026-09-13T14:05:47Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0100",
+      "name": "Access to cloud storage service"
+    },
+    "severity": "low",
+    "category": "proxy",
+    "host": {
+      "name": "OPS-WS-008",
+      "ip": "10.20.17.8"
+    },
+    "message": "CORP\\s.ahmed accessed dropbox.com; 35 MB transferred. Allowed by policy (personal use).",
+    "user": {
+      "name": "CORP\\s.ahmed"
+    },
+    "source": {
+      "ip": "10.20.17.8"
+    },
+    "url": {
+      "full": "https://www.dropbox.com/"
+    }
+  },
+  {
+    "event_id": "SIEM-0064",
+    "@timestamp": "2026-09-13T14:09:57Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\t.berg locked out after 5 bad passwords from ENG-WS-055. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\t.berg"
+    },
+    "source": {
+      "ip": "10.20.15.55"
+    }
+  },
+  {
+    "event_id": "SIEM-0065",
+    "@timestamp": "2026-09-13T14:34:29Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0100",
+      "name": "Access to cloud storage service"
+    },
+    "severity": "low",
+    "category": "proxy",
+    "host": {
+      "name": "LOG-WS-031",
+      "ip": "10.20.18.31"
+    },
+    "message": "CORP\\c.dubois accessed dropbox.com; 37 MB transferred. Allowed by policy (personal use).",
+    "user": {
+      "name": "CORP\\c.dubois"
+    },
+    "source": {
+      "ip": "10.20.18.31"
+    },
+    "url": {
+      "full": "https://www.dropbox.com/"
+    }
+  },
+  {
+    "event_id": "SIEM-0066",
+    "@timestamp": "2026-09-13T14:38:53Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\p.singh (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "198.51.100.201"
+    }
+  },
+  {
+    "event_id": "SIEM-0067",
+    "@timestamp": "2026-09-13T15:19:36Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0068",
+    "@timestamp": "2026-09-13T15:40:42Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://cdn.office.net/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0069",
+    "@timestamp": "2026-09-13T15:51:16Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "medium",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "65 SSH connection attempts from 203.0.113.45 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "203.0.113.45"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0070",
+    "@timestamp": "2026-09-13T16:06:27Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "LOG-WS-031",
+      "ip": "10.20.18.31"
+    },
+    "message": "LOG-WS-031 generated 107 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.18.31"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0071",
+    "@timestamp": "2026-09-13T16:13:11Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\p.singh locked out after 5 bad passwords from FIN-WS-043. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    }
+  },
+  {
+    "event_id": "SIEM-0072",
+    "@timestamp": "2026-09-13T16:30:53Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.15 → 203.0.113.10:23 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.15"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 23
+    }
+  },
+  {
+    "event_id": "SIEM-0073",
+    "@timestamp": "2026-09-13T16:40:16Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.140 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.140"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0074",
+    "@timestamp": "2026-09-13T16:52:42Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "low",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "71 SSH connection attempts from 198.51.100.201 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "198.51.100.201"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0075",
+    "@timestamp": "2026-09-13T16:53:19Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.199 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.199"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0076",
+    "@timestamp": "2026-09-13T16:59:40Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.120 → 203.0.113.10:8080 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.120"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 8080
+    }
+  },
+  {
+    "event_id": "SIEM-0077",
+    "@timestamp": "2026-09-13T17:24:52Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\m.novak locked out after 5 bad passwords from HR-WS-023. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "10.20.16.23"
+    }
+  },
+  {
+    "event_id": "SIEM-0078",
+    "@timestamp": "2026-09-13T17:26:58Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.140 → 203.0.113.10:8080 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.140"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 8080
+    }
+  },
+  {
+    "event_id": "SIEM-0079",
+    "@timestamp": "2026-09-13T17:38:26Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\l.fischer (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "203.0.113.199"
+    }
+  },
+  {
+    "event_id": "SIEM-0080",
+    "@timestamp": "2026-09-13T17:50:36Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0100",
+      "name": "Access to cloud storage service"
+    },
+    "severity": "low",
+    "category": "proxy",
+    "host": {
+      "name": "OPS-WS-008",
+      "ip": "10.20.17.8"
+    },
+    "message": "CORP\\s.ahmed accessed dropbox.com; 18 MB transferred. Allowed by policy (personal use).",
+    "user": {
+      "name": "CORP\\s.ahmed"
+    },
+    "source": {
+      "ip": "10.20.17.8"
+    },
+    "url": {
+      "full": "https://www.dropbox.com/"
+    }
+  },
+  {
+    "event_id": "SIEM-0081",
+    "@timestamp": "2026-09-13T17:53:04Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "MSI package Adobe Reader installed by SCCM on HR-WS-023.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    }
+  },
+  {
+    "event_id": "SIEM-0082",
+    "@timestamp": "2026-09-13T18:22:29Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PKI-0010",
+      "name": "TLS certificate expiring within 14 days"
+    },
+    "severity": "low",
+    "category": "config",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Certificate CN=vpn-gw-01.corp.example expires in 14 days."
+  },
+  {
+    "event_id": "SIEM-0083",
+    "@timestamp": "2026-09-13T18:36:15Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\m.novak (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "203.0.113.8"
+    }
+  },
+  {
+    "event_id": "SIEM-0084",
+    "@timestamp": "2026-09-13T18:43:23Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "ENG-WS-055 generated 92 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.15.55"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0085",
+    "@timestamp": "2026-09-13T19:02:15Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "ADM-WS-002",
+      "ip": "10.20.10.2"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\r.tanaka on ADM-WS-002 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "10.20.10.2"
+    }
+  },
+  {
+    "event_id": "SIEM-0086",
+    "@timestamp": "2026-09-13T19:25:14Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.230 → 203.0.113.10:5900 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.230"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 5900
+    }
+  },
+  {
+    "event_id": "SIEM-0087",
+    "@timestamp": "2026-09-13T19:48:22Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://avupdates.vendor.example/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0088",
+    "@timestamp": "2026-09-13T19:52:58Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0200",
+      "name": "Removable media connected"
+    },
+    "severity": "low",
+    "category": "endpoint",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "USB mass storage device (vendor Kingston) connected on FIN-WS-043; policy: read-only.",
+    "user": {
+      "name": "CORP\\p.singh"
+    }
+  },
+  {
+    "event_id": "SIEM-0089",
+    "@timestamp": "2026-09-13T21:15:02Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\m.novak (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "203.0.113.120"
+    }
+  },
+  {
+    "event_id": "SIEM-0090",
+    "@timestamp": "2026-09-13T21:16:25Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\p.singh on FIN-WS-043 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    }
+  },
+  {
+    "event_id": "SIEM-0091",
+    "@timestamp": "2026-09-13T22:10:15Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1180",
+      "name": "Authentication failures across many accounts from single source"
+    },
+    "severity": "high",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "1,214 failed VPN authentications from 91.240.118.77 across 43 distinct usernames in 30 minutes (password spraying pattern: 1-2 attempts per account, then rotate).",
+    "source": {
+      "ip": "91.240.118.77"
+    },
+    "destination": {
+      "ip": "203.0.113.10"
+    }
+  },
+  {
+    "event_id": "SIEM-0092",
+    "@timestamp": "2026-09-13T22:35:10Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "RND-WS-118 generated 103 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.15.118"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0093",
+    "@timestamp": "2026-09-13T22:35:18Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "low",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "63 SSH connection attempts from 198.51.100.201 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "198.51.100.201"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0094",
+    "@timestamp": "2026-09-13T22:39:29Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0200",
+      "name": "Removable media connected"
+    },
+    "severity": "low",
+    "category": "endpoint",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "USB mass storage device (vendor Kingston) connected on FIN-WS-043; policy: read-only.",
+    "user": {
+      "name": "CORP\\p.singh"
+    }
+  },
+  {
+    "event_id": "SIEM-0095",
+    "@timestamp": "2026-09-13T22:47:02Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1102",
+      "name": "VPN logon from unfamiliar geography"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\m.novak from 91.240.118.77 (GeoIP: MD, Chisinau). Assigned pool address 10.20.99.15. User has no previous logons outside home country.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "91.240.118.77"
+    }
+  },
+  {
+    "event_id": "SIEM-0096",
+    "@timestamp": "2026-09-13T23:16:12Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "RND-WS-118 generated 69 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.15.118"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0097",
+    "@timestamp": "2026-09-13T23:26:14Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "OPS-WS-008",
+      "ip": "10.20.17.8"
+    },
+    "message": "EventID 4625: 4 failed logon attempt(s) for CORP\\s.ahmed on OPS-WS-008 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\s.ahmed"
+    },
+    "source": {
+      "ip": "10.20.17.8"
+    }
+  },
+  {
+    "event_id": "SIEM-0098",
+    "@timestamp": "2026-09-13T23:41:02Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\m.novak (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "198.51.100.140"
+    }
+  },
+  {
+    "event_id": "SIEM-0099",
+    "@timestamp": "2026-09-13T23:41:37Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FS-2044",
+      "name": "Abnormal volume of file reads by single account"
+    },
+    "severity": "medium",
+    "category": "file",
+    "host": {
+      "name": "FILE-SRV-01",
+      "ip": "10.20.2.20"
+    },
+    "message": "CORP\\m.novak from 10.20.99.15 read 4,012 files across finance$ and hr$ in 3 minutes (baseline for this account: 30 files/day).",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "10.20.99.15"
+    },
+    "destination": {
+      "ip": "10.20.2.20"
+    }
+  },
+  {
+    "event_id": "SIEM-0100",
+    "@timestamp": "2026-09-13T23:44:34Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\l.fischer on RND-WS-118 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "10.20.15.118"
+    }
+  },
+  {
+    "event_id": "SIEM-0101",
+    "@timestamp": "2026-09-13T23:50:31Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-4510",
+      "name": "Scheduled task created by remote session"
+    },
+    "severity": "medium",
+    "category": "endpoint",
+    "host": {
+      "name": "FILE-SRV-01",
+      "ip": "10.20.2.20"
+    },
+    "message": "Task \\Veeam\\BackupVerify registered on FILE-SRV-01 by CORP\\r.tanaka via remote schtasks from 10.20.10.2; runs daily 01:00 as SYSTEM.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "10.20.10.2"
+    },
+    "destination": {
+      "ip": "10.20.2.20"
+    }
+  },
+  {
+    "event_id": "SIEM-0102",
+    "@timestamp": "2026-09-14T00:06:14Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "low",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "77 SSH connection attempts from 198.51.100.140 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "198.51.100.140"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0103",
+    "@timestamp": "2026-09-14T00:22:37Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://cdn.office.net/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0104",
+    "@timestamp": "2026-09-14T01:22:09Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.77 → 203.0.113.10:445 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.77"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 445
+    }
+  },
+  {
+    "event_id": "SIEM-0105",
+    "@timestamp": "2026-09-14T01:24:07Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PKI-0010",
+      "name": "TLS certificate expiring within 14 days"
+    },
+    "severity": "low",
+    "category": "config",
+    "host": {
+      "name": "FILE-SRV-02",
+      "ip": "10.20.2.21"
+    },
+    "message": "Certificate CN=file-srv-02.corp.example expires in 3 days."
+  },
+  {
+    "event_id": "SIEM-0106",
+    "@timestamp": "2026-09-14T01:41:31Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "EventID 4625: 2 failed logon attempt(s) for CORP\\a.mehta on RND-WS-117 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    }
+  },
+  {
+    "event_id": "SIEM-0107",
+    "@timestamp": "2026-09-14T01:52:22Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.77 → 203.0.113.10:23 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.77"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 23
+    }
+  },
+  {
+    "event_id": "SIEM-0108",
+    "@timestamp": "2026-09-14T01:52:49Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "RND-WS-117 generated 76 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.15.117"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0109",
+    "@timestamp": "2026-09-14T02:15:54Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "ADM-WS-002",
+      "ip": "10.20.10.2"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\r.tanaka on ADM-WS-002 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "10.20.10.2"
+    }
+  },
+  {
+    "event_id": "SIEM-0110",
+    "@timestamp": "2026-09-14T02:31:46Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "NAC-0410",
+      "name": "Unknown device admitted to restricted VLAN"
+    },
+    "severity": "medium",
+    "category": "nac",
+    "host": {
+      "name": "SITE-ALPHA-SW-03",
+      "ip": null
+    },
+    "message": "MAC 3c:22:fb:9a:11:07 (vendor: unknown) joined VLAN 30 (OT) via SITE-ALPHA-SW-03 port Gi1/0/14 (equipment room, external door); assigned 10.30.1.77; MAC not in asset register.",
+    "source": {
+      "ip": "10.30.1.77"
+    }
+  },
+  {
+    "event_id": "SIEM-0111",
+    "@timestamp": "2026-09-14T02:57:43Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\t.berg locked out after 5 bad passwords from ENG-WS-055. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\t.berg"
+    },
+    "source": {
+      "ip": "10.20.15.55"
+    }
+  },
+  {
+    "event_id": "SIEM-0112",
+    "@timestamp": "2026-09-14T03:02:27Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "OT-9001",
+      "name": "Modbus write from host outside engineering allowlist"
+    },
+    "severity": "critical",
+    "category": "ot",
+    "host": {
+      "name": "PLC-ALPHA-01",
+      "ip": null
+    },
+    "message": "Modbus/TCP function code 16 (Write Multiple Registers) from 10.30.1.77 to PLC-ALPHA-01 (10.30.1.20): 6 holding registers changed (antenna azimuth/elevation setpoints). Source is not an approved engineering workstation.",
+    "source": {
+      "ip": "10.30.1.77"
+    },
+    "destination": {
+      "ip": "10.30.1.20",
+      "port": 502
+    }
+  },
+  {
+    "event_id": "SIEM-0113",
+    "@timestamp": "2026-09-14T03:04:03Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\c.dubois (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\c.dubois"
+    },
+    "source": {
+      "ip": "203.0.113.199"
+    }
+  },
+  {
+    "event_id": "SIEM-0114",
+    "@timestamp": "2026-09-14T04:06:20Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\a.mehta (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "203.0.113.8"
+    }
+  },
+  {
+    "event_id": "SIEM-0115",
+    "@timestamp": "2026-09-14T04:11:22Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.120 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.120"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0116",
+    "@timestamp": "2026-09-14T04:15:04Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "EventID 4625: 2 failed logon attempt(s) for CORP\\l.fischer on RND-WS-118 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "10.20.15.118"
+    }
+  },
+  {
+    "event_id": "SIEM-0117",
+    "@timestamp": "2026-09-14T04:38:45Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "low",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "43 SSH connection attempts from 198.51.100.140 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "198.51.100.140"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0118",
+    "@timestamp": "2026-09-14T05:56:16Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0100",
+      "name": "Access to cloud storage service"
+    },
+    "severity": "low",
+    "category": "proxy",
+    "host": {
+      "name": "FIN-WS-042",
+      "ip": "10.20.14.42"
+    },
+    "message": "CORP\\j.okafor accessed dropbox.com; 34 MB transferred. Allowed by policy (personal use).",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "10.20.14.42"
+    },
+    "url": {
+      "full": "https://www.dropbox.com/"
+    }
+  },
+  {
+    "event_id": "SIEM-0119",
+    "@timestamp": "2026-09-14T05:56:26Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\p.singh (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "203.0.113.199"
+    }
+  },
+  {
+    "event_id": "SIEM-0120",
+    "@timestamp": "2026-09-14T05:57:07Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\l.fischer on RND-WS-118 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "10.20.15.118"
+    }
+  },
+  {
+    "event_id": "SIEM-0121",
+    "@timestamp": "2026-09-14T06:00:12Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-2001",
+      "name": "ET SCAN Nmap SYN scan detected"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "SYN scan: 10.50.1.10 probed 1,000 ports on 10.20.1.10 in 12 s.",
+    "source": {
+      "ip": "10.50.1.10"
+    },
+    "destination": {
+      "ip": "10.20.1.10"
+    }
+  },
+  {
+    "event_id": "SIEM-0122",
+    "@timestamp": "2026-09-14T06:01:40Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-2001",
+      "name": "ET SCAN Nmap SYN scan detected"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "DC02",
+      "ip": "10.20.1.11"
+    },
+    "message": "SYN scan: 10.50.1.10 probed 1,000 ports on 10.20.1.11 in 11 s.",
+    "source": {
+      "ip": "10.50.1.10"
+    },
+    "destination": {
+      "ip": "10.20.1.11"
+    }
+  },
+  {
+    "event_id": "SIEM-0123",
+    "@timestamp": "2026-09-14T06:04:22Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-2001",
+      "name": "ET SCAN Nmap SYN scan detected"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "FILE-SRV-01",
+      "ip": "10.20.2.20"
+    },
+    "message": "SYN scan: 10.50.1.10 probed 1,000 ports on 10.20.2.20 in 12 s.",
+    "source": {
+      "ip": "10.50.1.10"
+    },
+    "destination": {
+      "ip": "10.20.2.20"
+    }
+  },
+  {
+    "event_id": "SIEM-0124",
+    "@timestamp": "2026-09-14T06:05:51Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-2001",
+      "name": "ET SCAN Nmap SYN scan detected"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "FILE-SRV-02",
+      "ip": "10.20.2.21"
+    },
+    "message": "SYN scan: 10.50.1.10 probed 1,000 ports on 10.20.2.21 in 13 s.",
+    "source": {
+      "ip": "10.50.1.10"
+    },
+    "destination": {
+      "ip": "10.20.2.21"
+    }
+  },
+  {
+    "event_id": "SIEM-0125",
+    "@timestamp": "2026-09-14T06:08:03Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-2001",
+      "name": "ET SCAN Nmap SYN scan detected"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "MAIL-01",
+      "ip": "10.20.2.25"
+    },
+    "message": "SYN scan: 10.50.1.10 probed 1,000 ports on 10.20.2.25 in 12 s.",
+    "source": {
+      "ip": "10.50.1.10"
+    },
+    "destination": {
+      "ip": "10.20.2.25"
+    }
+  },
+  {
+    "event_id": "SIEM-0126",
+    "@timestamp": "2026-09-14T06:09:47Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-2001",
+      "name": "ET SCAN Nmap SYN scan detected"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "BACKUP-01",
+      "ip": "10.20.2.30"
+    },
+    "message": "SYN scan: 10.50.1.10 probed 1,000 ports on 10.20.2.30 in 12 s.",
+    "source": {
+      "ip": "10.50.1.10"
+    },
+    "destination": {
+      "ip": "10.20.2.30"
+    }
+  },
+  {
+    "event_id": "SIEM-0127",
+    "@timestamp": "2026-09-14T06:12:31Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-2005",
+      "name": "ET SCAN Nessus/OpenVAS vulnerability probe"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "PRINT-SRV-01",
+      "ip": "10.20.2.40"
+    },
+    "message": "Vulnerability check signatures (SMB, HTTP, SNMP) from 10.50.1.10 against 10.20.2.40.",
+    "source": {
+      "ip": "10.50.1.10"
+    },
+    "destination": {
+      "ip": "10.20.2.40"
+    }
+  },
+  {
+    "event_id": "SIEM-0128",
+    "@timestamp": "2026-09-14T06:14:09Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-2005",
+      "name": "ET SCAN Nessus/OpenVAS vulnerability probe"
+    },
+    "severity": "critical",
+    "category": "ids",
+    "host": {
+      "name": "DNS-01",
+      "ip": "10.20.1.53"
+    },
+    "message": "Vulnerability check signatures (DNS, SNMP) from 10.50.1.10 against 10.20.1.53.",
+    "source": {
+      "ip": "10.50.1.10"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0129",
+    "@timestamp": "2026-09-14T06:46:22Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0130",
+    "@timestamp": "2026-09-14T06:54:48Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "EventID 4625: 2 failed logon attempt(s) for CORP\\l.fischer on RND-WS-118 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "10.20.15.118"
+    }
+  },
+  {
+    "event_id": "SIEM-0131",
+    "@timestamp": "2026-09-14T07:24:01Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\t.berg locked out after 5 bad passwords from ENG-WS-055. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\t.berg"
+    },
+    "source": {
+      "ip": "10.20.15.55"
+    }
+  },
+  {
+    "event_id": "SIEM-0132",
+    "@timestamp": "2026-09-14T07:47:58Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\p.singh on FIN-WS-043 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    }
+  },
+  {
+    "event_id": "SIEM-0133",
+    "@timestamp": "2026-09-14T08:00:24Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\j.okafor (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "192.0.2.77"
+    }
+  },
+  {
+    "event_id": "SIEM-0134",
+    "@timestamp": "2026-09-14T08:04:59Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-042",
+      "ip": "10.20.14.42"
+    },
+    "message": "EventID 4625: 4 failed logon attempt(s) for CORP\\j.okafor on FIN-WS-042 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "10.20.14.42"
+    }
+  },
+  {
+    "event_id": "SIEM-0135",
+    "@timestamp": "2026-09-14T08:17:13Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "FILE-SRV-02",
+      "ip": "10.20.2.21"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0136",
+    "@timestamp": "2026-09-14T08:26:32Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "low",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "45 SSH connection attempts from 198.51.100.140 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "198.51.100.140"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0137",
+    "@timestamp": "2026-09-14T08:31:31Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PKI-0010",
+      "name": "TLS certificate expiring within 14 days"
+    },
+    "severity": "low",
+    "category": "config",
+    "host": {
+      "name": "DC02",
+      "ip": "10.20.1.11"
+    },
+    "message": "Certificate CN=dc02.corp.example expires in 7 days."
+  },
+  {
+    "event_id": "SIEM-0138",
+    "@timestamp": "2026-09-14T08:31:40Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "ADM-WS-002",
+      "ip": "10.20.10.2"
+    },
+    "message": "EventID 4625: 2 failed logon attempt(s) for CORP\\r.tanaka on ADM-WS-002 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "10.20.10.2"
+    }
+  },
+  {
+    "event_id": "SIEM-0139",
+    "@timestamp": "2026-09-14T08:35:11Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "LOG-WS-031",
+      "ip": "10.20.18.31"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0140",
+    "@timestamp": "2026-09-14T08:42:40Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "EventID 4625: 2 failed logon attempt(s) for CORP\\m.novak on HR-WS-023 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "10.20.16.23"
+    }
+  },
+  {
+    "event_id": "SIEM-0141",
+    "@timestamp": "2026-09-14T08:59:33Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "medium",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "33 SSH connection attempts from 192.0.2.230 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "192.0.2.230"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0142",
+    "@timestamp": "2026-09-14T09:07:03Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.199 → 203.0.113.10:25 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.199"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 25
+    }
+  },
+  {
+    "event_id": "SIEM-0143",
+    "@timestamp": "2026-09-14T09:08:31Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "low",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "77 SSH connection attempts from 203.0.113.45 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "203.0.113.45"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0144",
+    "@timestamp": "2026-09-14T09:08:58Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.230 → 203.0.113.10:1433 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.230"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 1433
+    }
+  },
+  {
+    "event_id": "SIEM-0145",
+    "@timestamp": "2026-09-14T09:14:03Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EG-1023",
+      "name": "Email attachment matched macro-enabled document heuristics"
+    },
+    "severity": "medium",
+    "category": "email",
+    "host": {
+      "name": "MAIL-01",
+      "ip": "10.20.2.25"
+    },
+    "message": "Inbound message from billing@ravensky-invoice.com to j.okafor@corp.example with attachment Q3_Budget_Review.docm (macro-enabled). Delivered; heuristic score 62/100.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "198.51.100.77"
+    },
+    "file": {
+      "name": "Q3_Budget_Review.docm",
+      "hash": {
+        "sha256": "3f1a9c0b2d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8"
+      }
+    }
+  },
+  {
+    "event_id": "SIEM-0146",
+    "@timestamp": "2026-09-14T09:23:10Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-4471",
+      "name": "PowerShell download cradle retrieved executable content"
+    },
+    "severity": "high",
+    "category": "endpoint",
+    "host": {
+      "name": "FIN-WS-042",
+      "ip": "10.20.14.42"
+    },
+    "message": "powershell.exe (encoded command) used Net.WebClient to fetch http://update-cdn.ravensky.net/gate.php; wrote C:\\Users\\j.okafor\\AppData\\Roaming\\svchost32.dll (SHA256 9c7e2b1a5d4f3e2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c). Originating document Q3_Budget_Review.docm (3f1a9c0b2d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8).",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "destination": {
+      "ip": "185.220.101.4"
+    },
+    "file": {
+      "name": "svchost32.dll",
+      "hash": {
+        "sha256": "9c7e2b1a5d4f3e2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c"
+      }
+    },
+    "url": {
+      "full": "http://update-cdn.ravensky.net/gate.php"
+    }
+  },
+  {
+    "event_id": "SIEM-0147",
+    "@timestamp": "2026-09-14T09:25:43Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://update.microsoft.com/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0148",
+    "@timestamp": "2026-09-14T09:31:05Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "NET-2210",
+      "name": "Periodic outbound connection pattern consistent with beaconing"
+    },
+    "severity": "medium",
+    "category": "network",
+    "host": {
+      "name": "FIN-WS-042",
+      "ip": "10.20.14.42"
+    },
+    "message": "10.20.14.42 → 185.220.101.4:443 TLS, 41 connections at 60 s ±2 s intervals, JA3 fingerprint not seen before in enclave. SNI update-cdn.ravensky.net.",
+    "source": {
+      "ip": "10.20.14.42"
+    },
+    "destination": {
+      "ip": "185.220.101.4",
+      "port": 443
+    }
+  },
+  {
+    "event_id": "SIEM-0149",
+    "@timestamp": "2026-09-14T09:40:06Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\t.berg locked out after 5 bad passwords from ENG-WS-055. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\t.berg"
+    },
+    "source": {
+      "ip": "10.20.15.55"
+    }
+  },
+  {
+    "event_id": "SIEM-0150",
+    "@timestamp": "2026-09-14T10:03:30Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.23 → 203.0.113.10:8080 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.23"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 8080
+    }
+  },
+  {
+    "event_id": "SIEM-0151",
+    "@timestamp": "2026-09-14T10:35:31Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "MSI package Notepad++ 8.7 installed by SCCM on HR-WS-023.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    }
+  },
+  {
+    "event_id": "SIEM-0152",
+    "@timestamp": "2026-09-14T10:40:58Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3301",
+      "name": "Privileged network logon from workstation to domain controller"
+    },
+    "severity": "high",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4624 LogonType 3 on DC01 for CORP\\svc_backup from 10.20.14.42 (FIN-WS-042) followed by ADMIN$ share access. svc_backup has never authenticated from a finance workstation.",
+    "user": {
+      "name": "CORP\\svc_backup"
+    },
+    "source": {
+      "ip": "10.20.14.42"
+    },
+    "destination": {
+      "ip": "10.20.1.10"
+    }
+  },
+  {
+    "event_id": "SIEM-0153",
+    "@timestamp": "2026-09-14T11:06:28Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.45 → 203.0.113.10:25 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.45"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 25
+    }
+  },
+  {
+    "event_id": "SIEM-0154",
+    "@timestamp": "2026-09-14T11:10:32Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.15 → 203.0.113.10:5900 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.15"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 5900
+    }
+  },
+  {
+    "event_id": "SIEM-0155",
+    "@timestamp": "2026-09-14T11:22:34Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0156",
+    "@timestamp": "2026-09-14T11:30:22Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DLP-0912",
+      "name": "Large outbound transfer to host with active beaconing alert"
+    },
+    "severity": "high",
+    "category": "dlp",
+    "host": {
+      "name": "FIN-WS-042",
+      "ip": "10.20.14.42"
+    },
+    "message": "2.3 GB transferred from 10.20.14.42 to 185.220.101.4:443 over 19 minutes inside the existing TLS session. Archive-like entropy. No sanctioned service on that destination.",
+    "source": {
+      "ip": "10.20.14.42"
+    },
+    "destination": {
+      "ip": "185.220.101.4",
+      "port": 443
+    }
+  },
+  {
+    "event_id": "SIEM-0157",
+    "@timestamp": "2026-09-14T11:33:47Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0200",
+      "name": "Removable media connected"
+    },
+    "severity": "low",
+    "category": "endpoint",
+    "host": {
+      "name": "OPS-WS-008",
+      "ip": "10.20.17.8"
+    },
+    "message": "USB mass storage device (vendor Kingston) connected on OPS-WS-008; policy: read-only.",
+    "user": {
+      "name": "CORP\\s.ahmed"
+    }
+  },
+  {
+    "event_id": "SIEM-0158",
+    "@timestamp": "2026-09-14T12:00:26Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.45 → 203.0.113.10:23 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.45"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 23
+    }
+  },
+  {
+    "event_id": "SIEM-0159",
+    "@timestamp": "2026-09-14T12:04:27Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "medium",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "57 SSH connection attempts from 203.0.113.199 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "203.0.113.199"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0160",
+    "@timestamp": "2026-09-14T12:05:06Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\m.novak (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "192.0.2.15"
+    }
+  },
+  {
+    "event_id": "SIEM-0161",
+    "@timestamp": "2026-09-14T12:10:14Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\l.fischer (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "203.0.113.45"
+    }
+  },
+  {
+    "event_id": "SIEM-0162",
+    "@timestamp": "2026-09-14T12:19:08Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0100",
+      "name": "Access to cloud storage service"
+    },
+    "severity": "low",
+    "category": "proxy",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "CORP\\p.singh accessed dropbox.com; 9 MB transferred. Allowed by policy (personal use).",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    },
+    "url": {
+      "full": "https://www.dropbox.com/"
+    }
+  },
+  {
+    "event_id": "SIEM-0163",
+    "@timestamp": "2026-09-14T12:25:17Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\p.singh (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "198.51.100.23"
+    }
+  },
+  {
+    "event_id": "SIEM-0164",
+    "@timestamp": "2026-09-14T12:28:49Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "DNS-01",
+      "ip": "10.20.1.53"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://cdn.office.net/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0165",
+    "@timestamp": "2026-09-14T12:28:50Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0100",
+      "name": "Access to cloud storage service"
+    },
+    "severity": "low",
+    "category": "proxy",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "CORP\\a.mehta accessed dropbox.com; 2 MB transferred. Allowed by policy (personal use).",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    },
+    "url": {
+      "full": "https://www.dropbox.com/"
+    }
+  },
+  {
+    "event_id": "SIEM-0166",
+    "@timestamp": "2026-09-14T12:40:30Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\j.okafor (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "192.0.2.230"
+    }
+  },
+  {
+    "event_id": "SIEM-0167",
+    "@timestamp": "2026-09-14T12:42:09Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "MSI package Microsoft Teams installed by SCCM on HR-WS-023.",
+    "user": {
+      "name": "CORP\\svc_backup"
+    }
+  },
+  {
+    "event_id": "SIEM-0168",
+    "@timestamp": "2026-09-14T12:54:36Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\m.novak (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "192.0.2.230"
+    }
+  },
+  {
+    "event_id": "SIEM-0169",
+    "@timestamp": "2026-09-14T13:01:09Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.120 → 203.0.113.10:8080 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.120"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 8080
+    }
+  },
+  {
+    "event_id": "SIEM-0170",
+    "@timestamp": "2026-09-14T13:15:44Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0550",
+      "name": "Large upload to personal cloud storage service"
+    },
+    "severity": "medium",
+    "category": "proxy",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "1.84 GB uploaded to mega.nz (31.216.148.10) from 10.20.15.117 by CORP\\a.mehta in a single session. mega.nz is not an approved service.",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    },
+    "destination": {
+      "ip": "31.216.148.10"
+    },
+    "url": {
+      "full": "https://mega.nz/"
+    }
+  },
+  {
+    "event_id": "SIEM-0171",
+    "@timestamp": "2026-09-14T13:19:25Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\l.fischer on RND-WS-118 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    },
+    "source": {
+      "ip": "10.20.15.118"
+    }
+  },
+  {
+    "event_id": "SIEM-0172",
+    "@timestamp": "2026-09-14T13:20:09Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DLP-0930",
+      "name": "Classification marking detected in outbound encrypted archive metadata"
+    },
+    "severity": "high",
+    "category": "dlp",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "Outbound archive proj_falcon.7z: file listing contains 'PROJECT FALCON - RESTRICTED' markings on 212 entries. Encrypted payload; content not inspectable.",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    },
+    "destination": {
+      "ip": "31.216.148.10"
+    }
+  },
+  {
+    "event_id": "SIEM-0173",
+    "@timestamp": "2026-09-14T13:22:02Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PRX-0100",
+      "name": "Access to cloud storage service"
+    },
+    "severity": "low",
+    "category": "proxy",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "CORP\\a.mehta accessed dropbox.com; 38 MB transferred. Allowed by policy (personal use).",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    },
+    "url": {
+      "full": "https://www.dropbox.com/"
+    }
+  },
+  {
+    "event_id": "SIEM-0174",
+    "@timestamp": "2026-09-14T13:25:24Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.8 → 203.0.113.10:3389 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.8"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 3389
+    }
+  },
+  {
+    "event_id": "SIEM-0175",
+    "@timestamp": "2026-09-14T13:30:18Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.230 → 203.0.113.10:25 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.230"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 25
+    }
+  },
+  {
+    "event_id": "SIEM-0176",
+    "@timestamp": "2026-09-14T13:32:02Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\r.tanaka (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "203.0.113.199"
+    }
+  },
+  {
+    "event_id": "SIEM-0177",
+    "@timestamp": "2026-09-14T13:41:34Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\r.tanaka locked out after 5 bad passwords from ADM-WS-002. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "10.20.10.2"
+    }
+  },
+  {
+    "event_id": "SIEM-0178",
+    "@timestamp": "2026-09-14T13:47:35Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "MSI package Notepad++ 8.7 installed by SCCM on FIN-WS-043.",
+    "user": {
+      "name": "CORP\\k.olsen"
+    }
+  },
+  {
+    "event_id": "SIEM-0179",
+    "@timestamp": "2026-09-14T13:55:35Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "low",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "77 SSH connection attempts from 203.0.113.8 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "203.0.113.8"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0180",
+    "@timestamp": "2026-09-14T14:02:07Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\t.berg (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\t.berg"
+    },
+    "source": {
+      "ip": "192.0.2.15"
+    }
+  },
+  {
+    "event_id": "SIEM-0181",
+    "@timestamp": "2026-09-14T14:31:15Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://teams.microsoft.com/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0182",
+    "@timestamp": "2026-09-14T14:32:11Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-042",
+      "ip": "10.20.14.42"
+    },
+    "message": "EventID 4625: 3 failed logon attempt(s) for CORP\\j.okafor on FIN-WS-042 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "10.20.14.42"
+    }
+  },
+  {
+    "event_id": "SIEM-0183",
+    "@timestamp": "2026-09-14T14:37:10Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\p.singh (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "203.0.113.199"
+    }
+  },
+  {
+    "event_id": "SIEM-0184",
+    "@timestamp": "2026-09-14T14:37:47Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "OPS-WS-008",
+      "ip": "10.20.17.8"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://cdn.office.net/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0185",
+    "@timestamp": "2026-09-14T14:46:32Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "IDS-1300",
+      "name": "ET SCAN Potential SSH brute force"
+    },
+    "severity": "low",
+    "category": "ids",
+    "host": {
+      "name": "WEB-DMZ-02",
+      "ip": "172.16.5.11"
+    },
+    "message": "24 SSH connection attempts from 203.0.113.199 to 172.16.5.11 in 5 minutes; all rejected (password auth disabled).",
+    "source": {
+      "ip": "203.0.113.199"
+    },
+    "destination": {
+      "ip": "172.16.5.11",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0186",
+    "@timestamp": "2026-09-14T15:02:43Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.8 → 203.0.113.10:1433 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.8"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 1433
+    }
+  },
+  {
+    "event_id": "SIEM-0187",
+    "@timestamp": "2026-09-14T15:09:44Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.23 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.23"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0188",
+    "@timestamp": "2026-09-14T15:12:53Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "MSI package Notepad++ 8.7 installed by SCCM on ENG-WS-055.",
+    "user": {
+      "name": "CORP\\svc_patch"
+    }
+  },
+  {
+    "event_id": "SIEM-0189",
+    "@timestamp": "2026-09-14T15:14:25Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "BACKUP-01",
+      "ip": "10.20.2.30"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0190",
+    "@timestamp": "2026-09-14T15:29:11Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0200",
+      "name": "Removable media connected"
+    },
+    "severity": "low",
+    "category": "endpoint",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "USB mass storage device (vendor Kingston) connected on FIN-WS-043; policy: read-only.",
+    "user": {
+      "name": "CORP\\p.singh"
+    }
+  },
+  {
+    "event_id": "SIEM-0191",
+    "@timestamp": "2026-09-14T15:30:42Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0200",
+      "name": "Removable media connected"
+    },
+    "severity": "low",
+    "category": "endpoint",
+    "host": {
+      "name": "RND-WS-118",
+      "ip": "10.20.15.118"
+    },
+    "message": "USB mass storage device (vendor Kingston) connected on RND-WS-118; policy: read-only.",
+    "user": {
+      "name": "CORP\\l.fischer"
+    }
+  },
+  {
+    "event_id": "SIEM-0192",
+    "@timestamp": "2026-09-14T15:48:33Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "HR-WS-023",
+      "ip": "10.20.16.23"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\m.novak on HR-WS-023 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\m.novak"
+    },
+    "source": {
+      "ip": "10.20.16.23"
+    }
+  },
+  {
+    "event_id": "SIEM-0193",
+    "@timestamp": "2026-09-14T15:52:33Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0194",
+    "@timestamp": "2026-09-14T16:02:11Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-4602",
+      "name": "Volume shadow copies deleted"
+    },
+    "severity": "high",
+    "category": "endpoint",
+    "host": {
+      "name": "FILE-SRV-02",
+      "ip": "10.20.2.21"
+    },
+    "message": "vssadmin.exe delete shadows /all /quiet executed by CORP\\svc_fileops via cmd.exe on FILE-SRV-02.",
+    "user": {
+      "name": "CORP\\svc_fileops"
+    },
+    "source": {
+      "ip": "10.20.2.21"
+    }
+  },
+  {
+    "event_id": "SIEM-0195",
+    "@timestamp": "2026-09-14T16:04:30Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-4610",
+      "name": "Unsigned binary masquerading as system process"
+    },
+    "severity": "high",
+    "category": "endpoint",
+    "host": {
+      "name": "FILE-SRV-02",
+      "ip": "10.20.2.21"
+    },
+    "message": "C:\\ProgramData\\svchost_.exe (SHA256 a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f9) is unsigned and not the Windows svchost.exe; spawned bcdedit.exe and vssadmin.exe; high-entropy sections.",
+    "user": {
+      "name": "CORP\\svc_fileops"
+    },
+    "file": {
+      "name": "svchost_.exe",
+      "hash": {
+        "sha256": "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f9"
+      }
+    }
+  },
+  {
+    "event_id": "SIEM-0196",
+    "@timestamp": "2026-09-14T16:07:02Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0071",
+      "name": "Ransom note artefact created in multiple directories"
+    },
+    "severity": "critical",
+    "category": "endpoint",
+    "host": {
+      "name": "FILE-SRV-02",
+      "ip": "10.20.2.21"
+    },
+    "message": "RESTORE-FILES.txt written to 318 directories on D:\\shares in 60 s. Content references .onion negotiation portal.",
+    "user": {
+      "name": "CORP\\svc_fileops"
+    },
+    "file": {
+      "name": "RESTORE-FILES.txt",
+      "hash": {}
+    }
+  },
+  {
+    "event_id": "SIEM-0197",
+    "@timestamp": "2026-09-14T16:07:41Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\t.berg on ENG-WS-055 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\t.berg"
+    },
+    "source": {
+      "ip": "10.20.15.55"
+    }
+  },
+  {
+    "event_id": "SIEM-0198",
+    "@timestamp": "2026-09-14T16:12:07Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-042",
+      "ip": "10.20.14.42"
+    },
+    "message": "EventID 4625: 2 failed logon attempt(s) for CORP\\j.okafor on FIN-WS-042 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\j.okafor"
+    },
+    "source": {
+      "ip": "10.20.14.42"
+    }
+  },
+  {
+    "event_id": "SIEM-0199",
+    "@timestamp": "2026-09-14T16:18:04Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "VPN-1001",
+      "name": "VPN logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Successful VPN authentication for CORP\\t.berg (MFA ok). GeoIP: home country.",
+    "user": {
+      "name": "CORP\\t.berg"
+    },
+    "source": {
+      "ip": "203.0.113.120"
+    }
+  },
+  {
+    "event_id": "SIEM-0200",
+    "@timestamp": "2026-09-14T16:49:20Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.77 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.77"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0201",
+    "@timestamp": "2026-09-14T16:49:49Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PKI-0010",
+      "name": "TLS certificate expiring within 14 days"
+    },
+    "severity": "low",
+    "category": "config",
+    "host": {
+      "name": "WEB-DMZ-01",
+      "ip": "172.16.5.10"
+    },
+    "message": "Certificate CN=web-dmz-01.corp.example expires in 13 days."
+  },
+  {
+    "event_id": "SIEM-0202",
+    "@timestamp": "2026-09-14T17:36:21Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "DNS-0400",
+      "name": "Elevated NXDOMAIN rate from client"
+    },
+    "severity": "low",
+    "category": "network",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "RND-WS-117 generated 86 NXDOMAIN responses in 10 minutes (browser prefetch / mistyped hosts).",
+    "source": {
+      "ip": "10.20.15.117"
+    },
+    "destination": {
+      "ip": "10.20.1.53"
+    }
+  },
+  {
+    "event_id": "SIEM-0203",
+    "@timestamp": "2026-09-14T18:11:21Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.199 → 203.0.113.10:3389 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.199"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 3389
+    }
+  },
+  {
+    "event_id": "SIEM-0204",
+    "@timestamp": "2026-09-14T19:41:10Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "LOG-WS-031",
+      "ip": "10.20.18.31"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\c.dubois on LOG-WS-031 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\c.dubois"
+    },
+    "source": {
+      "ip": "10.20.18.31"
+    }
+  },
+  {
+    "event_id": "SIEM-0205",
+    "@timestamp": "2026-09-14T20:06:28Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "PKI-0010",
+      "name": "TLS certificate expiring within 14 days"
+    },
+    "severity": "low",
+    "category": "config",
+    "host": {
+      "name": "BACKUP-01",
+      "ip": "10.20.2.30"
+    },
+    "message": "Certificate CN=backup-01.corp.example expires in 10 days."
+  },
+  {
+    "event_id": "SIEM-0206",
+    "@timestamp": "2026-09-14T20:09:02Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "ADM-WS-002",
+      "ip": "10.20.10.2"
+    },
+    "message": "MSI package 7-Zip 24.08 installed by SCCM on ADM-WS-002.",
+    "user": {
+      "name": "CORP\\k.olsen"
+    }
+  },
+  {
+    "event_id": "SIEM-0207",
+    "@timestamp": "2026-09-14T20:23:45Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3010",
+      "name": "Account lockout"
+    },
+    "severity": "medium",
+    "category": "authentication",
+    "host": {
+      "name": "DC01",
+      "ip": "10.20.1.10"
+    },
+    "message": "EventID 4740: account CORP\\r.tanaka locked out after 5 bad passwords from ADM-WS-002. Helpdesk ticket auto-created.",
+    "user": {
+      "name": "CORP\\r.tanaka"
+    },
+    "source": {
+      "ip": "10.20.10.2"
+    }
+  },
+  {
+    "event_id": "SIEM-0208",
+    "@timestamp": "2026-09-14T21:01:14Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 192.0.2.15 → 203.0.113.10:22 (internet background radiation).",
+    "source": {
+      "ip": "192.0.2.15"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 22
+    }
+  },
+  {
+    "event_id": "SIEM-0209",
+    "@timestamp": "2026-09-14T21:26:05Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "EventID 4625: 4 failed logon attempt(s) for CORP\\a.mehta on RND-WS-117 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    }
+  },
+  {
+    "event_id": "SIEM-0210",
+    "@timestamp": "2026-09-14T21:49:55Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 198.51.100.23 → 203.0.113.10:3389 (internet background radiation).",
+    "source": {
+      "ip": "198.51.100.23"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 3389
+    }
+  },
+  {
+    "event_id": "SIEM-0211",
+    "@timestamp": "2026-09-14T22:46:32Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "informational",
+    "category": "authentication",
+    "host": {
+      "name": "RND-WS-117",
+      "ip": "10.20.15.117"
+    },
+    "message": "EventID 4625: 1 failed logon attempt(s) for CORP\\a.mehta on RND-WS-117 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\a.mehta"
+    },
+    "source": {
+      "ip": "10.20.15.117"
+    }
+  },
+  {
+    "event_id": "SIEM-0212",
+    "@timestamp": "2026-09-14T22:50:59Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0001",
+      "name": "Endpoint protection definitions updated"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "PRINT-SRV-01",
+      "ip": "10.20.2.40"
+    },
+    "message": "Signature package installed successfully.",
+    "url": {
+      "full": "https://cdn.office.net/defs/"
+    }
+  },
+  {
+    "event_id": "SIEM-0213",
+    "@timestamp": "2026-09-14T22:58:31Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AD-3001",
+      "name": "Failed interactive logon"
+    },
+    "severity": "low",
+    "category": "authentication",
+    "host": {
+      "name": "FIN-WS-043",
+      "ip": "10.20.14.43"
+    },
+    "message": "EventID 4625: 2 failed logon attempt(s) for CORP\\p.singh on FIN-WS-043 (bad password). Followed by successful logon.",
+    "user": {
+      "name": "CORP\\p.singh"
+    },
+    "source": {
+      "ip": "10.20.14.43"
+    }
+  },
+  {
+    "event_id": "SIEM-0214",
+    "@timestamp": "2026-09-14T23:07:57Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "AV-0005",
+      "name": "Scheduled antimalware scan completed"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "MAIL-01",
+      "ip": "10.20.2.25"
+    },
+    "message": "Full scan completed; 0 threats found."
+  },
+  {
+    "event_id": "SIEM-0215",
+    "@timestamp": "2026-09-14T23:33:44Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "EDR-0300",
+      "name": "Software installation"
+    },
+    "severity": "informational",
+    "category": "endpoint",
+    "host": {
+      "name": "ENG-WS-055",
+      "ip": "10.20.15.55"
+    },
+    "message": "MSI package Microsoft Teams installed by SCCM on ENG-WS-055.",
+    "user": {
+      "name": "CORP\\svc_patch"
+    }
+  },
+  {
+    "event_id": "SIEM-0216",
+    "@timestamp": "2026-09-14T23:35:14Z",
+    "product": "Sentinel-class SIEM (synthetic)",
+    "rule": {
+      "id": "FW-0100",
+      "name": "Inbound connection denied at perimeter"
+    },
+    "severity": "informational",
+    "category": "firewall",
+    "host": {
+      "name": "VPN-GW-01",
+      "ip": "10.20.0.5"
+    },
+    "message": "Denied TCP 203.0.113.45 → 203.0.113.10:5900 (internet background radiation).",
+    "source": {
+      "ip": "203.0.113.45"
+    },
+    "destination": {
+      "ip": "203.0.113.10",
+      "port": 5900
+    }
+  }
+]

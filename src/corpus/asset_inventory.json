@@ -1,0 +1,33 @@
+{
+  "_comment": "Synthetic asset inventory for the AEGIS demo corpus. Criticality: 1 negligible … 5 mission critical. The prioritiser joins on asset_id, hostname or ip. Nothing here is a real network.",
+  "assets": [
+    {"asset_id": "DC01", "hostname": "dc01", "ip": "10.20.1.10", "subnet": "10.20.1.0/24", "role": "Active Directory domain controller", "criticality": 5, "rationale": "Holds every credential in the enclave; compromise is total compromise."},
+    {"asset_id": "DC02", "hostname": "dc02", "ip": "10.20.1.11", "subnet": "10.20.1.0/24", "role": "Active Directory domain controller (secondary)", "criticality": 5, "rationale": "Replica of DC01 with identical blast radius."},
+    {"asset_id": "DNS-01", "hostname": "dns-01", "ip": "10.20.1.53", "subnet": "10.20.1.0/24", "role": "Internal DNS resolver", "criticality": 3, "rationale": "Appears in a large fraction of alerts as a destination; high volume, moderate consequence."},
+    {"asset_id": "FILE-SRV-01", "hostname": "file-srv-01", "ip": "10.20.2.20", "subnet": "10.20.2.0/24", "role": "Departmental file server", "criticality": 4, "rationale": "Hosts finance and HR shares."},
+    {"asset_id": "FILE-SRV-02", "hostname": "file-srv-02", "ip": "10.20.2.21", "subnet": "10.20.2.0/24", "role": "Programme file server", "criticality": 4, "rationale": "Hosts restricted programme data (Project FALCON)."},
+    {"asset_id": "MAIL-01", "hostname": "mail-01", "ip": "10.20.2.25", "subnet": "10.20.2.0/24", "role": "Mail gateway", "criticality": 4, "rationale": "Every phishing lure passes through it; single point of delivery."},
+    {"asset_id": "BACKUP-01", "hostname": "backup-01", "ip": "10.20.2.30", "subnet": "10.20.2.0/24", "role": "Backup server", "criticality": 4, "rationale": "Last line of recovery from ransomware."},
+    {"asset_id": "PRINT-SRV-01", "hostname": "print-srv-01", "ip": "10.20.2.40", "subnet": "10.20.2.0/24", "role": "Print server", "criticality": 1, "rationale": "Nothing of value; noisy by nature."},
+    {"asset_id": "VPN-GW-01", "hostname": "vpn-gw-01", "ip": "10.20.0.5", "subnet": "10.20.0.0/24", "role": "Remote-access VPN gateway (public 203.0.113.10)", "criticality": 4, "rationale": "Internet-facing; the front door for remote users and for password spraying."},
+    {"asset_id": "WEB-DMZ-01", "hostname": "web-dmz-01", "ip": "172.16.5.10", "subnet": "172.16.5.0/24", "role": "Internet-facing collaboration server (DMZ)", "criticality": 4, "rationale": "Exposed to the internet; historically the most exploited class of asset."},
+    {"asset_id": "WEB-DMZ-02", "hostname": "web-dmz-02", "ip": "172.16.5.11", "subnet": "172.16.5.0/24", "role": "Public information website (DMZ)", "criticality": 2, "rationale": "Static content; defacement risk only."},
+    {"asset_id": "SCAN-01", "hostname": "scan-01", "ip": "10.50.1.10", "subnet": "10.50.1.0/24", "role": "Authorised vulnerability scanner", "criticality": 2, "rationale": "Generates scan traffic by design; see suppression rule KNOWN_SCANNER_RANGE."},
+    {"asset_id": "ADM-WS-002", "hostname": "adm-ws-002", "ip": "10.20.10.2", "subnet": "10.20.10.0/24", "role": "Privileged admin workstation", "criticality": 4, "rationale": "Origin of legitimate admin activity; also the highest-value workstation to steal."},
+    {"asset_id": "FIN-WS-042", "hostname": "fin-ws-042", "ip": "10.20.14.42", "subnet": "10.20.14.0/24", "role": "Finance analyst workstation", "criticality": 3, "rationale": "Handles payment data; frequent phishing target."},
+    {"asset_id": "FIN-WS-043", "hostname": "fin-ws-043", "ip": "10.20.14.43", "subnet": "10.20.14.0/24", "role": "Finance analyst workstation", "criticality": 3, "rationale": "As FIN-WS-042."},
+    {"asset_id": "RND-WS-117", "hostname": "rnd-ws-117", "ip": "10.20.15.117", "subnet": "10.20.15.0/24", "role": "R&D engineering workstation", "criticality": 3, "rationale": "Has access to restricted programme data."},
+    {"asset_id": "RND-WS-118", "hostname": "rnd-ws-118", "ip": "10.20.15.118", "subnet": "10.20.15.0/24", "role": "R&D engineering workstation", "criticality": 3, "rationale": "As RND-WS-117."},
+    {"asset_id": "HR-WS-023", "hostname": "hr-ws-023", "ip": "10.20.16.23", "subnet": "10.20.16.0/24", "role": "HR workstation", "criticality": 2, "rationale": "Personal data; moderate consequence."},
+    {"asset_id": "OPS-WS-008", "hostname": "ops-ws-008", "ip": "10.20.17.8", "subnet": "10.20.17.0/24", "role": "Operations planning workstation", "criticality": 3, "rationale": "Mission planning material."},
+    {"asset_id": "LOG-WS-031", "hostname": "log-ws-031", "ip": "10.20.18.31", "subnet": "10.20.18.0/24", "role": "Logistics workstation", "criticality": 2, "rationale": "Supply schedules; low sensitivity."},
+    {"asset_id": "ENG-WS-055", "hostname": "eng-ws-055", "ip": "10.20.15.55", "subnet": "10.20.15.0/24", "role": "Engineering workstation", "criticality": 3, "rationale": "Design data."},
+    {"asset_id": "SCADA-HMI-01", "hostname": "scada-hmi-01", "ip": "10.30.1.5", "subnet": "10.30.1.0/24", "role": "Site ALPHA operational technology HMI", "criticality": 5, "rationale": "Controls physical plant at SITE-ALPHA; manipulation has physical consequences."},
+    {"asset_id": "PLC-ALPHA-01", "hostname": "plc-alpha-01", "ip": "10.30.1.20", "subnet": "10.30.1.0/24", "role": "Site ALPHA programmable logic controller", "criticality": 5, "rationale": "Directly drives plant equipment."},
+    {"asset_id": "SITE-ALPHA-WLC", "hostname": "site-alpha-wlc", "ip": "10.30.1.2", "subnet": "10.30.1.0/24", "role": "Site ALPHA wireless LAN controller", "criticality": 4, "rationale": "Only wireless entry point into the site network."},
+    {"asset_id": "SITE-ALPHA-SW-03", "hostname": "site-alpha-sw-03", "ip": "10.30.1.3", "subnet": "10.30.1.0/24", "role": "Site ALPHA access switch", "criticality": 3, "rationale": "Physical ports in an exposed building."},
+    {"asset_id": "SITE-ALPHA", "hostname": "site-alpha", "ip": null, "subnet": "10.30.1.0/24", "role": "Northern communications station (physical site)", "criticality": 5, "rationale": "Strategic communications relay; geospatial alerts reference the site, network alerts reference its subnet."},
+    {"asset_id": "SITE-BRAVO", "hostname": "site-bravo", "ip": null, "subnet": "10.30.2.0/24", "role": "Fuel depot (physical site)", "criticality": 3, "rationale": "Routine patrol overflights; frequent benign geo tracks."},
+    {"asset_id": "SITE-CHARLIE", "hostname": "site-charlie", "ip": null, "subnet": "10.30.3.0/24", "role": "Forward airfield (physical site)", "criticality": 4, "rationale": "High volume of legitimate air traffic; geo feed is noisy here."}
+  ]
+}

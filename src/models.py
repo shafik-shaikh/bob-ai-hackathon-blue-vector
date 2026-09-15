@@ -50,6 +50,7 @@ class IndicatorType(str, Enum):
     USER = "user"
     HOSTNAME = "hostname"
     CVE = "cve"
+    MAC = "mac"
 
 
 class Tactic(str, Enum):
@@ -79,6 +80,17 @@ class Tactic(str, Enum):
     def chain_position(self) -> int:
         """Zero-based index in kill-chain order."""
         return list(Tactic).index(self)
+
+    @classmethod
+    def from_attack(cls, shortname: str) -> "Tactic":
+        """Map an ATT&CK kill_chain_phases shortname onto the enum.
+
+        ATT&CK v19 split *Defense Evasion* into *Stealth* and *Defense
+        Impairment*. Both occupy the same kill-chain position for correlation
+        purposes, so they collapse onto DEFENSE_EVASION here.
+        """
+        aliases = {"stealth": "defense-evasion", "defense-impairment": "defense-evasion"}
+        return cls(aliases.get(shortname, shortname))
 
 
 class SignalType(str, Enum):
