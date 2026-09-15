@@ -22,18 +22,24 @@ from src.bluf.template import render_bluf_text
 from src.config import settings
 from src.db.store import (
     alerts_by_technique,
+    clear_disposition,
     connection,
     get_alert,
     get_bluf,
+    get_disposition,
     get_edge,
     get_incident,
     incident_for_alert,
     load_alerts,
     load_assets,
+    load_dispositions,
     load_incidents,
     queue_position,
     save_bluf,
+    set_disposition,
     stats,
+    update_asset_criticality,
+    upsert_alerts,
 )
 from src.enrichment.attack_mapper import load_techniques, technique_index
 from src.models import Alert, Incident, Tactic
@@ -102,6 +108,7 @@ def incident_summary(conn: sqlite3.Connection, inc: Incident, rank: int | None, 
         "score": score.model_dump(mode="json"),
         "rationale": rationale_line(inc, alerts, score, fired),
         "has_bluf": get_bluf(conn, inc.incident_id) is not None,
+        "disposition": get_disposition(conn, inc.incident_id),
     }
 
 
@@ -399,6 +406,111 @@ def technique_detail(technique_id: str) -> dict:
 def list_assets() -> list[dict]:
     with connection() as conn:
         return sorted(load_assets(conn).values(), key=lambda a: (-a["criticality"], a["asset_id"]))
+
+
+def set_asset_criticality(asset_id: str, criticality: int, rationale: str | None) -> dict:
+    """Analyst override of asset criticality (1-5). Feeds the *next* pipeline run's
+    scoring — it does not retroactively rescore incidents already in the queue,
+    since composite scores are computed once at pipeline time and stored (see
+    docs/architecture.md). The console labels this honestly rather than implying
+    a live recompute that isn't happening."""
+    if not 1 <= criticality <= 5:
+        raise ValueError("criticality must be between 1 and 5")
+    with connection() as conn:
+        if not update_asset_criticality(conn, asset_id, criticality, rationale):
+            raise NotFound(f"Unknown asset {asset_id}")
+        return load_assets(conn)[asset_id]
+
+
+# ---------------------------------------------------------------------------
+# Dispositions — analyst TP/FP verdicts
+# ---------------------------------------------------------------------------
+
+VALID_VERDICTS = {"confirmed", "false_positive"}
+
+
+def set_incident_disposition(incident_id: str, verdict: str, note: str | None = None, analyst: str | None = None) -> dict:
+    if verdict not in VALID_VERDICTS:
+        raise ValueError(f"verdict must be one of {sorted(VALID_VERDICTS)}")
+    with connection() as conn:
+        if not get_incident(conn, incident_id):
+            raise NotFound(f"Unknown incident {incident_id}")
+        return set_disposition(conn, incident_id, verdict, note, analyst)
+
+
+def clear_incident_disposition(incident_id: str) -> None:
+    with connection() as conn:
+        if not get_incident(conn, incident_id):
+            raise NotFound(f"Unknown incident {incident_id}")
+        clear_disposition(conn, incident_id)
+
+
+def list_dispositions() -> dict:
+    with connection() as conn:
+        return load_dispositions(conn)
+
+
+def ingest_alerts(records: list[dict], source: str) -> dict:
+    """Ingest a list of raw alert records from a given source and persist them.
+
+    Accepts plain dicts in the wire format of each source:
+      - ``siem``   — SIEM JSON events (same schema as ``src/corpus/feeds/siem.json``)
+      - ``syslog`` — dicts with key ``"line"`` containing a raw RFC 5424 syslog line
+      - ``geo``    — CSV-row dicts (same columns as ``src/corpus/feeds/geo_tracks.csv``)
+      - ``intel``  — dicts with keys ``"id"``, ``"header"`` and ``"body"``
+
+    Returns a summary dict with counts.
+
+    Deliberately does *not* re-run the full pipeline; callers should run
+    ``python -m src.pipeline.run`` (or call ``run_pipeline()``) after
+    ingesting to refresh correlation, scoring and BLUFs.
+    """
+    from src.ingest.siem import parse_siem_event
+    from src.ingest.syslog import parse_syslog_line
+    from src.ingest.geo import parse_geo_row
+    from src.ingest.intel import parse_intel_block
+
+    VALID_SOURCES = {"siem", "syslog", "geo", "intel"}
+    if source not in VALID_SOURCES:
+        raise ValueError(f"Unknown source '{source}'. Valid values: {sorted(VALID_SOURCES)}")
+
+    alerts = []
+    errors = []
+    for i, record in enumerate(records):
+        try:
+            if source == "siem":
+                alert = parse_siem_event(record)
+            elif source == "syslog":
+                # Accept either a raw syslog line string or a dict with key "line"
+                line = record.get("line", "") if isinstance(record, dict) else str(record)
+                alert_id = record.get("alert_id", f"SYS-API-{i:04d}") if isinstance(record, dict) else f"SYS-API-{i:04d}"
+                alert = parse_syslog_line(line, alert_id)
+                if alert is None:
+                    raise ValueError(f"Could not parse syslog line: {line[:80]}")
+            elif source == "geo":
+                alert_id = record.get("alert_id", f"GEO-API-{i:04d}")
+                alert = parse_geo_row(record, alert_id)
+            else:  # intel
+                alert = parse_intel_block(
+                    record.get("id", f"INTEL-API-{i:04d}"),
+                    record.get("header", ""),
+                    record.get("body", record.get("text", "")),
+                )
+            alerts.append(alert)
+        except Exception as exc:  # noqa: BLE001
+            errors.append({"index": i, "error": str(exc)})
+
+    if alerts:
+        with connection() as conn:
+            upsert_alerts(alerts, conn)
+
+    return {
+        "source": source,
+        "submitted": len(records),
+        "ingested": len(alerts),
+        "errors": errors,
+        "note": "Run `python -m src.pipeline.run` to refresh correlation, scoring and BLUFs.",
+    }
 
 
 def raw_feeds(lines: int = 40) -> dict:

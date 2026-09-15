@@ -20,7 +20,7 @@ template, which is the path the demo runs on.
 ## 1. Clone
 
 ```bash
-git clone https://github.com/het-khatusuriya/bob-ai-hackathon-blue-vector.git
+git clone https://github.com/shafik-shaikh/bob-ai-hackathon-blue-vector.git
 cd bob-ai-hackathon-blue-vector
 ```
 

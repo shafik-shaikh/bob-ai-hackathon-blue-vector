@@ -39,6 +39,30 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+  /** Small inline icon set — functional glyphs only (search, close, copy, chevrons). No icon font, works offline. */
+  const ICONS = {
+    search: '<path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.35-4.35" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    close: '<path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    copy: '<rect x="9" y="9" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V5a2 2 0 0 1 2-2h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    chevLeft: '<path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    chevRight: '<path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    check: '<path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+  };
+  const icon = (name, cls = '') => raw(`<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ''}</svg>`);
+
+  /** Small "copy id to clipboard" button, used next to incident/alert ids throughout the console. */
+  const copyBtn = (text, label) => html`<button type="button" class="icon-btn copy-btn" data-copy="${text}" title="Copy ${label || text}" aria-label="Copy ${label || text}">${icon('copy')}</button>`;
+  function bindCopyButtons(root) {
+    $$('.copy-btn[data-copy]', root).forEach((btn) => {
+      btn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        copyText(btn.dataset.copy, false);
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 900);
+      });
+    });
+  }
+
   /** ISO timestamp → "2026-09-14 09:14:07Z" (monospace friendly, no locale surprises). */
   const fmtTs = (iso) => {
     if (!iso) return '—';
@@ -113,6 +137,7 @@
   const state = {
     mock: /[?&]mock=1(&|$)/.test(location.search),
     ruleNames: null,     // rule_id → name, from GET /suppression-rules
+    assets: null,        // asset_id → AssetInventory record, from GET /assets
     graph: null,         // live CorrelationGraph instance on the incident view
   };
 
@@ -137,6 +162,27 @@
     return res.json();
   }
 
+  /** fetch wrapper for POST/PATCH/DELETE with a JSON body. Same error semantics as `request`. */
+  async function mutate(path, method, body) {
+    const url = `${API_BASE}${path}`;
+    let res;
+    try {
+      res = await fetch(url, {
+        method,
+        headers: { Accept: 'application/json', ...(body ? { 'Content-Type': 'application/json' } : {}) },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+    } catch (err) {
+      throw new NetworkError(`${url}: ${err.message}`);
+    }
+    if (!res.ok) {
+      let detail = res.statusText;
+      try { detail = (await res.json()).detail || detail; } catch (_) { /* non-JSON error body */ }
+      throw new ApiError(res.status, detail);
+    }
+    return res.status === 204 ? null : res.json();
+  }
+
   /** Pairs a live implementation with its mock; a network failure flips the whole console into mock mode. */
   function endpoint(live, mock) {
     return async (...args) => {
@@ -154,12 +200,17 @@
   }
 
   // --- Mock adapter over fixtures.js. Filtering mimics the server semantics. --
+  // Dispositions and asset overrides are session-local (not persisted) in mock mode —
+  // there is no server to write them to, so a page reload resets them, same as any
+  // other in-memory mock state.
+  const mockDispositions = new Map();
   const Mock = (() => {
     const F = () => window.AEGIS_FIXTURES;
     const notFound = (what) => { throw new ApiError(404, `${what} not found`); };
     const contains = (hay, q) => String(hay || '').toLowerCase().includes(q.toLowerCase());
     const incidentAlerts = (id) => F().alerts.filter((a) => a.incident_id === id).sort((a, b) => a.timestamp.localeCompare(b.timestamp));
-    const summary = (id) => F().incidents.find((i) => i.incident_id === id) || notFound(`incident ${id}`);
+    const withDisposition = (inc) => Object.assign({}, inc, { disposition: mockDispositions.get(inc.incident_id) || null });
+    const summary = (id) => withDisposition(F().incidents.find((i) => i.incident_id === id) || notFound(`incident ${id}`));
 
     const detail = (id) => {
       const inc = summary(id);
@@ -236,7 +287,8 @@
         .filter((i) => !q || contains(i.title, q) || contains(i.incident_id, q) || i.assets.some((x) => contains(x, q))
           || (i.top_technique && (contains(i.top_technique.technique_id, q) || contains(i.top_technique.technique_name, q))))
         .sort((x, y) => x.rank - y.rank)
-        .slice(0, Number(limit)),
+        .slice(0, Number(limit))
+        .map(withDisposition),
       incident: (id) => detail(id),
       bluf: (id) => F().blufs[id] || templateBluf(summary(id)),
       explain,
@@ -279,6 +331,20 @@
       feedsRaw: () => F().feeds,
       suppressionRules: () => F().suppression_rules,
       assets: () => F().assets,
+      updateAsset: (id, criticality, rationale) => {
+        const a = F().assets.find((x) => x.asset_id === id) || notFound(`asset ${id}`);
+        a.criticality = criticality;
+        if (rationale) a.rationale = rationale;
+        return a;
+      },
+      dispositions: () => Object.fromEntries(mockDispositions),
+      setDisposition: (id, verdict, note, analyst) => {
+        summary(id); // 404s if unknown
+        const rec = { incident_id: id, verdict, note: note || null, analyst: analyst || null, updated_at: new Date().toISOString() };
+        mockDispositions.set(id, rec);
+        return rec;
+      },
+      clearDisposition: (id) => { summary(id); mockDispositions.delete(id); return { ok: true }; },
     };
   })();
 
@@ -297,6 +363,19 @@
     feedsRaw: endpoint((lines) => request('/feeds/raw', { lines }), Mock.feedsRaw),
     suppressionRules: endpoint(() => request('/suppression-rules'), Mock.suppressionRules),
     assets: endpoint(() => request('/assets'), Mock.assets),
+    updateAsset: endpoint(
+      (id, criticality, rationale) => mutate(`/assets/${encodeURIComponent(id)}`, 'PATCH', { criticality, rationale }),
+      (id, criticality, rationale) => Mock.updateAsset(id, criticality, rationale),
+    ),
+    dispositions: endpoint(() => request('/dispositions'), Mock.dispositions),
+    setDisposition: endpoint(
+      (id, verdict, note) => mutate(`/incidents/${encodeURIComponent(id)}/disposition`, 'POST', { verdict, note }),
+      (id, verdict, note) => Mock.setDisposition(id, verdict, note),
+    ),
+    clearDisposition: endpoint(
+      (id) => mutate(`/incidents/${encodeURIComponent(id)}/disposition`, 'DELETE'),
+      (id) => Mock.clearDisposition(id),
+    ),
   };
   window.aegisApi = api; // handy in the devtools console
 
@@ -306,6 +385,16 @@
       catch (_) { state.ruleNames = new Map(); }
     }
     return state.ruleNames;
+  }
+
+  /** Asset inventory keyed by id. Criticality lives only here (joined at scoring time,
+   * never on the alert record), so this is the source of truth for the drawer's editor. */
+  async function assetIndex(force = false) {
+    if (!state.assets || force) {
+      try { state.assets = new Map((await api.assets()).map((a) => [a.asset_id, a])); }
+      catch (_) { state.assets = new Map(); }
+    }
+    return state.assets;
   }
 
   // ===========================================================================
@@ -375,7 +464,7 @@
         <span class="stat"><b>${s.edges ?? '—'}</b> edges</span>
         <span class="stat"><b>${s.incidents ?? '—'}</b> incidents <span class="muted">(${s.multi_alert_incidents ?? '—'} multi-alert)</span></span>
         <span class="stat stat-optional"><b>${s.bluf_reports ?? '—'}</b> BLUFs</span>
-        <span class="stat stat-run">pipeline last run <b>${runTs ? fmtTs(runTs) : 'never'}</b></span>`;
+        <span class="stat stat-run"><i class="live-dot"></i>pipeline last run <b>${runTs ? fmtTs(runTs) : 'never'}</b></span>`;
     } catch (err) {
       el.innerHTML = html`<span class="stat error">stats unavailable: ${err.message}</span>`;
     }
@@ -401,15 +490,19 @@
     <span class="seg"><i style="width:${pct(sc.tactic_severity)}%"></i></span>
     <span class="seg fp"><i style="width:${pct(sc.false_positive_likelihood)}%"></i></span></span>`;
 
-  const scoreCell = (sc) => html`<div class="score"><span class="num">${Math.round(sc.composite)}</span>${segBar(sc)}</div>`;
+  /** score tier drives the ring colour and the row's left accent — same thresholds as the severity legend. */
+  const scoreTier = (composite) => (composite >= 80 ? 'critical' : composite >= 60 ? 'high' : composite >= 40 ? 'medium' : 'low');
+  const scoreRing = (sc) => html`<span class="ring" data-tier="${scoreTier(sc.composite)}" style="--pct:${Math.max(0, Math.min(100, sc.composite))}"><span class="ring-num">${Math.round(sc.composite)}</span></span>`;
+
+  const scoreCell = (sc) => html`<div class="score">${scoreRing(sc)}${segBar(sc)}</div>`;
 
   function queueRow(inc, names) {
     const sc = inc.score;
-    return html`<tr class="row" data-incident="${inc.incident_id}">
+    return html`<tr class="row" data-incident="${inc.incident_id}" data-tier="${scoreTier(sc.composite)}">
       <td class="rank">${inc.rank}</td>
       <td>${scoreCell(sc)}</td>
       <td class="incident-cell">
-        <div class="title">${inc.title}</div>
+        <div class="title">${inc.title}${inc.disposition ? html` <span class="disp-chip mini ${inc.disposition.verdict}">${icon(inc.disposition.verdict === 'confirmed' ? 'check' : 'close')}</span>` : ''}</div>
         <div class="rationale">${inc.rationale}</div>
         ${sc.suppression_rules_fired && sc.suppression_rules_fired.length
           ? html`<div class="chips">${sc.suppression_rules_fired.map((r) => html`<span class="chip" title="${names.get(r) || r}">${r}</span>`)}</div>` : ''}
@@ -477,7 +570,7 @@
       <div class="view-title"><h1>Triage queue</h1><span class="sub">incidents ranked by consequence, not vendor severity</span></div>
       <div class="panel">
         <div class="toolbar">
-          <input type="search" id="q-search" placeholder="Search title, asset, technique…" value="${queueState.q}">
+          <span class="search-wrap">${icon('search')}<input type="search" id="q-search" placeholder="Search title, asset, technique…" value="${queueState.q}"></span>
           <select id="q-tactic"><option value="">All tactics</option>${TACTICS.map(([id, name]) => html`<option value="${id}" ${queueState.tactic === id ? 'selected' : ''}>${name}</option>`)}</select>
           <select id="q-source"><option value="">All sources</option>${SOURCE_ORDER.map((s) => html`<option value="${s}" ${queueState.source === s ? 'selected' : ''}>${SOURCES[s].label}</option>`)}</select>
           <label><input type="checkbox" id="q-hide" ${queueState.hideSingles ? 'checked' : ''}> Hide single-alert incidents</label>
@@ -488,7 +581,7 @@
           </select>
           <span class="count" id="q-count"></span>
         </div>
-        <div id="q-table"><div class="loading">loading queue</div></div>
+        <div id="q-table" class="table-scroll"><div class="loading">loading queue</div></div>
       </div>`;
 
     const refresh = async () => {
@@ -541,19 +634,24 @@
 
     view.innerHTML = html`
       <div class="incident-head">
-        <a class="back" href="#/queue">← QUEUE</a>
+        <a class="back" href="#/queue">${icon('chevLeft')} QUEUE</a>
         <div style="min-width:0">
           <h1>${inc.title}</h1>
           <div class="meta">
-            <span class="id">${inc.incident_id}</span>
+            <span class="id">${inc.incident_id}</span>${copyBtn(inc.incident_id, 'incident id')}
             <span>rank <b>#${inc.rank}</b></span>
             <span><b>${inc.alert_count}</b> alerts across <b>${nSources}</b> source${nSources === 1 ? '' : 's'}</span>
             <span>${fmtTs(inc.first_seen)} → ${fmtTs(inc.last_seen)}</span>
             <span>assets <b>${(inc.assets || []).join(', ') || '—'}</b></span>
           </div>
         </div>
-        <div class="composite"><div class="big">${Math.round(sc.composite)}</div><div class="lbl">composite / 100</div></div>
+        <div class="composite">
+          <span class="ring ring-lg" data-tier="${scoreTier(sc.composite)}" style="--pct:${Math.max(0, Math.min(100, sc.composite))}"><span class="ring-num">${Math.round(sc.composite)}</span></span>
+          <div class="lbl">composite / 100</div>
+        </div>
       </div>
+
+      <div class="disposition-bar" id="disposition-bar"></div>
 
       <div class="panel">
         <div class="panel-head"><h2>ATT&amp;CK kill chain</h2><span class="hint">observed tactics lit · technique ids beneath · deepest reach drives tactic severity</span></div>
@@ -618,6 +716,8 @@
       <div class="panel bluf-panel" id="bluf-panel">
         <div class="panel-head"><h2>BLUF — commander brief</h2><span class="loading">generating brief</span></div>
       </div>`;
+    bindCopyButtons(view);
+    renderDisposition(inc);
 
     // -- graph -------------------------------------------------------------
     const graph = new CorrelationGraph($('#graph'), $('#graph-tip'), {
@@ -700,6 +800,30 @@
     </div>`;
   }
 
+  /** Analyst TP/FP verdict on an incident. A pure annotation — closes the loop the problem
+   * statement calls out ("the cost of error is asymmetric") without feeding back into scoring. */
+  function renderDisposition(inc) {
+    const el = $('#disposition-bar');
+    if (!el) return;
+    const d = inc.disposition;
+    el.innerHTML = (d
+      ? html`<span class="disp-chip ${d.verdict}">${icon(d.verdict === 'confirmed' ? 'check' : 'close')}
+          ${d.verdict === 'confirmed' ? 'Confirmed intrusion' : 'Marked false positive'}</span>
+        <span class="muted mono">${fmtTs(d.updated_at)}</span>
+        <button type="button" class="ghost" id="disp-clear">Undo</button>`
+      : html`<span class="muted">Analyst verdict:</span>
+        <button type="button" class="disp-btn confirm" id="disp-confirm">${icon('check')} Confirm intrusion</button>
+        <button type="button" class="disp-btn fp" id="disp-fp">${icon('close')} Mark false positive</button>`).s;
+
+    const act = async (fn) => { try { await fn(); renderDisposition(inc); } catch (err) { toast(err.message, true); } };
+    const confirmBtn = $('#disp-confirm', el);
+    const fpBtn = $('#disp-fp', el);
+    const clearBtn = $('#disp-clear', el);
+    if (confirmBtn) confirmBtn.addEventListener('click', () => act(async () => { inc.disposition = await api.setDisposition(inc.incident_id, 'confirmed'); toast('Marked as confirmed intrusion'); }));
+    if (fpBtn) fpBtn.addEventListener('click', () => act(async () => { inc.disposition = await api.setDisposition(inc.incident_id, 'false_positive'); toast('Marked as false positive'); }));
+    if (clearBtn) clearBtn.addEventListener('click', () => act(async () => { await api.clearDisposition(inc.incident_id); inc.disposition = null; toast('Disposition cleared'); }));
+  }
+
   async function renderBluf(inc, nSources) {
     const panel = $('#bluf-panel');
     let b;
@@ -734,13 +858,29 @@
       `Generated by ${b.generated_by} from ${inc.alert_count} alerts across ${nSources} sources (${inc.incident_id}).`,
     ].join('\n');
     panel.innerHTML = html`
-      <div class="panel-head"><h2>BLUF — commander brief</h2><button id="bluf-copy" class="ghost">Copy to clipboard</button></div>
+      <div class="panel-head"><h2>BLUF — commander brief</h2>
+        <span class="btn-row">
+          <button id="bluf-copy" class="ghost">Copy to clipboard</button>
+          <button id="bluf-download" class="ghost">Download .txt</button>
+        </span>
+      </div>
       <div class="bluf">${rows.map(([k, v]) => html`<div class="bluf-row"><span class="bluf-key">${k}:</span><span class="bluf-val">${v}</span></div>`)}</div>
       <div class="provenance">Generated by <span class="gen ${b.generated_by}">${b.generated_by}</span> from <b>${inc.alert_count}</b> alerts across <b>${nSources}</b> source${nSources === 1 ? '' : 's'} · ${inc.incident_id}</div>`;
     $('#bluf-copy').addEventListener('click', () => copyText(plain));
+    $('#bluf-download').addEventListener('click', () => downloadText(`${inc.incident_id}-bluf.txt`, plain));
   }
 
-  async function copyText(text) {
+  /** Saves a text blob to disk via a throwaway object URL — used for the BLUF commander brief. */
+  function downloadText(filename, text) {
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function copyText(text, announce = true) {
     try {
       if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
       else {
@@ -748,7 +888,7 @@
         ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
         document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
       }
-      toast('BLUF copied to clipboard');
+      if (announce) toast('Copied to clipboard');
     } catch (_) {
       toast('Copy failed — select the text manually', true);
     }
@@ -765,13 +905,13 @@
       <div class="view-title"><h1>Alerts</h1><span class="sub">every normalised alert, newest first · click one to see where it landed and why</span></div>
       <div class="panel">
         <div class="toolbar">
-          <input type="search" id="a-q" placeholder="Search text, id, asset, indicator…" value="${alertsState.q}">
+          <span class="search-wrap">${icon('search')}<input type="search" id="a-q" placeholder="Search text, id, asset, indicator…" value="${alertsState.q}"></span>
           <select id="a-source"><option value="">All sources</option>${SOURCE_ORDER.map((s) => html`<option value="${s}" ${alertsState.source === s ? 'selected' : ''}>${SOURCES[s].label}</option>`)}</select>
           <input type="text" id="a-sev" list="sev-list" placeholder="Vendor severity" value="${alertsState.severity}" style="min-width:150px">
           <datalist id="sev-list">${KNOWN_SEVERITIES.map((s) => html`<option value="${s}">`)}</datalist>
           <span class="count" id="a-count"></span>
         </div>
-        <div id="a-table"><div class="loading">loading alerts</div></div>
+        <div id="a-table" class="table-scroll"><div class="loading">loading alerts</div></div>
         <div class="pager" id="a-pager"></div>
       </div>`;
 
@@ -803,8 +943,8 @@
         const from = r.total ? alertsState.offset + 1 : 0, to = Math.min(alertsState.offset + items.length, r.total);
         $('#a-count').textContent = `${r.total} alert${r.total === 1 ? '' : 's'}`;
         $('#a-pager').innerHTML = html`<span>showing ${from}–${to} of ${r.total}</span><span class="spacer"></span>
-          <button id="a-prev" ${alertsState.offset === 0 ? 'disabled' : ''}>← prev</button>
-          <button id="a-next" ${to >= r.total ? 'disabled' : ''}>next →</button>`;
+          <button id="a-prev" class="pager-btn" ${alertsState.offset === 0 ? 'disabled' : ''}>${icon('chevLeft')} prev</button>
+          <button id="a-next" class="pager-btn" ${to >= r.total ? 'disabled' : ''}>next ${icon('chevRight')}</button>`;
         $('#a-prev').addEventListener('click', () => { alertsState.offset = Math.max(0, alertsState.offset - alertsState.limit); refresh(); });
         $('#a-next').addEventListener('click', () => { alertsState.offset += alertsState.limit; refresh(); });
       } catch (err) {
@@ -855,7 +995,7 @@
       <div class="view-title"><h1>ATT&amp;CK techniques</h1><span class="sub">search the mapped technique catalogue · click one to see the incidents touching it</span></div>
       <div class="attack-grid">
         <div class="panel">
-          <div class="toolbar" style="margin-bottom:8px"><input type="search" id="t-q" placeholder="e.g. powershell, T1059, credential…" style="flex:1;min-width:0"></div>
+          <div class="toolbar" style="margin-bottom:8px"><span class="search-wrap" style="flex:1;min-width:0">${icon('search')}<input type="search" id="t-q" placeholder="e.g. powershell, T1059, credential…"></span></div>
           <div class="tech-list" id="t-list"><div class="loading">loading techniques</div></div>
         </div>
         <div class="panel" id="t-detail"><div class="empty">Select a technique to see incidents that touch it.</div></div>
@@ -914,12 +1054,12 @@
     const t = topTechnique(a);
     const asset = a.asset;
     drawer.innerHTML = html`
-      <div class="drawer-head">${sourceBadge(a.source)} <span class="id">${a.alert_id}</span> ${sevChip(a.source_severity)}<button class="ghost close" id="drawer-close" title="Close (Esc)">×</button></div>
+      <div class="drawer-head">${sourceBadge(a.source)} <span class="id">${a.alert_id}</span>${copyBtn(a.alert_id, 'alert id')} ${sevChip(a.source_severity)}<button class="icon-btn close" id="drawer-close" title="Close (Esc)" aria-label="Close">${icon('close')}</button></div>
       <div class="drawer-body">
         <dl class="kv">
           <dt>Timestamp</dt><dd class="mono">${fmtTs(a.timestamp)}</dd>
           <dt>Vendor severity</dt><dd>${sevChip(a.source_severity)} <span class="muted">verbatim, not normalised</span></dd>
-          <dt>Asset</dt><dd class="mono">${asset ? html`${asset.asset_id}${asset.hostname ? ` · ${asset.hostname}` : ''}${asset.ip ? ` · ${asset.ip}` : ''}${asset.user_principal ? ` · ${asset.user_principal}` : ''}${asset.criticality != null ? html` <span class="chip neutral">crit ${asset.criticality}/5</span>` : ''}` : '—'}</dd>
+          <dt>Asset</dt><dd class="mono">${asset ? html`${asset.asset_id}${asset.hostname ? ` · ${asset.hostname}` : ''}${asset.ip ? ` · ${asset.ip}` : ''}${asset.user_principal ? ` · ${asset.user_principal}` : ''} <span id="crit-slot" class="loading">criticality</span>` : '—'}</dd>
           <dt>Incident</dt><dd>${a.incident_id ? html`<a href="#/incident/${encodeURIComponent(a.incident_id)}" class="mono">${a.incident_id}</a>` : html`<span class="muted">not correlated</span>`}</dd>
           <dt>Queue position</dt><dd class="queue-pos" id="drawer-pos"><span class="loading">looking up</span></dd>
         </dl>
@@ -936,6 +1076,8 @@
       </div>`;
     drawer.hidden = false;
     $('#drawer-close').addEventListener('click', closeDrawer);
+    bindCopyButtons(drawer);
+    if (asset) loadAssetCriticality(asset.asset_id, drawer);
 
     // Queue position comes from GET /alerts/{id}; fill it in when it arrives.
     api.alert(a.alert_id).then((full) => {
@@ -948,6 +1090,30 @@
 
     const whyBtn = $('#why-btn');
     if (whyBtn) whyBtn.addEventListener('click', () => renderWhy(a, whyBtn));
+  }
+
+  /** Fills in the drawer's criticality slot once the asset inventory (GET /assets) resolves,
+   * and wires the save button that lets an analyst override it. */
+  async function loadAssetCriticality(assetId, drawer) {
+    const slot = $('#crit-slot', drawer);
+    if (!slot) return;
+    const idx = await assetIndex();
+    const rec = idx.get(assetId);
+    if (!slot.isConnected) return; // drawer closed or reopened for another alert while this was in flight
+    slot.classList.remove('loading');
+    if (!rec) { slot.innerHTML = html`<span class="muted">not in asset inventory</span>`.s; return; }
+    slot.innerHTML = html`<span class="crit-edit">crit
+        <select id="crit-select" title="Override this asset's criticality">${[1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${n === rec.criticality ? 'selected' : ''}>${n}</option>`)}</select>/5
+        <button type="button" class="icon-btn" id="crit-save" title="Save criticality override">${icon('check')}</button>
+      </span>`.s;
+    $('#crit-save', slot).addEventListener('click', async () => {
+      const val = Number($('#crit-select', slot).value);
+      try {
+        await api.updateAsset(assetId, val);
+        await assetIndex(true); // refresh the cache so the next drawer open shows the new value
+        toast(`${assetId} criticality set to ${val}/5 — applies on the next pipeline run`);
+      } catch (err) { toast(err.message, true); }
+    });
   }
 
   /** The demo closer: vendor severity vs AEGIS queue position, with the rules and evidence that explain the gap. */

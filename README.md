@@ -91,7 +91,7 @@ ATT&CK Enterprise v19.2 (STIX 2.1)
 Python 3.10+ only. No Node, no database server, no model download.
 
 ```bash
-git clone https://github.com/het-khatusuriya/bob-ai-hackathon-blue-vector.git
+git clone https://github.com/shafik-shaikh/bob-ai-hackathon-blue-vector.git
 cd bob-ai-hackathon-blue-vector
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r src/requirements.txt

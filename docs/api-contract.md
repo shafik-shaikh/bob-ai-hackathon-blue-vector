@@ -66,7 +66,14 @@ BlufReport {
   "assessment": "...", "attack_chain": [TechniqueMapping], "evidence": ["SIEM-0042 (siem, 2026-09-14T09:14Z): ..."],
   "recommended_actions": ["..."], "gaps": ["..."], "generated_by": "watsonx|template"
 }
+
+Disposition { "incident_id": "...", "verdict": "confirmed|false_positive", "note": "..."|null,
+              "analyst": "..."|null, "updated_at": "..." }
 ```
+
+`IncidentSummary` (and therefore `IncidentDetail`) also carries `"disposition": Disposition | null` — the
+analyst's TP/FP verdict, when one has been recorded. It is a pure annotation: nothing in correlation or
+scoring reads it back, so it cannot silently bias the ranking it is meant to audit.
 
 ## Endpoints
 
@@ -84,7 +91,11 @@ BlufReport {
 | `GET /techniques?q=powershell` | `[ { "technique_id", "name", "tactics": [], "incident_count", "alert_count" } ]` | search by id or name |
 | `GET /techniques/{id}` | `{ technique, "incidents": [IncidentSummary], "alert_ids": [] }` | |
 | `GET /assets` | `[ { "asset_id", "hostname", "ip", "subnet", "role", "criticality", "rationale" } ]` | |
+| `PATCH /assets/{id}` | updated asset record | body `{"criticality": 1-5, "rationale"?}`; analyst override, applied by the *next* pipeline run (composite scores are computed once at pipeline time, not live — see docs/architecture.md) |
 | `GET /feeds/raw?lines=40` | `{ "siem": "...", "syslog": "...", "geo": "...", "intel": "..." }` | raw feed excerpts for the "four unreadable feeds" view |
 | `GET /suppression-rules` | `[ { "rule_id", "name", "rationale" } ]` | |
+| `GET /dispositions` | `{ "INC-003": Disposition, ... }` | every recorded analyst verdict, keyed by incident id |
+| `POST /incidents/{id}/disposition` | `Disposition` | body `{"verdict": "confirmed"\|"false_positive", "note"?, "analyst"?}` |
+| `DELETE /incidents/{id}/disposition` | `{"ok": true}` | clears the verdict |
 
 Errors are `{"detail": "..."}` with 404 / 422 status codes.

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -26,7 +26,7 @@ app = FastAPI(
     description="Alert Enrichment, Grouping & Intelligence Scoring - REST surface for the analyst console.",
     version="1.0.0",
 )
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "POST"], allow_headers=["*"])
 
 
 def _wrap(fn, *args, **kwargs):
@@ -73,6 +73,26 @@ def incident_explain(incident_id: str, a: str, b: str):
     return result
 
 
+@app.post("/ingest")
+def ingest(
+    source: str = Query(..., description="Feed source: siem | syslog | geo | intel"),
+    records: list[dict] = Body(..., description="JSON array of raw alert records in the wire format of the chosen source"),
+):
+    """Ingest one or more raw alert records from a given source.
+
+    The request body must be a JSON array of objects in the wire format of
+    the chosen source (see the adapter docstrings for schemas).
+
+    This endpoint persists the alerts to the database but does **not**
+    re-run correlation, scoring, or BLUF generation. After ingesting,
+    call ``python -m src.pipeline.run`` to update the queue.
+    """
+    try:
+        return services.ingest_alerts(records, source)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
 @app.get("/alerts")
 def alerts(
     limit: int = Query(100, ge=1, le=1000),
@@ -104,9 +124,53 @@ def technique(technique_id: str):
     return _wrap(services.technique_detail, technique_id)
 
 
+@app.get("/techniques/{technique_id}/incidents")
+def technique_incidents(technique_id: str):
+    """Return all incidents that contain alerts mapped to a given ATT&CK technique."""
+    detail = _wrap(services.technique_detail, technique_id)
+    return detail["incidents"]
+
+
 @app.get("/assets")
 def assets():
     return services.list_assets()
+
+
+@app.patch("/assets/{asset_id}")
+def update_asset(asset_id: str, body: dict = Body(...)):
+    """Analyst override of asset criticality (1-5). Applies immediately to future
+    pipeline runs; does not retroactively rescore incidents already in the queue."""
+    try:
+        criticality = int(body["criticality"])
+    except (KeyError, TypeError, ValueError):
+        raise HTTPException(status_code=422, detail="body must include integer 'criticality'")
+    try:
+        return _wrap(services.set_asset_criticality, asset_id, criticality, body.get("rationale"))
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/dispositions")
+def dispositions():
+    return services.list_dispositions()
+
+
+@app.post("/incidents/{incident_id}/disposition")
+def set_disposition(incident_id: str, body: dict = Body(...)):
+    """Analyst verdict on an incident: 'confirmed' or 'false_positive'. A pure
+    annotation — it is never read back into correlation or scoring, so it cannot
+    silently bias the ranking it is meant to audit."""
+    verdict = body.get("verdict")
+    try:
+        return _wrap(services.set_incident_disposition, incident_id, verdict, body.get("note"), body.get("analyst"))
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.delete("/incidents/{incident_id}/disposition")
+def clear_disposition(incident_id: str):
+    _wrap(services.clear_incident_disposition, incident_id)
+    return {"ok": True}
 
 
 @app.get("/feeds/raw")

@@ -1,6 +1,1 @@
-PENDING — record before submission using docs/demo-script.md (five minutes, one continuous run).
-
-Replace this entire file with the single public URL of the video, e.g.
-https://youtu.be/<id>   (YouTube, unlisted)  or  https://www.loom.com/share/<id>
-
-Accepted platforms: YouTube (unlisted), Loom, IBM Box, Google Drive ("Anyone with the link can view").
+https://drive.google.com/file/d/1XOPQhGjqQtESgp4QDG8MENzqbdudA6iv/view?usp=sharing

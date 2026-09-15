@@ -102,6 +102,17 @@ CREATE TABLE IF NOT EXISTS pipeline_runs (
     finished_at     TEXT,
     summary         TEXT
 );
+
+-- Analyst dispositions: closes the loop the problem statement names ("the cost of
+-- error is asymmetric"). Purely an analyst annotation — it never feeds back into
+-- scoring or correlation automatically, so it cannot silently bias the ranking.
+CREATE TABLE IF NOT EXISTS dispositions (
+    incident_id     TEXT PRIMARY KEY REFERENCES incidents(incident_id) ON DELETE CASCADE,
+    verdict         TEXT NOT NULL CHECK (verdict IN ('confirmed', 'false_positive')),
+    note            TEXT,
+    analyst         TEXT,
+    updated_at      TEXT NOT NULL
+);
 """
 
 
@@ -335,6 +346,44 @@ def replace_assets(assets: Iterable[dict], conn: sqlite3.Connection) -> int:
 def load_assets(conn: sqlite3.Connection) -> dict[str, dict]:
     rows = conn.execute("SELECT * FROM assets").fetchall()
     return {r["asset_id"]: dict(r) for r in rows}
+
+
+def update_asset_criticality(conn: sqlite3.Connection, asset_id: str, criticality: int, rationale: str | None) -> bool:
+    """Live analyst override. Wiped by the next `replace_assets` (pipeline rebuild from corpus inventory)."""
+    cur = conn.execute(
+        "UPDATE assets SET criticality = ?, rationale = COALESCE(?, rationale) WHERE asset_id = ?",
+        (criticality, rationale, asset_id),
+    )
+    return cur.rowcount > 0
+
+
+# ---------------------------------------------------------------------------
+# Dispositions — analyst TP/FP verdicts
+# ---------------------------------------------------------------------------
+
+
+def set_disposition(conn: sqlite3.Connection, incident_id: str, verdict: str, note: str | None, analyst: str | None) -> dict:
+    now = datetime.now(timezone.utc).isoformat()
+    conn.execute(
+        "INSERT OR REPLACE INTO dispositions(incident_id, verdict, note, analyst, updated_at) VALUES (?, ?, ?, ?, ?)",
+        (incident_id, verdict, note, analyst, now),
+    )
+    return {"incident_id": incident_id, "verdict": verdict, "note": note, "analyst": analyst, "updated_at": now}
+
+
+def clear_disposition(conn: sqlite3.Connection, incident_id: str) -> bool:
+    cur = conn.execute("DELETE FROM dispositions WHERE incident_id = ?", (incident_id,))
+    return cur.rowcount > 0
+
+
+def get_disposition(conn: sqlite3.Connection, incident_id: str) -> dict | None:
+    row = conn.execute("SELECT * FROM dispositions WHERE incident_id = ?", (incident_id,)).fetchone()
+    return dict(row) if row else None
+
+
+def load_dispositions(conn: sqlite3.Connection) -> dict[str, dict]:
+    rows = conn.execute("SELECT * FROM dispositions").fetchall()
+    return {r["incident_id"]: dict(r) for r in rows}
 
 
 def save_bluf(report: BlufReport, conn: sqlite3.Connection) -> None:
