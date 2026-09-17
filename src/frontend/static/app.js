@@ -345,6 +345,10 @@
         return rec;
       },
       clearDisposition: (id) => { summary(id); mockDispositions.delete(id); return { ok: true }; },
+      ingest: (source, records) => ({
+        source, submitted: records.length, ingested: records.length, errors: [],
+        note: 'Mock mode: nothing is persisted. On the live API this would be picked up by the next `python -m src.pipeline.run`.',
+      }),
     };
   })();
 
@@ -375,6 +379,10 @@
     clearDisposition: endpoint(
       (id) => mutate(`/incidents/${encodeURIComponent(id)}/disposition`, 'DELETE'),
       (id) => Mock.clearDisposition(id),
+    ),
+    ingest: endpoint(
+      (source, records) => mutate(`/ingest?source=${encodeURIComponent(source)}`, 'POST', records),
+      (source, records) => Mock.ingest(source, records),
     ),
   };
   window.aegisApi = api; // handy in the devtools console
@@ -418,11 +426,18 @@
   }
 
   const routes = [
+    [/^#\/overview\/?$/, () => viewOverview()],
+    [/^#\/brief\/?$/, () => viewBrief()],
     [/^#\/queue\/?$/, () => viewQueue()],
     [/^#\/incident\/([^/]+)\/?$/, (m) => viewIncident(decodeURIComponent(m[1]))],
     [/^#\/alerts(?:\/([^/]+))?(\/why)?\/?$/, (m) => viewAlerts(m[1] ? decodeURIComponent(m[1]) : null, !!m[2])],
     [/^#\/feeds\/?$/, () => viewFeeds()],
     [/^#\/attack(?:\/([^/]+))?\/?$/, (m) => viewAttack(m[1] ? decodeURIComponent(m[1]) : null)],
+    [/^#\/verdicts\/?$/, () => viewVerdicts()],
+    [/^#\/assets\/?$/, () => viewAssets()],
+    [/^#\/rules\/?$/, () => viewRules()],
+    [/^#\/iocs\/?$/, () => viewIocs()],
+    [/^#\/ingest\/?$/, () => viewIngest()],
   ];
 
   async function route() {
@@ -505,7 +520,7 @@
         <div class="q-card-title">${inc.title}${inc.disposition ? html` <span class="disp-chip mini ${inc.disposition.verdict}">${icon(inc.disposition.verdict === 'confirmed' ? 'check' : 'close')}</span>` : ''}</div>
         <span class="q-pill" data-tier="${tier}">${Math.round(sc.composite)}</span>
       </div>
-      <div class="rationale">${inc.rationale}</div>
+      <div class="rationale" title="${inc.rationale}">${inc.rationale}</div>
       <div class="segbar" title="confidence ${pct(sc.correlation_confidence)}% · asset ${pct(sc.asset_criticality)}% · tactic ${pct(sc.tactic_severity)}% · FP ${pct(sc.false_positive_likelihood)}%">
         <span class="seg"><i style="width:${pct(sc.correlation_confidence)}%"></i></span>
         <span class="seg"><i style="width:${pct(sc.asset_criticality)}%"></i></span>
@@ -552,7 +567,7 @@
           <span class="bar"><i style="width:${pct(sc[key])}%"></i></span>
           <span class="val">${(sc[key] ?? 0).toFixed(2)}</span>
         </div>
-        ${explanation && explanation[key] ? html`<p class="why">${explanation[key]}</p>` : ''}
+        ${explanation && explanation[key] ? html`<p class="why" title="${explanation[key]}">${explanation[key]}</p>` : ''}
       </div>`)}
     </div>
     <div class="rules">Suppression rules fired:
@@ -566,13 +581,236 @@
   // 5. Views
   // ===========================================================================
 
+  /** One row of a horizontal bar chart: label, bar scaled to `max`, raw count.
+   * `nav` (optional) makes the row clickable — an object {kind, key} consumed
+   * by viewOverview's delegated click handler to jump into a filtered view. */
+  const hbar = (label, count, max, color, nav) => html`<div class="hbar-row${nav ? ' clickable' : ''}" data-kind="${nav ? nav.kind : ''}" data-key="${nav ? nav.key : ''}">
+    <span class="hbar-lbl">${label}</span>
+    <span class="hbar-track"><i style="width:${max ? Math.max(2, Math.round((count / max) * 100)) : 0}%;background:${color || 'var(--accent)'}"></i></span>
+    <span class="hbar-val">${count}</span>
+  </div>`;
+
+  // --- Overview (commander rollup) --------------------------------------------
+  /** A one-screen situational summary — priority mix, source volume, ATT&CK tactic
+   * spread, and top at-risk assets — built entirely from data the other views
+   * already fetch. No new endpoints; this is a client-side rollup for commanders
+   * who want the picture in seconds, not a queue to scroll. */
+  const OV_ICONS = {
+    queue: '<path d="M3 4h18M3 10h18M3 16h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    warn: '<path d="M12 3 2 20h20L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    check: '<path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    clock: '<circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+  };
+  const ovIcon = (name, cls) => raw(`<svg class="nicon ${cls || ''}" viewBox="0 0 24 24" fill="none" aria-hidden="true">${OV_ICONS[name] || ''}</svg>`);
+
+  async function viewOverview() {
+    const view = $('#view');
+    view.innerHTML = html`
+      <div class="view-title"><h1>Overview</h1><span class="sub">situational summary for commanders — priority mix, sources, ATT&amp;CK spread, at-risk assets</span></div>
+      <div class="quick-actions">
+        <a href="#/brief">${ovIcon('queue')} Commander's Brief</a>
+        <a href="#/iocs">${ovIcon('warn')} IOC Watchlist</a>
+        <a href="#/ingest">${ovIcon('clock')} Ingest Feed</a>
+      </div>
+      <div id="ov-top"></div>
+      <div id="ov-kpis" class="ov-kpis"><div class="loading">loading overview</div></div>
+      <div class="ov-grid" id="ov-grid" hidden>
+        <div class="panel">
+          <div class="panel-head"><h2>Incidents by priority tier</h2><span class="hint">composite score band</span></div>
+          <div id="ov-tiers"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Alert volume by source</h2><span class="hint">click to filter alerts</span></div>
+          <div id="ov-sources"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>ATT&amp;CK tactics observed</h2><span class="hint">click to filter the queue</span></div>
+          <div id="ov-tactics"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Top assets at risk</h2><span class="hint">click to filter alerts</span></div>
+          <div id="ov-assets"></div>
+        </div>
+      </div>`;
+
+    try {
+      const [stats, incidents, dispositions] = await Promise.all([
+        api.stats(),
+        api.incidents({ limit: 500, min_alerts: 1 }),
+        api.dispositions().catch(() => ({})),
+      ]);
+
+      const dispValues = Object.values(dispositions || {});
+      const confirmed = dispValues.filter((d) => d.verdict === 'confirmed').length;
+      const fp = dispValues.filter((d) => d.verdict === 'false_positive').length;
+      const tierCounts = { critical: 0, high: 0, medium: 0, low: 0 };
+      incidents.forEach((i) => { tierCounts[scoreTier(i.score.composite)]++; });
+      const criticalHigh = tierCounts.critical + tierCounts.high;
+
+      const run = stats.last_run || {};
+      const runTs = run.finished_at || run.completed_at || run.started_at || run.timestamp || null;
+
+      // -- hero: the single highest-priority incident right now ---------------
+      const top1 = incidents.slice().sort((a, b) => a.rank - b.rank)[0];
+      $('#ov-top').innerHTML = top1 ? html`
+        <a class="ov-hero" href="#/incident/${encodeURIComponent(top1.incident_id)}">
+          <span class="q-pill" data-tier="${scoreTier(top1.score.composite)}">${Math.round(top1.score.composite)}</span>
+          <div class="ov-hero-main">
+            <div class="ov-hero-lbl">Highest priority right now — rank #${top1.rank}</div>
+            <div class="ov-hero-title">${top1.title}</div>
+            <div class="ov-hero-sub">${top1.rationale}</div>
+          </div>
+          <span class="ov-hero-cta">Open incident ${icon('chevRight')}</span>
+        </a>` : '';
+
+      $('#ov-kpis').innerHTML = html`
+        <div class="ov-kpi">${ovIcon('queue', 'kpi-icon')}<b>${incidents.length}</b><span>incidents in queue</span></div>
+        <div class="ov-kpi warn">${ovIcon('warn', 'kpi-icon')}<b>${criticalHigh}</b><span>critical + high priority</span></div>
+        <div class="ov-kpi ok">${ovIcon('check', 'kpi-icon')}<b>${confirmed}</b><span>confirmed intrusions</span></div>
+        <div class="ov-kpi muted-kpi">${ovIcon('x', 'kpi-icon')}<b>${fp}</b><span>marked false positive</span></div>
+        <div class="ov-kpi">${ovIcon('clock', 'kpi-icon')}<b>${runTs ? fmtTs(runTs) : 'never'}</b><span>pipeline last run</span></div>`;
+
+      // -- tier donut -----------------------------------------------------------
+      const TIER_COLOR = { critical: 'var(--red)', high: 'var(--orange)', medium: 'var(--yellow)', low: 'var(--muted-2)' };
+      const tierOrder = ['critical', 'high', 'medium', 'low'];
+      const total = Math.max(1, incidents.length);
+      let acc = 0;
+      const stops = tierOrder.map((t) => {
+        const from = (acc / total) * 100; acc += tierCounts[t];
+        const to = (acc / total) * 100;
+        return `${TIER_COLOR[t]} ${from}% ${to}%`;
+      }).join(', ');
+      $('#ov-tiers').innerHTML = html`
+        <div class="donut-row">
+          <div class="donut" style="background:conic-gradient(${raw(stops)})"><div class="donut-hole"><b>${incidents.length}</b><span>total</span></div></div>
+          <div class="donut-legend">${tierOrder.map((t) => html`
+            <div class="donut-legend-item"><i style="background:${TIER_COLOR[t]}"></i>${t[0].toUpperCase() + t.slice(1)}<b>${tierCounts[t]}</b></div>`)}
+          </div>
+        </div>`;
+
+      const by = stats.alerts_by_source || {};
+      const srcMax = Math.max(1, ...SOURCE_ORDER.map((s) => by[s] || 0));
+      $('#ov-sources').innerHTML = SOURCE_ORDER.filter((s) => by[s] != null)
+        .map((s) => hbar(SOURCES[s].label, by[s], srcMax, SOURCES[s].color, { kind: 'source', key: s })).join('');
+
+      const tacticCounts = new Map(TACTICS.map(([id]) => [id, 0]));
+      incidents.forEach((i) => (i.tactics || []).forEach((t) => { if (tacticCounts.has(t)) tacticCounts.set(t, tacticCounts.get(t) + 1); }));
+      const tacticMax = Math.max(1, ...tacticCounts.values());
+      $('#ov-tactics').innerHTML = TACTICS.filter(([id]) => tacticCounts.get(id) > 0).length
+        ? TACTICS.filter(([id]) => tacticCounts.get(id) > 0).map(([id, name]) => hbar(name, tacticCounts.get(id), tacticMax, 'var(--accent)', { kind: 'tactic', key: id })).join('')
+        : html`<div class="empty">No ATT&amp;CK mappings yet.</div>`.s;
+
+      const assetCounts = new Map();
+      incidents.forEach((i) => (i.assets || []).forEach((a) => assetCounts.set(a, (assetCounts.get(a) || 0) + 1)));
+      const topAssets = [...assetCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+      const assetMax = Math.max(1, ...topAssets.map(([, n]) => n));
+      $('#ov-assets').innerHTML = topAssets.length
+        ? topAssets.map(([a, n]) => hbar(a, n, assetMax, 'var(--accent-2)', { kind: 'asset', key: a })).join('')
+        : html`<div class="empty">No assets involved yet.</div>`.s;
+
+      $$('.hbar-row.clickable', view).forEach((row) => {
+        row.addEventListener('click', () => {
+          const { kind, key } = row.dataset;
+          if (kind === 'source') { alertsState.source = key; alertsState.q = ''; alertsState.offset = 0; location.hash = '#/alerts'; }
+          else if (kind === 'tactic') { queueState.tactic = key; queueState.q = ''; queueState.bucket = 'all'; location.hash = '#/queue'; }
+          else if (kind === 'asset') { alertsState.q = key; alertsState.source = ''; alertsState.offset = 0; location.hash = '#/alerts'; }
+        });
+      });
+
+      $('#ov-grid').hidden = false;
+    } catch (err) {
+      $('#ov-kpis').innerHTML = html`<div class="error">${err.message}</div>`;
+    }
+  }
+
+  // --- Commander's daily brief (multi-incident BLUF roll-up) ------------------
+  /** The problem statement's fourth pillar taken to its logical end: BLUF is
+   * built per incident, but a commander does not read the queue one incident at
+   * a time — they want the top N rolled into a single situation report. This
+   * calls the existing GET /incidents/{id}/bluf for each of the top-ranked
+   * genuine-threat incidents and concatenates them into one document. */
+  async function viewBrief() {
+    const view = $('#view');
+    view.innerHTML = html`
+      <div class="view-title"><h1>Commander's Brief</h1><span class="sub">rolled-up BLUF situation report — top prioritised, non-suppressed incidents</span></div>
+      <div class="panel bluf-panel" id="brief-panel"><div class="loading">assembling situation report from the top incidents</div></div>`;
+
+    const panel = $('#brief-panel');
+    try {
+      const candidates = await api.incidents({ limit: 40, min_alerts: 2 });
+      const top = candidates.filter((i) => !isFlagged(i)).sort((a, b) => a.rank - b.rank).slice(0, 8);
+      if (!top.length) { panel.innerHTML = html`<div class="empty">No genuine-threat incidents to brief.</div>`; return; }
+
+      const blufs = await Promise.all(top.map((inc) => api.bluf(inc.incident_id).catch(() => null)));
+      const now = new Date();
+      const sections = top.map((inc, i) => ({ inc, bluf: blufs[i] })).filter((s) => s.bluf);
+
+      const chainStr = (b) => (b.attack_chain || []).map((t) => `${t.technique_id} ${t.technique_name}`).join(' → ');
+      const list = (items) => html`<ul>${(items || []).map((x) => html`<li>${x}</li>`)}</ul>`;
+
+      panel.innerHTML = html`
+        <div class="panel-head"><h2>Commander's Brief — ${fmtTs(now.toISOString())}</h2>
+          <span class="btn-row">
+            <button id="brief-copy" class="ghost">Copy to clipboard</button>
+            <button id="brief-download" class="ghost">Download .txt</button>
+            <button id="brief-print" class="ghost">Print / save PDF</button>
+          </span>
+        </div>
+        <div class="rationale-line">${sections.length} incident${sections.length === 1 ? '' : 's'} briefed, ranked by consequence · flagged (suppressed) incidents excluded</div>
+        ${sections.map(({ inc, bluf: b }) => html`
+          <div class="brief-section">
+            <div class="brief-section-head">
+              <a href="#/incident/${encodeURIComponent(inc.incident_id)}" class="brief-title">#${inc.rank} · ${inc.title}</a>
+              <span class="q-pill" data-tier="${scoreTier(inc.score.composite)}">${Math.round(inc.score.composite)}</span>
+            </div>
+            <div class="bluf">
+              <div class="bluf-row"><span class="bluf-key">BOTTOM LINE:</span><span class="bluf-val">${b.bottom_line}</span></div>
+              <div class="bluf-row"><span class="bluf-key">CONFIDENCE:</span><span class="bluf-val"><span class="conf">${b.confidence}</span> — ${b.confidence_rationale}</span></div>
+              <div class="bluf-row"><span class="bluf-key">ATT&amp;CK:</span><span class="bluf-val">${chainStr(b) || '—'}</span></div>
+              <div class="bluf-row"><span class="bluf-key">RECOMMENDED:</span><span class="bluf-val">${list(b.recommended_actions)}</span></div>
+            </div>
+          </div>`)}`;
+
+      const plain = [
+        `AEGIS COMMANDER'S BRIEF — ${fmtTs(now.toISOString())}`,
+        `${sections.length} incidents, ranked by consequence, suppressed incidents excluded`,
+        '',
+        ...sections.flatMap(({ inc, bluf: b }) => [
+          `#${inc.rank} ${inc.title} (${inc.incident_id}) — composite ${Math.round(inc.score.composite)}/100`,
+          `  BOTTOM LINE: ${b.bottom_line}`,
+          `  CONFIDENCE:  ${b.confidence} — ${b.confidence_rationale}`,
+          `  ATT&CK:      ${chainStr(b) || '—'}`,
+          `  RECOMMENDED: ${(b.recommended_actions || []).map((x) => `\n    - ${x}`).join('')}`,
+          '',
+        ]),
+      ].join('\n');
+      $('#brief-copy').addEventListener('click', () => copyText(plain));
+      $('#brief-download').addEventListener('click', () => downloadText(`aegis-commander-brief-${now.toISOString().slice(0, 10)}.txt`, plain));
+      $('#brief-print').addEventListener('click', () => { document.body.classList.add('printing-bluf'); window.print(); });
+    } catch (err) {
+      panel.innerHTML = html`<div class="error">${err.message}</div>`;
+    }
+  }
+
   // --- Triage queue ---------------------------------------------------------
-  const queueState = { tactic: '', source: '', q: '', hideSingles: true, sort: 'score' };
+  const queueState = { tactic: '', source: '', q: '', hideSingles: true, sort: 'score', bucket: 'all' };
+
+  /** An incident is "flagged" when a curated suppression rule fired on it — the
+   * documented false-positive-likelihood mechanism, not a guess. This is the
+   * literal "separate genuine threats from false positives" split from the
+   * problem statement, made a first-class filter instead of a buried score factor. */
+  const isFlagged = (inc) => !!(inc.score.suppression_rules_fired && inc.score.suppression_rules_fired.length);
 
   async function viewQueue() {
     const view = $('#view');
     view.innerHTML = html`
       <div class="view-title"><h1>Triage queue</h1><span class="sub">incidents ranked by consequence, not vendor severity</span></div>
+      <div class="seg-row" id="q-bucket">
+        <button type="button" class="seg-btn ${queueState.bucket === 'all' ? 'active' : ''}" data-bucket="all">All incidents</button>
+        <button type="button" class="seg-btn genuine ${queueState.bucket === 'genuine' ? 'active' : ''}" data-bucket="genuine">Genuine threats</button>
+        <button type="button" class="seg-btn flagged ${queueState.bucket === 'flagged' ? 'active' : ''}" data-bucket="flagged">Likely false positive</button>
+      </div>
       <div class="panel">
         <div class="toolbar">
           <span class="search-wrap">${icon('search')}<input type="search" id="q-search" placeholder="Search title, asset, technique…" value="${queueState.q}"></span>
@@ -585,22 +823,31 @@
             <option value="first_seen" ${queueState.sort === 'first_seen' ? 'selected' : ''}>Sort: first seen</option>
           </select>
           <span class="count" id="q-count"></span>
+          <button type="button" class="ghost" id="q-export-csv">Export CSV</button>
+          <button type="button" class="ghost" id="q-export-xls">Export Excel</button>
         </div>
         <div id="q-table"><div class="loading">loading queue</div></div>
       </div>`;
 
+    let lastSorted = [];
     const refresh = async () => {
       const table = $('#q-table');
       try {
+        // Flagged/genuine incidents are not evenly spread across rank, so a
+        // bucket filter needs the full population, not just the top page.
+        const limit = queueState.bucket === 'all' ? 50 : 500;
         const [incidents, names] = await Promise.all([
-          api.incidents({ limit: 50, min_alerts: queueState.hideSingles ? 2 : 1, tactic: queueState.tactic, source: queueState.source, q: queueState.q }),
+          api.incidents({ limit, min_alerts: queueState.hideSingles ? 2 : 1, tactic: queueState.tactic, source: queueState.source, q: queueState.q }),
           ruleNames(),
         ]);
-        const sorted = incidents.slice().sort((a, b) => {
+        const bucketed = queueState.bucket === 'all' ? incidents
+          : incidents.filter((i) => (queueState.bucket === 'flagged') === isFlagged(i));
+        const sorted = bucketed.slice().sort((a, b) => {
           if (queueState.sort === 'alerts') return b.alert_count - a.alert_count || a.rank - b.rank;
           if (queueState.sort === 'first_seen') return String(a.first_seen).localeCompare(String(b.first_seen));
           return a.rank - b.rank;
         });
+        lastSorted = sorted;
         table.innerHTML = queueTable(sorted, names);
         bindQueueRows(table);
         $('#q-count').textContent = `${sorted.length} incident${sorted.length === 1 ? '' : 's'}`;
@@ -609,12 +856,42 @@
       }
     };
 
+    $$('#q-bucket .seg-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        queueState.bucket = btn.dataset.bucket;
+        $$('#q-bucket .seg-btn').forEach((b) => b.classList.toggle('active', b === btn));
+        refresh();
+      });
+    });
+
     let debounce;
     $('#q-search').addEventListener('input', (e) => { queueState.q = e.target.value.trim(); clearTimeout(debounce); debounce = setTimeout(refresh, 180); });
     $('#q-tactic').addEventListener('change', (e) => { queueState.tactic = e.target.value; refresh(); });
     $('#q-source').addEventListener('change', (e) => { queueState.source = e.target.value; refresh(); });
     $('#q-hide').addEventListener('change', (e) => { queueState.hideSingles = e.target.checked; refresh(); });
     $('#q-sort').addEventListener('change', (e) => { queueState.sort = e.target.value; refresh(); });
+    const queueExportRows = () => {
+      const cols = ['Rank', 'Incident', 'Title', 'Composite', 'Alerts', 'Top technique', 'Deepest tactic', 'Assets', 'Sources'];
+      const rows = lastSorted.map((inc) => [
+        inc.rank, inc.incident_id, inc.title, Math.round(inc.score.composite), inc.alert_count,
+        inc.top_technique ? `${inc.top_technique.technique_id} ${inc.top_technique.technique_name}` : '',
+        tacticName(deepestTactic(inc.tactics)) || '', (inc.assets || []).join('; '),
+        Object.entries(inc.sources || {}).map(([k, v]) => `${k}:${v}`).join('; '),
+      ]);
+      return { cols, rows };
+    };
+    $('#q-export-csv').addEventListener('click', () => {
+      if (!lastSorted.length) { toast('Nothing to export', true); return; }
+      const { cols, rows } = queueExportRows();
+      downloadCsv(`aegis-triage-queue-${new Date().toISOString().slice(0, 10)}.csv`, cols, rows);
+      toast(`Exported ${lastSorted.length} incidents to CSV`);
+    });
+    $('#q-export-xls').addEventListener('click', () => {
+      if (!lastSorted.length) { toast('Nothing to export', true); return; }
+      const { cols, rows } = queueExportRows();
+      downloadExcel(`aegis-triage-queue-${new Date().toISOString().slice(0, 10)}.xls`, cols, rows);
+      toast(`Exported ${lastSorted.length} incidents to Excel`);
+    });
     await refresh();
   }
 
@@ -867,23 +1144,43 @@
         <span class="btn-row">
           <button id="bluf-copy" class="ghost">Copy to clipboard</button>
           <button id="bluf-download" class="ghost">Download .txt</button>
+          <button id="bluf-print" class="ghost">Print / save PDF</button>
         </span>
       </div>
       <div class="bluf">${rows.map(([k, v]) => html`<div class="bluf-row"><span class="bluf-key">${k}:</span><span class="bluf-val">${v}</span></div>`)}</div>
       <div class="provenance">Generated by <span class="gen ${b.generated_by}">${b.generated_by}</span> from <b>${inc.alert_count}</b> alerts across <b>${nSources}</b> source${nSources === 1 ? '' : 's'} · ${inc.incident_id}</div>`;
     $('#bluf-copy').addEventListener('click', () => copyText(plain));
     $('#bluf-download').addEventListener('click', () => downloadText(`${inc.incident_id}-bluf.txt`, plain));
+    $('#bluf-print').addEventListener('click', () => { document.body.classList.add('printing-bluf'); window.print(); });
   }
 
-  /** Saves a text blob to disk via a throwaway object URL — used for the BLUF commander brief. */
-  function downloadText(filename, text) {
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  /** Saves a blob to disk via a throwaway object URL. */
+  function downloadBlob(filename, content, mime) {
+    const blob = new Blob([content], { type: mime });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url; a.download = filename;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
+  const downloadText = (filename, text) => downloadBlob(filename, text, 'text/plain;charset=utf-8');
+
+  const csvEscape = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  /** headers: string[]; rows: array of arrays (raw cell values, escaped here). */
+  const toCsv = (headers, rows) => [headers, ...rows].map((r) => r.map(csvEscape).join(',')).join('\n');
+  const downloadCsv = (filename, headers, rows) => downloadBlob(filename, toCsv(headers, rows), 'text/csv;charset=utf-8');
+
+  /** Spreadsheet export with no external library: an HTML `<table>` saved with a
+   * .xls extension. Excel, Google Sheets and Numbers all open this natively —
+   * the same zero-dependency trick the rest of the console uses to stay
+   * offline and build-step-free (see the file header). */
+  const downloadExcel = (filename, headers, rows) => {
+    const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const html = `<html><head><meta charset="utf-8"></head><body><table border="1">`
+      + `<thead><tr>${headers.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead>`
+      + `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></body></html>`;
+    downloadBlob(filename, html, 'application/vnd.ms-excel;charset=utf-8');
+  };
 
   async function copyText(text, announce = true) {
     try {
@@ -915,6 +1212,8 @@
           <input type="text" id="a-sev" list="sev-list" placeholder="Vendor severity" value="${alertsState.severity}" style="min-width:150px">
           <datalist id="sev-list">${KNOWN_SEVERITIES.map((s) => html`<option value="${s}">`)}</datalist>
           <span class="count" id="a-count"></span>
+          <button type="button" class="ghost" id="a-export-csv">Export CSV</button>
+          <button type="button" class="ghost" id="a-export-xls">Export Excel</button>
         </div>
         <div id="a-table" class="table-scroll"><div class="loading">loading alerts</div></div>
         <div class="pager" id="a-pager"></div>
@@ -966,6 +1265,38 @@
     $('#a-q').addEventListener('input', (e) => { alertsState.q = e.target.value.trim(); onFilter(); });
     $('#a-sev').addEventListener('input', (e) => { alertsState.severity = e.target.value.trim(); onFilter(); });
     $('#a-source').addEventListener('change', (e) => { alertsState.source = e.target.value; onFilter(); });
+
+    /** Exports every alert matching the current filters, not just the visible page. */
+    const exportAlerts = async () => {
+      try {
+        const r = await api.alerts({ limit: 1000, source: alertsState.source, severity: alertsState.severity, q: alertsState.q });
+        const items = r.items || [];
+        if (!items.length) { toast('Nothing to export', true); return null; }
+        const cols = ['Time', 'Alert', 'Source', 'Vendor severity', 'Asset', 'Top technique', 'Summary', 'Incident'];
+        const rows = items.map((a) => [
+          fmtTs(a.timestamp), a.alert_id, a.source, a.source_severity || '', a.asset ? a.asset.asset_id : '',
+          (() => { const t = topTechnique(a); return t ? `${t.technique_id} ${t.technique_name}` : ''; })(),
+          truncate(a.raw_text, 200), a.incident_id || '',
+        ]);
+        return { cols, rows, count: items.length };
+      } catch (err) {
+        toast(err.message, true);
+        return null;
+      }
+    };
+    $('#a-export-csv').addEventListener('click', async () => {
+      const data = await exportAlerts();
+      if (!data) return;
+      downloadCsv(`aegis-alerts-${new Date().toISOString().slice(0, 10)}.csv`, data.cols, data.rows);
+      toast(`Exported ${data.count} alerts to CSV`);
+    });
+    $('#a-export-xls').addEventListener('click', async () => {
+      const data = await exportAlerts();
+      if (!data) return;
+      downloadExcel(`aegis-alerts-${new Date().toISOString().slice(0, 10)}.xls`, data.cols, data.rows);
+      toast(`Exported ${data.count} alerts to Excel`);
+    });
+
     await refresh();
 
     if (inspectId) {
@@ -1050,6 +1381,332 @@
         detail.innerHTML = html`<div class="error">${err.message}</div>`;
       }
     }
+  }
+
+  // --- Verdicts (analyst audit log) ------------------------------------------
+  /** Every analyst TP/FP call across all incidents — the audit trail behind the
+   * disposition buttons on the incident page. Read-only, sourced from GET /dispositions. */
+  async function viewVerdicts() {
+    const view = $('#view');
+    view.innerHTML = html`
+      <div class="view-title"><h1>Verdicts</h1><span class="sub">every analyst TP / FP call, most recent first</span></div>
+      <div id="v-summary"></div>
+      <div class="panel"><div id="v-list"><div class="loading">loading verdicts</div></div></div>`;
+
+    const list = $('#v-list');
+    try {
+      const [dispositions, incidents] = await Promise.all([
+        api.dispositions(),
+        api.incidents({ limit: 500, min_alerts: 1 }),
+      ]);
+      const incidentById = new Map(incidents.map((i) => [i.incident_id, i]));
+      const entries = Object.values(dispositions || {}).sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at)));
+
+      const confirmed = entries.filter((d) => d.verdict === 'confirmed').length;
+      const fp = entries.filter((d) => d.verdict === 'false_positive').length;
+      $('#v-summary').innerHTML = html`<div class="v-summary">
+        <div class="v-stat"><b>${entries.length}</b> verdict${entries.length === 1 ? '' : 's'} recorded</div>
+        <div class="v-stat confirmed"><b>${confirmed}</b> confirmed intrusion${confirmed === 1 ? '' : 's'}</div>
+        <div class="v-stat fp"><b>${fp}</b> false positive${fp === 1 ? '' : 's'}</div>
+        <span class="btn-row" style="margin-left:auto">
+          <button type="button" class="ghost" id="v-export-csv">Export CSV</button>
+          <button type="button" class="ghost" id="v-export-xls">Export Excel</button>
+        </span>
+      </div>`;
+
+      const exportCols = ['Verdict', 'Incident', 'Title', 'Note', 'Analyst', 'Updated at'];
+      const exportRows = entries.map((d) => [
+        d.verdict, d.incident_id, (incidentById.get(d.incident_id) || {}).title || '', d.note || '', d.analyst || '', fmtTs(d.updated_at),
+      ]);
+      $('#v-export-csv').addEventListener('click', () => downloadCsv(`aegis-verdicts-${new Date().toISOString().slice(0, 10)}.csv`, exportCols, exportRows));
+      $('#v-export-xls').addEventListener('click', () => downloadExcel(`aegis-verdicts-${new Date().toISOString().slice(0, 10)}.xls`, exportCols, exportRows));
+
+      if (!entries.length) {
+        list.innerHTML = html`<div class="empty">No analyst verdicts yet — confirm or dismiss an incident from its detail page.</div>`;
+        return;
+      }
+      list.innerHTML = html`<div class="v-list">${entries.map((d) => {
+        const inc = incidentById.get(d.incident_id);
+        return html`<div class="v-row">
+          <span class="disp-chip ${d.verdict}">${icon(d.verdict === 'confirmed' ? 'check' : 'close')} ${d.verdict === 'confirmed' ? 'Confirmed' : 'False positive'}</span>
+          <div class="v-main">
+            <a href="#/incident/${encodeURIComponent(d.incident_id)}" class="v-title">${inc ? inc.title : d.incident_id}</a>
+            ${d.note ? html`<div class="v-note">${d.note}</div>` : ''}
+          </div>
+          <span class="v-meta mono">${d.analyst || 'analyst'} · ${fmtTs(d.updated_at)}</span>
+        </div>`;
+      })}</div>`;
+    } catch (err) {
+      list.innerHTML = html`<div class="error">${err.message}</div>`;
+    }
+  }
+
+  // --- Assets (criticality inventory) -----------------------------------------
+  /** Full asset inventory — the criticality weights that drive the "asset criticality"
+   * score factor. Editable here directly, same PATCH /assets/{id} the drawer uses. */
+  async function viewAssets() {
+    const view = $('#view');
+    view.innerHTML = html`
+      <div class="view-title"><h1>Assets</h1><span class="sub">criticality inventory · edits apply to the next pipeline run, not retroactively</span></div>
+      <div class="panel">
+        <div class="toolbar">
+          <span class="count" id="as-count"></span>
+          <button type="button" class="ghost" id="as-export-csv">Export CSV</button>
+          <button type="button" class="ghost" id="as-export-xls">Export Excel</button>
+        </div>
+        <div id="as-list"><div class="loading">loading assets</div></div>
+      </div>`;
+    const list = $('#as-list');
+    try {
+      const assets = await api.assets();
+      $('#as-count').textContent = `${assets.length} asset${assets.length === 1 ? '' : 's'}`;
+      const exportCols = ['Asset', 'Criticality', 'Role', 'Hostname', 'IP', 'Subnet', 'Rationale'];
+      const exportRows = assets.map((a) => [a.asset_id, a.criticality, a.role || '', a.hostname || '', a.ip || '', a.subnet || '', a.rationale || '']);
+      $('#as-export-csv').addEventListener('click', () => downloadCsv(`aegis-assets-${new Date().toISOString().slice(0, 10)}.csv`, exportCols, exportRows));
+      $('#as-export-xls').addEventListener('click', () => downloadExcel(`aegis-assets-${new Date().toISOString().slice(0, 10)}.xls`, exportCols, exportRows));
+      if (!assets.length) { list.innerHTML = html`<div class="empty">No assets in inventory.</div>`; return; }
+      list.innerHTML = html`<div class="as-list">${assets.map((a) => html`<div class="as-row" data-asset="${a.asset_id}">
+        <span class="as-crit" data-level="${a.criticality}">${a.criticality}</span>
+        <div class="as-main">
+          <div class="as-line1"><span class="id">${a.asset_id}</span><span class="muted">${a.role || ''}</span></div>
+          <div class="as-line2 mono muted">${[a.hostname, a.ip, a.subnet].filter(Boolean).join(' · ')}</div>
+          <div class="as-rationale">${a.rationale || ''}</div>
+        </div>
+        <span class="crit-edit">
+          <select data-crit-select>${[1, 2, 3, 4, 5].map((n) => html`<option value="${n}" ${n === a.criticality ? 'selected' : ''}>${n}</option>`)}</select>/5
+          <button type="button" class="icon-btn" data-crit-save title="Save criticality override">${icon('check')}</button>
+        </span>
+      </div>`)}</div>`;
+      $$('.as-row', list).forEach((row) => {
+        const id = row.dataset.asset;
+        $('[data-crit-save]', row).addEventListener('click', async () => {
+          const val = Number($('[data-crit-select]', row).value);
+          try {
+            await api.updateAsset(id, val);
+            await assetIndex(true);
+            row.querySelector('.as-crit').textContent = val;
+            row.querySelector('.as-crit').dataset.level = val;
+            toast(`${id} criticality set to ${val}/5`);
+          } catch (err) { toast(err.message, true); }
+        });
+      });
+    } catch (err) {
+      list.innerHTML = html`<div class="error">${err.message}</div>`;
+    }
+  }
+
+  // --- Suppression rules (reference) ------------------------------------------
+  /** The false-positive-likelihood rule catalogue — read-only reference for what
+   * can drag a composite score down, and why. */
+  async function viewRules() {
+    const view = $('#view');
+    view.innerHTML = html`
+      <div class="view-title"><h1>Suppression rules</h1><span class="sub">what feeds the false-positive-likelihood factor, and why</span></div>
+      <div class="panel"><div id="r-list"><div class="loading">loading rules</div></div></div>`;
+    const list = $('#r-list');
+    try {
+      const rules = await api.suppressionRules();
+      if (!rules.length) { list.innerHTML = html`<div class="empty">No suppression rules configured.</div>`; return; }
+      list.innerHTML = html`<div class="r-list">${rules.map((r) => html`<div class="rule-card">
+        <div class="rname">${r.name}<span class="rid">${r.rule_id}</span></div>
+        <div class="rrat">${r.rationale}</div>
+      </div>`)}</div>`;
+    } catch (err) {
+      list.innerHTML = html`<div class="error">${err.message}</div>`;
+    }
+  }
+
+  // --- IOC watchlist (cross-alert indicator search) ---------------------------
+  /** Every indicator extracted across every alert, aggregated by (type, value) with
+   * a reappearance count and the alerts it showed up in. Answers the analyst
+   * question "have I seen this IP/hash/domain anywhere else?" without hand-grepping
+   * the raw feeds. Built client-side from GET /alerts — no new endpoint needed. */
+  const iocState = { q: '', sort: 'count' };
+
+  async function viewIocs() {
+    const view = $('#view');
+    view.innerHTML = html`
+      <div class="view-title"><h1>IOC Watchlist</h1><span class="sub">every indicator seen across all alerts, ranked by reappearance</span></div>
+      <div class="panel">
+        <div class="toolbar">
+          <span class="search-wrap">${icon('search')}<input type="search" id="ioc-q" placeholder="Search IP, hash, domain, user, host…"></span>
+          <select id="ioc-sort">
+            <option value="count">Sort: reappearances</option>
+            <option value="value">Sort: value (A–Z)</option>
+            <option value="type">Sort: type</option>
+          </select>
+          <span class="count" id="ioc-count"></span>
+          <button type="button" class="ghost" id="ioc-export-csv">Export CSV</button>
+          <button type="button" class="ghost" id="ioc-export-xls">Export Excel</button>
+        </div>
+        <div id="ioc-list"><div class="loading">loading indicators from all alerts</div></div>
+      </div>`;
+
+    const list = $('#ioc-list');
+    let rows = [];
+    let lastFiltered = [];
+    try {
+      const r = await api.alerts({ limit: 1000 });
+      const items = r.items || [];
+      const byKey = new Map();
+      for (const a of items) {
+        for (const ind of a.indicators || []) {
+          const key = `${ind.type}|${ind.value}`;
+          if (!byKey.has(key)) byKey.set(key, { type: ind.type, value: ind.value, count: 0, alerts: [] });
+          const row = byKey.get(key);
+          row.count++;
+          row.alerts.push({ id: a.alert_id, source: a.source, incident_id: a.incident_id });
+        }
+      }
+      rows = [...byKey.values()];
+    } catch (err) {
+      list.innerHTML = html`<div class="error">${err.message}</div>`;
+      return;
+    }
+
+    const render = () => {
+      const q = iocState.q.toLowerCase();
+      let filtered = q ? rows.filter((r) => r.value.toLowerCase().includes(q) || r.type.toLowerCase().includes(q)) : rows;
+      filtered = filtered.slice().sort((a, b) => {
+        if (iocState.sort === 'value') return a.value.localeCompare(b.value);
+        if (iocState.sort === 'type') return a.type.localeCompare(b.type) || b.count - a.count;
+        return b.count - a.count;
+      });
+      lastFiltered = filtered;
+      $('#ioc-count').textContent = `${filtered.length} of ${rows.length} indicators`;
+      list.innerHTML = filtered.length ? html`<div class="ioc-list">${filtered.slice(0, 300).map((r) => {
+        const shown = r.alerts.slice(0, 4);
+        const rest = r.alerts.length - shown.length;
+        return html`<div class="ioc-row">
+          <span class="chip neutral ioc-type">${r.type}</span>
+          <span class="ioc-value mono">${r.value}</span>
+          <span class="ioc-count" data-hot="${r.count >= 3 ? '1' : '0'}">${r.count}×</span>
+          <div class="ioc-alerts">${shown.map((a) => html`<a class="mono" href="#/alerts/${encodeURIComponent(a.id)}">${a.id}</a>`)}${rest > 0 ? html`<span class="muted">+${rest} more</span>` : ''}</div>
+        </div>`;
+      })}</div>` : html`<div class="empty">No indicators match.</div>`;
+    };
+
+    $('#ioc-q').addEventListener('input', (e) => { iocState.q = e.target.value.trim(); render(); });
+    $('#ioc-sort').addEventListener('change', (e) => { iocState.sort = e.target.value; render(); });
+    const iocExportRows = () => ({
+      cols: ['Type', 'Value', 'Reappearances', 'Seen in alerts'],
+      rows: lastFiltered.map((r) => [r.type, r.value, r.count, r.alerts.map((a) => a.id).join('; ')]),
+    });
+    $('#ioc-export-csv').addEventListener('click', () => {
+      if (!lastFiltered.length) { toast('Nothing to export', true); return; }
+      const { cols, rows: r } = iocExportRows();
+      downloadCsv(`aegis-ioc-watchlist-${new Date().toISOString().slice(0, 10)}.csv`, cols, r);
+      toast(`Exported ${lastFiltered.length} indicators to CSV`);
+    });
+    $('#ioc-export-xls').addEventListener('click', () => {
+      if (!lastFiltered.length) { toast('Nothing to export', true); return; }
+      const { cols, rows: r } = iocExportRows();
+      downloadExcel(`aegis-ioc-watchlist-${new Date().toISOString().slice(0, 10)}.xls`, cols, r);
+      toast(`Exported ${lastFiltered.length} indicators to Excel`);
+    });
+    render();
+  }
+
+  // --- Ingest feed (multi-source intake) ---------------------------------------
+  /** POST /ingest, exposed directly — the first pillar of the problem statement
+   * ("ingests multi-source threat feeds") demonstrated live instead of only via
+   * the offline corpus loader. Persists immediately; correlation, scoring and
+   * BLUF generation happen on the next pipeline run, same as the asset-criticality
+   * override — the console says so rather than implying a live recompute. */
+  const INGEST_SAMPLES = {
+    siem: [{
+      event_id: 'SIEM-DEMO-001', '@timestamp': '2026-09-17T12:00:00Z',
+      rule: { id: 'EDR-9001', name: 'PowerShell download cradle retrieved executable content' },
+      severity: 'high', category: 'endpoint',
+      host: { name: 'ENG-WS-201', ip: '10.20.30.201' },
+      message: 'powershell.exe (encoded command) used Net.WebClient to fetch http://cdn-update.northrelay.net/payload.bin; wrote helpersvc.dll (SHA256 7f8e9d0c1b2a3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e).',
+      user: { name: 'CORP\\a.reyes' }, destination: { ip: '91.219.237.44' },
+      file: { name: 'helpersvc.dll', hash: { sha256: '7f8e9d0c1b2a3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e' } },
+      url: { full: 'http://cdn-update.northrelay.net/payload.bin' },
+    }],
+    syslog: [{
+      alert_id: 'SYS-DEMO-001',
+      line: '<134>1 2026-09-17T12:00:00Z eng-ws-201 sshd - - [aegis@32473 severity="warning" user="CORP\\a.reyes"] Failed password for invalid user admin from 91.219.237.44 port 51422 ssh2',
+    }],
+    geo: [{
+      alert_id: 'GEO-DEMO-001', track_id: 'TRK-DEMO-001', timestamp_utc: '2026-09-17T12:00:00Z',
+      sensor_id: 'RADAR-N1', site_id: 'SITE-CHARLIE', lat: '64.49', lon: '21.01',
+      object_class: 'uas', alert_type: 'track_entered_zone', confidence: '0.8', priority: 'P2',
+      speed_kts: '22', heading_deg: '180', notes: 'Unidentified small UAS near perimeter',
+    }],
+    intel: [{
+      id: 'INTEL-DEMO-001',
+      header: 'DATE: 2026-09-17T12:00:00Z\nSOURCE: Partner ISAC feed\nCLASSIFICATION: UNCLASSIFIED // SYNTHETIC EXERCISE DATA\nPRIORITY: HIGH\nSUBJECT: New C2 infrastructure linked to NORTHRELAY campaign',
+      body: 'Partner ISAC reports new command-and-control infrastructure at cdn-update.northrelay.net (91.219.237.44) actively serving second-stage payloads via PowerShell download cradles. Recommend blocking and hunting for helpersvc.dll (SHA-256 7f8e9d0c1b2a3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e).',
+    }],
+  };
+  const INGEST_HINT = {
+    siem: 'JSON array of SIEM events — nested host/user/rule/message, same shape as a SIEM export.',
+    syslog: 'JSON array of {"line": "<RFC 5424 syslog line>"} — one raw line per record.',
+    geo: 'JSON array of CSV-row objects — same columns as a geospatial sensor export.',
+    intel: 'JSON array of {"id","header","body"} — a human-authored intelligence report.',
+  };
+
+  async function viewIngest() {
+    const view = $('#view');
+    view.innerHTML = html`
+      <div class="view-title"><h1>Ingest feed</h1><span class="sub">push raw records from any source into AEGIS — the entry point for every alert in the queue</span></div>
+      <div class="panel">
+        <div class="toolbar">
+          <select id="ing-source">
+            <option value="siem">SIEM (JSON events)</option>
+            <option value="syslog">Network sensor (syslog)</option>
+            <option value="geo">Geospatial (CSV rows)</option>
+            <option value="intel">Intelligence report (prose)</option>
+          </select>
+          <button type="button" class="ghost" id="ing-sample">Load sample</button>
+          <span class="count" id="ing-hint"></span>
+        </div>
+        <textarea id="ing-body" class="ing-textarea" spellcheck="false" placeholder="Paste a JSON array of raw records…"></textarea>
+        <div class="ing-actions">
+          <button type="button" class="primary" id="ing-submit">Ingest</button>
+          <span class="muted" style="font-size:11px">Persists immediately. Correlation, scoring and BLUFs update on the next pipeline run.</span>
+        </div>
+        <div id="ing-result"></div>
+      </div>`;
+
+    const src = $('#ing-source');
+    const body = $('#ing-body');
+    const hint = $('#ing-hint');
+    const loadSample = () => {
+      body.value = JSON.stringify(INGEST_SAMPLES[src.value], null, 2);
+      hint.textContent = INGEST_HINT[src.value];
+    };
+    src.addEventListener('change', loadSample);
+    $('#ing-sample').addEventListener('click', loadSample);
+    loadSample();
+
+    $('#ing-submit').addEventListener('click', async () => {
+      const result = $('#ing-result');
+      let records;
+      try {
+        records = JSON.parse(body.value);
+        if (!Array.isArray(records)) throw new Error('Body must be a JSON array of records.');
+      } catch (err) {
+        result.innerHTML = html`<div class="error">Invalid JSON: ${err.message}</div>`;
+        return;
+      }
+      result.innerHTML = html`<div class="loading">ingesting ${records.length} record${records.length === 1 ? '' : 's'}</div>`;
+      try {
+        const r = await api.ingest(src.value, records);
+        result.innerHTML = html`
+          <div class="ing-summary">
+            <div class="ov-kpi ok"><b>${r.ingested}</b><span>ingested</span></div>
+            <div class="ov-kpi"><b>${r.submitted}</b><span>submitted</span></div>
+            <div class="ov-kpi ${r.errors.length ? 'warn' : ''}"><b>${r.errors.length}</b><span>errors</span></div>
+          </div>
+          ${r.errors.length ? html`<div class="ing-errors">${r.errors.map((e) => html`<div class="error">record ${e.index}: ${e.error}</div>`)}</div>` : ''}
+          <div class="rationale-line">${r.note}</div>`;
+        toast(`Ingested ${r.ingested} of ${r.submitted} record${r.submitted === 1 ? '' : 's'} from ${src.value}`);
+      } catch (err) {
+        result.innerHTML = html`<div class="error">${err.message}</div>`;
+      }
+    });
   }
 
   // ===========================================================================
@@ -1160,6 +1817,79 @@
   }
 
   // ===========================================================================
+  // 7. Command palette (⌘K quick jump)
+  // ===========================================================================
+
+  /** Global fuzzy-ish jump across incidents, alerts, ATT&CK techniques, and assets —
+   * the console has seven sections now, and an analyst mid-investigation should
+   * not have to click through nav to find one alert id. */
+  function initCmdPalette() {
+    const overlay = $('#cmdk');
+    const input = $('#cmdk-input');
+    const results = $('#cmdk-results');
+
+    const open = () => {
+      overlay.hidden = false;
+      input.value = '';
+      results.innerHTML = html`<div class="cmdk-hint">Type to search incidents, alerts, ATT&amp;CK techniques, and assets.</div>`.s;
+      setTimeout(() => input.focus(), 0);
+    };
+    const close = () => { overlay.hidden = true; };
+
+    $('#cmdk-trigger').addEventListener('click', open);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); overlay.hidden ? open() : close(); return; }
+      if (e.key === 'Escape' && !overlay.hidden) close();
+    });
+
+    const runSearch = async (query) => {
+      if (!query) { results.innerHTML = html`<div class="cmdk-hint">Type to search incidents, alerts, ATT&amp;CK techniques, and assets.</div>`.s; return; }
+      try {
+        const [incidents, alertsRes, techs, assets] = await Promise.all([
+          api.incidents({ limit: 6, min_alerts: 1, q: query }),
+          api.alerts({ limit: 6, q: query }),
+          api.techniques(query),
+          assetIndex(),
+        ]);
+        const ql = query.toLowerCase();
+        const assetMatches = [...assets.values()]
+          .filter((a) => `${a.asset_id} ${a.hostname || ''} ${a.role || ''}`.toLowerCase().includes(ql))
+          .slice(0, 6);
+
+        const groups = [
+          ['Incidents', incidents.map((i) => ({ label: i.title, sub: `${i.incident_id} · rank #${i.rank} · ${Math.round(i.score.composite)}/100`, go: () => { location.hash = `#/incident/${encodeURIComponent(i.incident_id)}`; } }))],
+          ['Alerts', (alertsRes.items || []).map((a) => ({ label: a.alert_id, sub: truncate(a.raw_text, 70), go: () => { location.hash = `#/alerts/${encodeURIComponent(a.alert_id)}`; } }))],
+          ['ATT&CK techniques', techs.slice(0, 6).map((t) => ({ label: `${t.technique_id} ${t.name}`, sub: (t.tactics || []).map(tacticName).join(' · '), go: () => { location.hash = `#/attack/${encodeURIComponent(t.technique_id)}`; } }))],
+          ['Assets', assetMatches.map((a) => ({ label: a.asset_id, sub: a.role || a.hostname || '', go: () => { alertsState.q = a.asset_id; alertsState.offset = 0; location.hash = '#/alerts'; } }))],
+        ].filter(([, items]) => items.length);
+
+        if (!groups.length) { results.innerHTML = html`<div class="cmdk-hint">No matches for "${query}".</div>`; return; }
+
+        results.innerHTML = groups.map(([label, items]) => html`
+          <div class="cmdk-group">
+            <div class="cmdk-group-lbl">${label}</div>
+            ${items.map((it) => html`<button type="button" class="cmdk-item">
+              <span class="cmdk-item-label">${it.label}</span>
+              <span class="cmdk-item-sub">${it.sub}</span>
+            </button>`)}
+          </div>`).join('');
+
+        const flat = groups.flatMap(([, items]) => items);
+        $$('.cmdk-item', results).forEach((btn, i) => btn.addEventListener('click', () => { flat[i].go(); close(); }));
+      } catch (err) {
+        results.innerHTML = html`<div class="cmdk-hint">${err.message}</div>`;
+      }
+    };
+
+    let debounce;
+    input.addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(() => runSearch(input.value.trim()), 160); });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { const first = $('.cmdk-item', results); if (first) first.click(); }
+    });
+  }
+
+  // ===========================================================================
   // Boot
   // ===========================================================================
 
@@ -1172,8 +1902,10 @@
     closeDrawer();
   });
   window.addEventListener('hashchange', route);
+  window.addEventListener('afterprint', () => document.body.classList.remove('printing-bluf'));
 
   if (state.mock) $('#mock-badge').hidden = false;
+  initCmdPalette();
   renderStats();
   route();
 })();
