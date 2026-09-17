@@ -1,0 +1,60 @@
+# AEGIS — Kubernetes Deployment
+#
+# Single-replica deployment of the AEGIS console. SQLite-backed, no external
+# services required. On pod start, scripts/demo.py rebuilds the database,
+# corpus and pipeline state from scratch, then serves the console.
+#
+# Local (kind) usage:
+#   docker build -t aegis:local .
+#   kind create cluster --name aegis
+#   kind load docker-image aegis:local --name aegis
+#   kubectl apply -f k8s/
+#   kubectl port-forward svc/aegis 8000:8000
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aegis
+  labels:
+    app: aegis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aegis
+  template:
+    metadata:
+      labels:
+        app: aegis
+    spec:
+      containers:
+        - name: aegis
+          image: aegis:local
+          imagePullPolicy: Never # image is loaded straight into the kind node, not pulled from a registry
+          ports:
+            - containerPort: 8000
+          env:
+            - name: API_HOST
+              value: "0.0.0.0" # default in src/config.py is 127.0.0.1, unreachable from outside the pod
+            - name: API_PORT
+              value: "8000"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 12 # scripts/demo.py rebuilds state on every start before it serves
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 15
