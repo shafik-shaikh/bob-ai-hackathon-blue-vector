@@ -496,39 +496,44 @@
 
   const scoreCell = (sc) => html`<div class="score">${scoreRing(sc)}${segBar(sc)}</div>`;
 
-  function queueRow(inc, names) {
+  function queueCard(inc, names) {
     const sc = inc.score;
-    return html`<tr class="row" data-incident="${inc.incident_id}" data-tier="${scoreTier(sc.composite)}">
-      <td class="rank">${inc.rank}</td>
-      <td>${scoreCell(sc)}</td>
-      <td class="incident-cell">
-        <div class="title">${inc.title}${inc.disposition ? html` <span class="disp-chip mini ${inc.disposition.verdict}">${icon(inc.disposition.verdict === 'confirmed' ? 'check' : 'close')}</span>` : ''}</div>
-        <div class="rationale">${inc.rationale}</div>
-        ${sc.suppression_rules_fired && sc.suppression_rules_fired.length
-          ? html`<div class="chips">${sc.suppression_rules_fired.map((r) => html`<span class="chip" title="${names.get(r) || r}">${r}</span>`)}</div>` : ''}
-      </td>
-      <td class="num">${inc.alert_count}</td>
-      <td>${sourceBadges(inc.sources || {})}</td>
-      <td>${techLabel(inc.top_technique)}</td>
-      <td><span class="tactic">${tacticName(deepestTactic(inc.tactics)) || '—'}</span></td>
-      <td><div class="assets">${(inc.assets || []).map((a) => html`<span>${a}</span>`)}</div></td>
-      <td>${vendorSummary(inc.vendor_severities)}</td>
-    </tr>`;
+    const tier = scoreTier(sc.composite);
+    return html`<div class="q-card row" data-incident="${inc.incident_id}" data-tier="${tier}">
+      <div class="q-card-head">
+        <span class="q-badge" data-tier="${tier}">#${inc.rank}</span>
+        <div class="q-card-title">${inc.title}${inc.disposition ? html` <span class="disp-chip mini ${inc.disposition.verdict}">${icon(inc.disposition.verdict === 'confirmed' ? 'check' : 'close')}</span>` : ''}</div>
+        <span class="q-pill" data-tier="${tier}">${Math.round(sc.composite)}</span>
+      </div>
+      <div class="rationale">${inc.rationale}</div>
+      <div class="segbar" title="confidence ${pct(sc.correlation_confidence)}% · asset ${pct(sc.asset_criticality)}% · tactic ${pct(sc.tactic_severity)}% · FP ${pct(sc.false_positive_likelihood)}%">
+        <span class="seg"><i style="width:${pct(sc.correlation_confidence)}%"></i></span>
+        <span class="seg"><i style="width:${pct(sc.asset_criticality)}%"></i></span>
+        <span class="seg"><i style="width:${pct(sc.tactic_severity)}%"></i></span>
+        <span class="seg fp"><i style="width:${pct(sc.false_positive_likelihood)}%"></i></span>
+      </div>
+      ${sc.suppression_rules_fired && sc.suppression_rules_fired.length
+        ? html`<div class="chips">${sc.suppression_rules_fired.map((r) => html`<span class="chip" title="${names.get(r) || r}">${r}</span>`)}</div>` : ''}
+      <div class="q-card-meta">
+        <span><b>${inc.alert_count}</b> alert${inc.alert_count === 1 ? '' : 's'}</span>
+        <span class="tactic">${tacticName(deepestTactic(inc.tactics)) || '—'}</span>
+        <span>${techLabel(inc.top_technique)}</span>
+      </div>
+      <div class="q-card-foot">
+        ${sourceBadges(inc.sources || {})}
+        <div class="assets">${(inc.assets || []).map((a) => html`<span>${a}</span>`)}</div>
+      </div>
+    </div>`;
   }
 
   function queueTable(incidents, names) {
     if (!incidents.length) return html`<div class="empty">No incidents match.</div>`;
-    return html`<table class="grid queue-table">
-      <thead><tr>
-        <th>#</th><th>Score</th><th>Incident</th><th>Alerts</th><th>Sources</th><th>Top technique</th><th>Deepest tactic</th><th>Assets</th><th>Vendor severity</th>
-      </tr></thead>
-      <tbody>${incidents.map((i) => queueRow(i, names))}</tbody>
-    </table>`;
+    return html`<div class="q-grid">${incidents.map((i) => queueCard(i, names))}</div>`;
   }
 
   function bindQueueRows(root) {
-    $$('tr.row[data-incident]', root).forEach((tr) => {
-      tr.addEventListener('click', () => { location.hash = `#/incident/${encodeURIComponent(tr.dataset.incident)}`; });
+    $$('.q-card[data-incident]', root).forEach((card) => {
+      card.addEventListener('click', () => { location.hash = `#/incident/${encodeURIComponent(card.dataset.incident)}`; });
     });
   }
 
@@ -581,7 +586,7 @@
           </select>
           <span class="count" id="q-count"></span>
         </div>
-        <div id="q-table" class="table-scroll"><div class="loading">loading queue</div></div>
+        <div id="q-table"><div class="loading">loading queue</div></div>
       </div>`;
 
     const refresh = async () => {
@@ -920,19 +925,24 @@
       try {
         const r = await api.alerts({ limit: alertsState.limit, offset: alertsState.offset, source: alertsState.source, severity: alertsState.severity, q: alertsState.q });
         const items = r.items || [];
-        table.innerHTML = items.length ? html`<table class="grid">
-          <thead><tr><th>Time</th><th>Alert</th><th>Source</th><th>Vendor sev.</th><th>Asset</th><th>Top technique</th><th>Summary</th><th>Incident</th></tr></thead>
-          <tbody>${items.map((a) => html`<tr class="row" data-alert="${a.alert_id}">
-            <td class="ts">${fmtTs(a.timestamp)}</td>
-            <td class="id">${a.alert_id}</td>
-            <td>${sourceBadge(a.source)}</td>
-            <td>${sevChip(a.source_severity)}</td>
-            <td class="mono">${a.asset ? a.asset.asset_id : '—'}</td>
-            <td>${techLabel(topTechnique(a))}</td>
-            <td><div class="cell-text">${truncate(a.raw_text, 120)}</div></td>
-            <td>${a.incident_id ? html`<a href="#/incident/${encodeURIComponent(a.incident_id)}" class="mono">${a.incident_id}</a>` : html`<span class="muted">—</span>`}</td>
-          </tr>`)}</tbody></table>` : html`<div class="empty">No alerts match.</div>`;
-        $$('tr.row[data-alert]', table).forEach((tr) => {
+        table.innerHTML = items.length ? html`<div class="a-list">${items.map((a) => html`<div class="a-row row" data-alert="${a.alert_id}">
+            <span class="a-dot" style="background:${(SOURCES[a.source] || {}).color || 'var(--muted-2)'}"></span>
+            <div class="a-main">
+              <div class="a-line1">
+                <span class="id">${a.alert_id}</span>
+                ${sourceBadge(a.source)}
+                ${sevChip(a.source_severity)}
+                <span class="ts">${fmtTs(a.timestamp)}</span>
+              </div>
+              <div class="a-summary">${truncate(a.raw_text, 130)}</div>
+              <div class="a-line3">
+                <span class="mono muted">${a.asset ? a.asset.asset_id : 'no asset'}</span>
+                ${techLabel(topTechnique(a))}
+              </div>
+            </div>
+            <div class="a-side">${a.incident_id ? html`<a href="#/incident/${encodeURIComponent(a.incident_id)}" class="mono">${a.incident_id}</a>` : html`<span class="muted">uncorrelated</span>`}</div>
+          </div>`)}</div>` : html`<div class="empty">No alerts match.</div>`;
+        $$('.a-row[data-alert]', table).forEach((tr) => {
           tr.addEventListener('click', (ev) => {
             if (ev.target.tagName === 'A') return;
             const a = items.find((x) => x.alert_id === tr.dataset.alert);
@@ -1158,7 +1168,7 @@
     // Click outside the drawer closes it (but not clicks that navigate or sit inside it).
     const drawer = $('#drawer');
     if (drawer.hidden || drawer.contains(e.target)) return;
-    if (e.target.closest('.tl-item, canvas, tr.row')) return; // those re-open it with new content
+    if (e.target.closest('.tl-item, canvas, tr.row, .a-row, .q-card')) return; // those re-open it with new content
     closeDrawer();
   });
   window.addEventListener('hashchange', route);

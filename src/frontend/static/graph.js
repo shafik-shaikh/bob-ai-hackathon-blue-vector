@@ -190,7 +190,7 @@
       const ctx = this.ctx, W = this.width, H = this.height;
       ctx.clearRect(0, 0, W, H);
       if (!this.nodes.length) {
-        ctx.fillStyle = '#565f72';
+        ctx.fillStyle = '#767e91';
         ctx.font = '12px "IBM Plex Mono", monospace';
         ctx.textAlign = 'center';
         ctx.fillText('no correlation edges — single-alert incident', W / 2, H / 2);
@@ -208,9 +208,9 @@
         ctx.moveTo(e.na.x, e.na.y);
         ctx.lineTo(e.nb.x, e.nb.y);
         ctx.lineWidth = isHov ? w + 2 : w;
-        ctx.strokeStyle = isHov ? 'rgba(53,214,180,0.95)'
-          : touchesSel ? 'rgba(53,214,180,0.75)'
-          : `rgba(53,214,180,${0.22 + Math.min(e.weight, 1) * 0.4})`;
+        ctx.strokeStyle = isHov ? 'rgba(61,90,241,0.95)'
+          : touchesSel ? 'rgba(61,90,241,0.7)'
+          : `rgba(61,90,241,${0.2 + Math.min(e.weight, 1) * 0.35})`;
         ctx.lineCap = 'round';
         ctx.stroke();
         // Weight label at the midpoint, rendered as a small rounded pill.
@@ -226,10 +226,10 @@
         ctx.arcTo(mx - tw / 2, my + th / 2, mx - tw / 2, my - th / 2, rr);
         ctx.arcTo(mx - tw / 2, my - th / 2, mx + tw / 2, my - th / 2, rr);
         ctx.closePath();
-        ctx.fillStyle = isHov ? '#35d6b4' : '#171c24';
+        ctx.fillStyle = isHov ? '#3d5af1' : '#ffffff';
         ctx.fill();
-        if (!isHov) { ctx.strokeStyle = '#313b48'; ctx.lineWidth = 1; ctx.stroke(); }
-        ctx.fillStyle = isHov ? '#05201a' : '#8189a1';
+        if (!isHov) { ctx.strokeStyle = '#d3d8e0'; ctx.lineWidth = 1; ctx.stroke(); }
+        ctx.fillStyle = isHov ? '#ffffff' : '#767e91';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(label, mx, my + 0.5);
@@ -241,29 +241,29 @@
         if (isSel) {
           ctx.beginPath();
           ctx.arc(v.x, v.y, NODE_R + 6, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(53,214,180,0.9)';
+          ctx.strokeStyle = 'rgba(61,90,241,0.85)';
           ctx.lineWidth = 2;
           ctx.stroke();
         }
         if (isHov && !isSel) {
           ctx.beginPath();
           ctx.arc(v.x, v.y, NODE_R + 5, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(244,247,250,0.35)';
+          ctx.strokeStyle = 'rgba(20,22,31,0.25)';
           ctx.lineWidth = 1.5;
           ctx.stroke();
         }
         ctx.beginPath();
         ctx.arc(v.x, v.y, NODE_R, 0, Math.PI * 2);
-        ctx.fillStyle = v.color || '#8189a1';
+        ctx.fillStyle = v.color || '#767e91';
         ctx.fill();
         ctx.lineWidth = isHov ? 3 : 2;
-        ctx.strokeStyle = isHov ? '#f4f7fa' : '#07090c';
+        ctx.strokeStyle = isHov ? '#14161f' : '#ffffff';
         ctx.stroke();
         // Label below the node.
         ctx.font = '500 11px "IBM Plex Mono", Consolas, monospace';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
-        ctx.fillStyle = isSel || isHov ? '#f4f7fa' : '#d7dde6';
+        ctx.fillStyle = isSel || isHov ? '#14161f' : '#33394a';
         ctx.fillText(v.label || v.id, v.x, v.y + NODE_R + 5);
       }
     }

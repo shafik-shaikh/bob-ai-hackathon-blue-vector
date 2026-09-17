@@ -12,27 +12,40 @@
     Views (hash routed): #/queue · #/incident/{id} · #/alerts · #/feeds · #/attack
   -->
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1l6 3v4c0 3.5-2.5 6-6 7-3.5-1-6-3.5-6-7V4z' fill='%233ddbb8'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1l6 3v4c0 3.5-2.5 6-6 7-3.5-1-6-3.5-6-7V4z' fill='%237c8cff'/%3E%3C/svg%3E">
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-row">
-      <div class="brand">
-        <a class="wordmark" href="#/queue">AEGIS</a>
-        <span class="subtitle">Alert Enrichment, Grouping &amp; Intelligence Scoring</span>
-        <span id="mock-badge" class="mock-badge" hidden title="The API is unreachable or ?mock=1 was given; data comes from fixtures.js">MOCK DATA</span>
-      </div>
-      <nav class="nav" id="nav">
-        <a href="#/queue" data-route="queue">Triage queue</a>
-        <a href="#/alerts" data-route="alerts">Alerts</a>
-        <a href="#/feeds" data-route="feeds">Raw feeds</a>
-        <a href="#/attack" data-route="attack">ATT&amp;CK</a>
-      </nav>
-    </div>
-    <div class="stats-row" id="stats"><span class="stat loading">loading stats</span></div>
-  </header>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="wordmark" href="#/queue">
+        <span class="mark">◢</span>AEGIS
+      </a>
+      <span id="mock-badge" class="mock-badge" hidden title="The API is unreachable or ?mock=1 was given; data comes from fixtures.js">MOCK DATA</span>
 
-  <main id="view" class="view"></main>
+      <nav class="nav" id="nav">
+        <a href="#/queue" data-route="queue">
+          <svg class="nicon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="10" width="18" height="4" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="16" width="11" height="4" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg>
+          Triage queue
+        </a>
+        <a href="#/alerts" data-route="alerts">
+          <svg class="nicon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.5L4 16h16l-2-3.5V9a6 6 0 0 0-6-6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Alerts
+        </a>
+        <a href="#/feeds" data-route="feeds">
+          <svg class="nicon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="6" cy="18" r="1.8" fill="currentColor"/><path d="M5 12a7 7 0 0 1 7 7M5 6a13 13 0 0 1 13 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Raw feeds
+        </a>
+        <a href="#/attack" data-route="attack">
+          <svg class="nicon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>
+          ATT&amp;CK
+        </a>
+      </nav>
+
+      <div class="stats-row" id="stats"><span class="stat loading">loading stats</span></div>
+    </aside>
+
+    <main id="view" class="view"></main>
+  </div>
 
   <aside id="drawer" class="drawer" hidden aria-label="Alert details"></aside>
   <div id="toast" class="toast" hidden></div>
