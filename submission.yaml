@@ -13,39 +13,27 @@ team:
       email: "25pgce026@charusat.edu.in"
 
 submission:
-  title: "AEGIS — Alert Enrichment, Grouping & Intelligence Scoring"
+  title: "SIEM ML Predictor"
   problem_statement: >
-    Defence security operations analysts receive thousands of alerts daily from SIEM
-    platforms, network sensors, geospatial feeds, and human-authored intelligence
-    reports, each in a different format with an incompatible severity convention. No
-    analyst can read them all, so triage defaults to vendor-assigned severity fields
-    computed without knowledge of the asset involved or of surrounding activity.
-    Genuine multi-stage intrusions appear as unremarkable individual alerts scattered
-    across separate consoles, while false positives consume roughly half of all
-    investigation time. Commanders need BLUF-format assessments in minutes, not log
-    dumps.
+    Analysts triaging network-flow exports have to trust a black-box verdict or spend hours
+    manually correlating fields across thousands of events to decide what is actually worth
+    reviewing. Most ML-based triage tools give a single score with no visibility into why the
+    model flagged an event, which features drove it, or how reliable the model is on traffic
+    that looks different from what it was trained on — so analysts either over-trust the score
+    or ignore it entirely.
   solution_summary: >
-    AEGIS normalises alerts from four heterogeneous sources into a single schema, maps
-    each to MITRE ATT&CK v19.2 techniques against the official STIX corpus, and
-    correlates them into incidents by constructing a weighted alert graph. Four
-    independent signals contribute edge weight: rarity-weighted shared indicators,
-    temporal decay, asset adjacency, and directional kill-chain tactic progression;
-    every edge stores the evidence that produced it. Incidents are scored on
-    correlation confidence, asset criticality, kill-chain depth, and false-positive
-    likelihood from documented suppression rules, then rendered as BLUF briefs with a
-    mandatory gaps section. IBM Bob is the analyst's conversational interface through
-    six read-only MCP tools that read the same state as the console, so every ranking
-    and grouping can be interrogated - including why a vendor-critical alert was
-    deprioritised. Measured on the shipped corpus of 521 alerts: all six planted
-    intrusions rank in the top six of 456 incidents, both look-alike benign scenarios
-    are suppressed below every intrusion, and no noise alert is pulled into a planted
-    incident.
+    SIEM ML Predictor is a single-page app that takes a raw network-flow export (CSV, Parquet,
+    JSON or NDJSON in the UNSW-NB15 / Argus / Zeek layout), scores every event with a
+    pre-trained XGBoost model, and — instead of just returning a number — walks the analyst
+    through exactly how that score was produced: which columns were matched, which features
+    were built, how the score grew tree by tree, where the decision threshold sits, and which
+    features pushed the top-ranked event's score up. With labelled data it also reports full
+    detection metrics (precision, recall, F1, ROC-AUC, PR-AUC, confusion matrix) so the model's
+    real-world reliability is visible rather than assumed.
   key_features:
-    - "Four-format ingestion (SIEM JSON, RFC 5424 syslog, geospatial CSV, free-text intel with defanged IOCs) into one canonical alert schema with raw payload provenance"
-    - "MITRE ATT&CK v19.2 technique mapping blending TF-IDF similarity against the official Enterprise STIX corpus with a curated keyword rule table; calibrated confidence"
-    - "Graph correlation with an evidence trail: rarity-weighted indicators, temporal decay, asset adjacency, directional kill-chain progression; incidents as connected components"
-    - "Four-factor consequence-based prioritisation with a visible decomposition and nine documented suppression rules; vendor severity preserved but never scored"
-    - "IBM Bob integration via six read-only MCP tools (get_priority_queue, explain_correlation, get_bluf, why_deprioritised, search_by_technique, get_incident) answering from live correlation state"
-    - "BLUF commander briefs with mandatory intelligence gaps; deterministic generator with validated optional watsonx.ai Granite refinement"
-    - "Evaluation harness against planted ground truth (coverage, purity, queue position, suppression success) with results committed in src/eval/results.json"
-    - "Dark analyst console with force-directed correlation graph, evidence hover, kill-chain view, score decomposition and 'why is this ranked here?' - no build step, Python only"
+    - "Upload CSV/Parquet/JSON/NDJSON flow exports up to 300 MB / 2M rows, with case-insensitive column matching and alias resolution"
+    - "7-step animated walkthrough of a real scored event: data received, columns matched, features built, tree-by-tree score growth, threshold decision, top reasons, final result"
+    - "Per-event explanations via XGBoost's exact tree contributions (SHAP-style, not approximated)"
+    - "Full detection statistics (precision, recall, F1, ROC-AUC, PR-AUC, ROC/PR curves, confusion matrix, per-attack-type detection rate) with a live threshold slider when a label/attack_cat column is present"
+    - "Unlabelled-mode triage view: score distribution, flagged-event breakdown by protocol/service/source/port/time, and ranked top suspicious events"
+    - "CSV export of every prediction (original columns plus ml_score and ml_flag)"

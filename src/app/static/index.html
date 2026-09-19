@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIEM ML Predictor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-in">
+      <div class="brand"><span class="logo">◈</span><div><strong>SIEM ML Predictor</strong><small>Upload events, get a malicious-or-benign score for each one</small></div></div>
+      <nav class="tabs" role="tablist">
+        <button class="tab on" data-tab="analyse" role="tab">Analyse a file</button>
+        <button class="tab" data-tab="model" role="tab">About the model</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="tab-analyse">
+      <div class="card upload">
+        <label id="drop" class="drop" tabindex="0">
+          <input id="file" type="file" accept=".csv,.txt,.log,.json,.ndjson,.jsonl,.parquet" hidden>
+          <span class="drop-icon">⇪</span>
+          <span class="drop-title">Drop a SIEM / flow export here, or click to choose</span>
+          <span class="drop-sub">CSV · Parquet · JSON · NDJSON &nbsp;—&nbsp; up to 300 MB / 2M rows</span>
+        </label>
+        <div class="upload-side">
+          <h3>No file handy?</h3>
+          <button class="btn" data-sample="sample_labelled.csv">Try sample with labels</button>
+          <button class="btn ghost" data-sample="sample_unlabelled.csv">Try sample without labels</button>
+          <details>
+            <summary>What columns does it need?</summary>
+            <p>Network-flow records in the UNSW-NB15 layout (Argus/Zeek-style): <code>dur, sbytes, dbytes, sttl, dttl, spkts, dpkts, proto, service, state, ct_*</code> … Missing columns are treated as unknown. If the file has a <code>label</code> (0/1) or <code>attack_cat</code> column, accuracy statistics are computed too.</p>
+          </details>
+        </div>
+      </div>
+
+      <div id="status" class="status" hidden></div>
+      <div id="results" hidden></div>
+    </section>
+
+    <section id="tab-model" hidden></section>
+  </main>
+
+  <footer class="wrap foot">Scores come from a pre-trained gradient-boosted model. They rank events for review; they do not replace an analyst.</footer>
+  <script src="app.js"></script>
+  <script src="story.js"></script>
+</body>
+</html>

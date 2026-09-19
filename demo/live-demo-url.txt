@@ -1,6 +1,1 @@
-NOT DEPLOYED — run locally using docs/setup-guide.md
-
-AEGIS is an analyst console intended to run inside a SOC environment alongside
-IBM Bob. It is not deployed publicly. The setup guide takes a judge from clone
-to a running system with no database server to install; the demo video shows
-the same flow end to end.
+NOT DEPLOYED

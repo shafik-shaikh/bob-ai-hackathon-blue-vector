@@ -95,12 +95,7 @@ logs/
 *.tfstate
 *.tfstate.backup
 
-# ── AEGIS additions ───────────────────────────────────────────────────────
+# ── SIEM ML Predictor additions ────────────────────────────────────────────
 .venv/
-aegis.db
-*.db-journal
-src/frontend/dist/
-.cache/
-
-aegis-test.db
-aegis-test.db-journal
+src/data/
+.DS_Store

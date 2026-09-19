@@ -1,157 +1,93 @@
-# AEGIS — Alert Enrichment, Grouping & Intelligence Scoring
-
-**IBM Bob AI Innovation Hackathon 2026 — Problem Statement D2: Threat Intelligence Correlation & Alert Prioritisation Assistant**
-
-Turning hundreds of incompatible alerts into a handful of explainable, ranked incidents — and a
-commander-ready BLUF that IBM Bob can be interrogated about.
-
-![Triage queue](demo/screenshots/01-triage-queue.png)
-
----
+# SIEM ML Predictor
 
 ## Team — Blue Vector
 
 | Member | Role |
 |---|---|
-| **Het Khatusuriya** (lead) | Cybersecurity — corpus, IOC extraction, tactic ordering, suppression rules |
-| **Manan Modi** | AI/ML — ATT&CK mapping, correlation graph, BLUF generation, evaluation |
-| **Mohammad Safik** | Frontend — analyst console, correlation graph view, BLUF panel |
-| **Samarth Bhalala** | Backend & Database — ingestion, schema, API, MCP server |
+| **Het Khatusuriya** (lead) | [Khatusuriyahet@gmail.com](mailto:Khatusuriyahet@gmail.com) |
+| **Samarth Bhalala** | [samarthbhalala@gmail.com](mailto:samarthbhalala@gmail.com) |
+| **Manan Modi** | [22ce068@charusat.edu.in](mailto:22ce068@charusat.edu.in) |
+| **Mohammad Safik** | [25pgce026@charusat.edu.in](mailto:25pgce026@charusat.edu.in) |
 
 **Track:** AI
 
 ## Problem Statement
 
-Defence SOC analysts face thousands of daily alerts across SIEM platforms, network sensors, geospatial
-feeds, and written intelligence reports — each in a different format with an incompatible severity
-scale. Triage defaults to vendor severity fields that know nothing about the asset involved or about
-what else is happening around them. Real multi-stage intrusions fragment into individually unremarkable
-alerts across separate consoles, while false positives consume roughly half of all analyst time.
+Analysts triaging network-flow exports either have to trust a black-box ML verdict or spend
+hours manually correlating fields across thousands of events to work out what's actually worth
+reviewing. Most ML-based triage tools return a single score with no visibility into *why* an
+event was flagged, which features drove it, or how reliable the model is once traffic looks
+different from what it was trained on. See [`docs/problem-statement.md`](docs/problem-statement.md)
+for the full write-up.
 
 ## Solution
 
-AEGIS normalises every source into one schema, maps alerts onto MITRE ATT&CK, and builds a weighted
-graph in which incidents emerge as connected components. Every edge carries the evidence that produced
-it, so every grouping and every ranking can be explained. IBM Bob is the analyst's conversational
-interface into that evidence trail, through an MCP server that reads the same state as the console.
+Upload a file of network events; a pre-trained XGBoost model scores every event and the page
+shows the ML statistics — nothing else, no accounts, no case management. A 7-step animated
+walkthrough plays first, built from real numbers measured on the actual run (columns matched,
+features built, the score growing tree by tree, the threshold decision, why the top event was
+flagged). Full details in [`docs/solution-overview.md`](docs/solution-overview.md).
 
-## Key Features (all implemented, all runnable)
+## Key Features
 
-- **Four-format ingestion** — SIEM JSON, RFC 5424 syslog, geospatial CSV, and free-text intelligence
-  reports normalised into one canonical `Alert`, raw payload preserved for provenance. Defanged
-  indicators in prose (`hxxp://`, `185[.]220[.]101[.]4`) are refanged so reports actually correlate.
-- **ATT&CK mapping** — every alert matched against the pinned MITRE Enterprise ATT&CK v19.2 corpus
-  (697 techniques extracted from the official STIX 2.1 bundle), blending TF-IDF semantic similarity
-  with a curated keyword rule table. Optional sentence-transformers backend.
-- **Graph correlation with an evidence trail** — four independent signals per alert pair: rarity-weighted
-  shared indicators (IDF over the corpus), temporal decay, asset adjacency, and *directional* kill-chain
-  tactic progression. Each edge stores every signal's weight and a plain-language rationale.
-- **Consequence-based prioritisation** — correlation confidence, asset criticality, kill-chain depth and
-  false-positive likelihood from nine documented suppression rules, shown as a decomposition, never a
-  single opaque number. Vendor severity is preserved but deliberately excluded from the score.
-- **IBM Bob integration** — six read-only MCP tools (`get_priority_queue`, `explain_correlation`,
-  `get_bluf`, `why_deprioritised`, `search_by_technique`, `get_incident`) answering from live
-  correlation state.
-- **BLUF briefs** — fixed commander format with a mandatory GAPS section; deterministic generator with
-  optional watsonx.ai Granite refinement that can never invent evidence.
-- **Measured, not asserted** — `python -m src.eval.evaluate` scores the pipeline against the corpus
-  ground truth. Current results are below.
-
-## Results on the shipped corpus
-
-521 synthetic alerts (216 SIEM, 233 syslog, 62 geo, 10 intel), 8 planted scenarios (6 intrusions,
-2 look-alike benign), 466 alerts of realistic noise. Threshold 0.45, one-hour temporal half-life.
-
-| Scenario | Truth | Alerts | Coverage | Purity | Queue position | Suppression rule |
-|---|---|---|---|---|---|---|
-| Invoice phishing → PowerShell → C2 → DC01 NTDS theft → exfiltration | intrusion | 10 | 1.00 | 1.00 | **1** | – |
-| UAS loiter + RF emitter → rogue AP → OT VLAN → PLC write (SITE-ALPHA) | intrusion | 7 | 0.86 | 1.00 | **2** | – |
-| VPN password spray → compromised account → AD/share enumeration | intrusion | 6 | 1.00 | 1.00 | **3** | – |
-| CVE-2023-22518 → web shell → cron → reverse shell (DMZ) | intrusion | 7 | 1.00 | 1.00 | **4** | – |
-| Shadow-copy deletion → masquerading → mass encryption | intrusion | 5 | 1.00 | 1.00 | **5** | – |
-| Insider staging → upload to personal cloud (ambiguous) | intrusion | 4 | 1.00 | 1.00 | **6** | – |
-| Sysadmin rollout inside change window (looks like persistence + lateral) | benign | 4 | 0.75 | 1.00 | 117 | MAINTENANCE_WINDOW, ADMIN_FROM_ADMIN_WORKSTATION |
-| Authorised vulnerability scan, 8 vendor-**CRITICAL** alerts | benign | 12 | 1.00 | 1.00 | 136 | KNOWN_SCANNER_RANGE |
-
-Every intrusion in the top 6 of 456 incidents; both benign scenarios below every intrusion; no noise
-alert pulled into any planted incident; 55/55 planted alerts mapped to a technique. 36 of 466 noise
-alerts formed small incidents of their own (mostly repeated activity on one host), which is the honest
-cost of the threshold. Full numbers: [`src/eval/results.json`](src/eval/results.json).
+- Upload CSV/Parquet/JSON/NDJSON flow exports up to 300 MB / 2M rows, with case-insensitive column matching and alias resolution for the UNSW-NB15 / Argus / Zeek flow layout
+- 7-step animated walkthrough of a real scored event, with every number measured from that run
+- Per-event explanations via XGBoost's exact tree contributions (not an approximation)
+- Full detection statistics when a `label`/`attack_cat` column is present — precision, recall, F1, ROC-AUC, PR-AUC, ROC/PR curves, confusion matrix, per-attack-type detection rate, with a live threshold slider
+- Unlabelled-mode triage view — score distribution, flagged-event breakdown by protocol/service/source/port/time, and ranked top suspicious events with reasons
+- CSV export of every prediction (original columns plus `ml_score` and `ml_flag`)
 
 ## Tech Stack
 
-**Language:** Python 3.10+ · **Contracts:** Pydantic · **API:** FastAPI + Uvicorn · **Store:** SQLite
-(standard library, no server) · **Graph:** NetworkX · **Mapping:** numpy TF-IDF (optional
-sentence-transformers) · **Console:** plain HTML/CSS/JS, no build step, canvas force-directed graph ·
-**IBM:** IBM Bob via MCP (Python MCP SDK), watsonx.ai Granite (optional) · **Reference data:** MITRE
-ATT&CK Enterprise v19.2 (STIX 2.1)
+- **Backend:** Python, FastAPI, Uvicorn
+- **ML:** XGBoost (gradient-boosted trees), scikit-learn, pandas, NumPy, PyArrow
+- **Frontend:** Single-page vanilla HTML/CSS/JS (no external UI libraries), served directly by FastAPI's `StaticFiles`
+- **Data:** [UNSW-NB15](https://huggingface.co/datasets/Mouwiya/UNSW-NB15) (Moustafa & Slay, UNSW Canberra Cyber)
+- **Testing:** pytest
 
 ## How to Run
 
-Python 3.10+ only. No Node, no database server, no model download.
-
 ```bash
-git clone https://github.com/shafik-shaikh/bob-ai-hackathon-blue-vector.git
-cd bob-ai-hackathon-blue-vector
-python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
-pip install -r src/requirements.txt
-cp src/.env.example .env
-
-python scripts/demo.py        # database → corpus → pipeline → evaluation → console on :8000
+cd src
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --port 8000                     # open http://localhost:8000
 ```
 
-Open <http://localhost:8000>. API docs at <http://localhost:8000/docs>. Step-by-step commands, the
-IBM Bob MCP registration, and a troubleshooting table are in [docs/setup-guide.md](docs/setup-guide.md).
+The trained model (`src/models/model.json`, `meta.json`) ships in the repo, so this works
+immediately — click "Try sample with labels" for a full result. Full prerequisites,
+troubleshooting and retraining instructions: [`docs/setup-guide.md`](docs/setup-guide.md).
 
 ## Demo
 
-- **Video:** see [demo/demo-video-link.txt](demo/demo-video-link.txt)
-- **Live demo:** see [demo/live-demo-url.txt](demo/live-demo-url.txt) (runs locally; see setup guide)
-- **Screenshots:** [demo/screenshots/](demo/screenshots/)
-- **Demo script (what to show, in order):** [docs/demo-script.md](docs/demo-script.md)
-
-## Documentation
-
-- [Problem statement](docs/problem-statement.md)
-- [Solution overview](docs/solution-overview.md)
-- [Architecture](docs/architecture.md)
-- [Setup guide](docs/setup-guide.md)
-- [REST API contract](docs/api-contract.md)
-- [Project brief and role breakdown](docs/project-brief.md)
+- **Video:** see [`demo/demo-video-link.txt`](demo/demo-video-link.txt)
+- **Live demo:** see [`demo/live-demo-url.txt`](demo/live-demo-url.txt)
+- **Screenshots:** [`demo/screenshots/`](demo/screenshots/)
 
 ## Known Limitations
 
-Stated plainly, because overclaiming is worse than a short honest list.
-
-- **The corpus is synthetic.** Alerts are modelled on real formats and contain deliberately planted
-  multi-stage scenarios with ground-truth labels, but no real network telemetry was used. Hashes,
-  addresses and hosts are invented.
-- **Batch, not streaming.** The pipeline runs over a bounded corpus. There is no live feed ingestion.
-- **ATT&CK mapping is keyword-led on short alerts.** The default semantic backend is TF-IDF; semantic-only
-  matches are capped at 0.65 confidence and do not chain in correlation. The sentence-transformers
-  backend is wired but not the default because it needs a model download.
-- **Two planted alerts are missed in the SITE-ALPHA scenario:** a HUMINT report that names the site but
-  carries no technical indicator, and one geo track that links only by time and place. The engine is
-  told not to chain on timing alone; that is a design choice, and this is its cost.
-- **Correlation thresholds are tuned to this corpus.** The sweep is documented in `.env.example`; a
-  different alert distribution would need retuning.
-- **Suppression knowledge is declared in code**, not pulled from a CMDB or change system.
-- **watsonx refinement is untested against a live endpoint** in this submission (no credentials were
-  available); the code path validates the model's JSON and rejects hallucinated alert IDs, and the
-  template path is what the demo runs on.
-- **No threat actor attribution, no automated response, no authentication or multi-tenancy.**
+- **No IBM Bob integration yet.** This build is a standalone FastAPI app; it does not currently
+  call IBM Bob or watsonx.ai. The natural extension point is an MCP server around
+  `src/app/model.py`'s `Predictor` (score + explain), so an analyst could ask Bob to triage a
+  file or explain a specific flagged event conversationally — see
+  [`docs/architecture.md`](docs/architecture.md) for how that would slot in.
+- **Flow data only.** The model is trained on network-flow features (UNSW-NB15 / Argus / Zeek
+  layout: `dur, sbytes, dbytes, sttl, proto, service, state, ct_*`, …). It does not read raw
+  syslog/CEF log text — a flow-feature model can't score free text, and no suitable
+  labelled SIEM-log dataset was found to train a text model instead.
+- **Lab-generated training data.** UNSW-NB15 is a 2015 testbed capture with generated attacks.
+  It's unusually easy — a model using only the source TTL field alone reaches ROC-AUC 0.983 —
+  so real-network precision/recall will likely be lower than the 97%/96% measured on the
+  held-out capture. The app's "About the model" tab shows this caveat to the user.
+- **Fuzzers are the weak spot** — 53% recall on the held-out capture, versus >90% for every
+  other attack category.
+- Scores are a triage aid, ranking events for an analyst to review — not a verdict.
 
 ## What We're Most Proud Of
 
-**The evidence trail.** Most AI triage tools produce a ranking and ask you to trust it. AEGIS records why
-every edge was drawn and what every score is composed of, then exposes that through IBM Bob in natural
-language. Ask `why_deprioritised` about SIEM-0121 — an alert the SIEM marked CRITICAL — and it answers:
-position 136 of 456, rule `KNOWN_SCANNER_RANGE`, 12 of 12 alerts from 10.50.1.10 inside the authorised
-scanner range on the standing Monday 06:00 schedule, and what evidence would change its mind.
-
-That answer only exists because correlation was built as an evidential graph from the start rather than
-as a similarity score with an explanation bolted on afterwards. Start with
-[`src/correlation/graph.py`](src/correlation/graph.py) and
-[`src/correlation/tactics.py`](src/correlation/tactics.py) if you want to read the strongest work, then
-[`src/scoring/suppression.py`](src/scoring/suppression.py) for the domain knowledge that makes
-deprioritisation defensible.
+The walkthrough (`src/app/story.py` + `src/app/static/story.js`) isn't a canned animation —
+every number in the 7 steps (columns matched, feature values, the score after each of the 43
+trees, why the threshold sits where it does, which features pushed the top event's score up) is
+computed live from the model's own XGBoost tree contributions on the file the analyst just
+uploaded. It turns "trust the score" into "see exactly how the score was built," which is the
+actual gap we set out to close — see [`docs/solution-overview.md`](docs/solution-overview.md).

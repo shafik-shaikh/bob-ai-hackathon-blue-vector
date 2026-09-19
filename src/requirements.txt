@@ -1,24 +1,8 @@
-# --- Core contracts & API ---
-pydantic==2.9.2
 fastapi==0.115.0
-uvicorn[standard]==0.31.0
-python-dotenv==1.0.1
-
-# --- Correlation & enrichment ---
-# TF-IDF ATT&CK mapping runs on numpy alone; no model download required.
-networkx==3.3
-numpy==1.26.4
-
-# --- IBM Bob integration (MCP over stdio) ---
-mcp==1.1.2
-
-# --- Dev / eval ---
-pytest==8.3.3
-httpx==0.27.2
-
-# --- Optional extras (not required to run the demo) ---
-# Sentence-embedding backend for ATT&CK mapping (set EMBEDDING_BACKEND=sbert).
-# Pulls in torch; the first run downloads ~90 MB of weights.
-#   pip install sentence-transformers==3.1.1
-# watsonx.ai Granite refinement of BLUF briefs (set the WATSONX_* variables).
-#   pip install ibm-watsonx-ai==1.1.11
+uvicorn==0.31.0
+python-multipart==0.0.9
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.5
+xgboost>=2.1
+pyarrow>=15

@@ -2,66 +2,46 @@
 
 ## Who is affected
 
-Security operations analysts in defence and critical national infrastructure environments, and the
-commanders who depend on their assessments. A tier-1 analyst on a twelve-hour watch is the specific
-person this system is built for.
+SOC analysts and incident responders who receive network-flow exports (from Argus, Zeek, a
+firewall, or a NetFlow collector feeding a SIEM) and have to decide, quickly, which of
+thousands of events are worth a human's attention. This is the same audience any commercial
+"ML-assisted triage" SIEM feature targets — the difference is what happens after the model
+produces a score.
 
-## The problem
+## Why existing solutions don't solve it
 
-A defence SOC aggregates alerts from systems that were never designed to interoperate: SIEM platforms,
-network intrusion sensors, endpoint agents, satellite and geospatial feeds, cyber threat exchanges, and
-human-authored intelligence reports. Each emits a different format with a different severity convention
-and a different notion of what constitutes an event.
+Most ML-scored triage tools give the analyst a single number per event and stop there:
 
-Three failures follow.
-
-**Volume exceeds human capacity.** Alert counts run into the thousands per day. No analyst reads them
-all, so triage collapses into whatever sorts to the top of the console — typically a vendor-assigned
-severity field computed in isolation, with no knowledge of the asset involved or of the other alerts
-occurring around it.
-
-**The cost of error is asymmetric.** Investigating a false positive costs an analyst-hour. Missing a
-genuine intrusion costs the mission. Yet the queue is ordered by neither of these; it is ordered by a
-number a vendor picked.
-
-**Correlation is the missing operation.** A real intrusion does not announce itself as one alert. It
-appears as a phishing detection at 09:14, an anomalous process execution on the same host at 09:31,
-and an outbound connection to an unfamiliar ASN at 09:47 — three alerts, three different tools, three
-different consoles, three different analysts. Individually each is unremarkable. Together they are a
-kill chain. The correlation exists in the data; nothing in the current workflow surfaces it.
-
-## Why existing solutions fall short
-
-SIEM correlation rules are deterministic and brittle. They catch attacks that have been seen before and
-written down, which is precisely the set of attacks that matter least. They also generate their own
-false-positive load, adding to the problem they were bought to solve.
-
-SOAR platforms automate response but assume triage has already happened correctly. They accelerate
-whatever decision the analyst made, including the wrong one.
-
-Commercial AI triage tools are largely black boxes. In a defence context, an analyst who cannot see why
-a system ranked something will not act on the ranking, and a commander cannot accept an assessment with
-no visible evidence trail. Explainability is not a nice-to-have in this domain; it is a precondition for
-adoption.
-
-None of these produce the artefact the commander actually needs: a BLUF assessment stating what happened,
-how confident we are, what to do next, and what we still do not know.
+- **The score is a black box.** The analyst has no way to see which fields drove it, so they
+  either rubber-stamp high scores (alert fatigue in the other direction — trusting a model they
+  can't inspect) or ignore the model and go back to manual correlation, which defeats the point
+  of having it.
+- **No visibility into model reliability.** A vendor's marketing page quotes a headline
+  accuracy number from their own test set. It rarely says how that number was measured, on what
+  data, or how it degrades on traffic that looks different from training data — so analysts
+  can't calibrate how much to trust it.
+- **Threshold is fixed.** A single cutoff baked into the product doesn't fit every analyst's
+  risk tolerance or every network's base rate of attacks.
 
 ## Quantified pain
 
-- Industry reporting consistently places SOC false-positive rates in the 40–60% band, meaning roughly
-  half of all analyst investigation time produces nothing.
-- Dwell time — intrusion to detection — is still measured in days to weeks across most sectors, despite
-  the constituent alerts usually being present in the logs the whole time.
-- Alert fatigue is a documented driver of SOC attrition, which compounds the problem: the analysts with
-  the most pattern recognition are the ones who leave.
+Precision and recall both move a lot with the base rate of attacks in the traffic, which is
+exactly the kind of thing a black-box score hides. On the same trained model:
 
-## Why now
+| Test slice | Attack rate | Precision | Recall |
+|---|---|---|---|
+| Held-out capture (`sample_labelled.csv`) | 27% | ~97% | ~96% |
+| Realistic capture (`sample_realistic_3pct_attacks.csv`) | 2.6% | ~74% | (recall holds, false positives climb) |
 
-Three things have changed. ATT&CK has matured into a comprehensive, machine-readable, freely available
-taxonomy of adversary behaviour — a shared vocabulary that did not exist a decade ago. Embedding models
-are now good enough and cheap enough to map unstructured alert text onto that taxonomy without a
-hand-built rule for every case. And conversational agents such as IBM Bob make it possible for an
-analyst to interrogate a reasoning system in natural language rather than learning a query DSL.
+A model that looks excellent on a 27%-attack test set looks meaningfully worse — still useful,
+but worse — on a 2.6%-attack network, which is closer to real traffic. A tool that only reports
+the first number is misleading an analyst who will actually see the second.
 
-The pieces to solve this now exist independently. What is missing is the system that connects them.
+## Why this matters now
+
+ML-based detection is being bolted onto more SIEM pipelines every year, largely because the
+volume of flow data has outgrown what analysts can review by hand. If that layer isn't
+explainable and honestly benchmarked, teams either over-trust it (missed attacks explained away
+as "the model said it was fine") or under-trust it (ignore it, and the volume problem is back).
+Making the score's provenance and its real accuracy visible — rather than asserted — is what
+turns an ML score from a liability into an actual triage aid.
