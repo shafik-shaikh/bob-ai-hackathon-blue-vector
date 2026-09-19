@@ -1,3 +1,1 @@
-TODO: replace with a real 3-5 minute demo video URL (YouTube unlisted, Loom, Box, or a
-view-only Google Drive link) showing the app starting up, a real file being uploaded, and
-actual scored output — see docs/setup-guide.md to record it against a local run.
+https://drive.google.com/file/d/1zF6hK2qVPdhFz1sbz10QSmDdW3MgYt80/view?usp=sharing
