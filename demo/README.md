@@ -1,6 +1,6 @@
 # Demo
 
-- `demo-video-link.txt` — link to a 3–5 minute walkthrough video (TODO: record and add the URL).
+- `https://drive.google.com/file/d/1zF6hK2qVPdhFz1sbz10QSmDdW3MgYt80/view?usp=sharing` — link to a 3–5 minute walkthrough video (TODO: record and add the URL).
 - `live-demo-url.txt` — link to a deployed instance, or `NOT DEPLOYED`.
 - `screenshots/` — screenshots of the running app, captured from a real local run
   (Playwright against `uvicorn app.main:app`, not mocked):
